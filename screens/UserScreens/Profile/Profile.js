@@ -49,6 +49,7 @@ const Profile = () => {
   }, []);
 
   const logoutApiData = async () => {
+    
     const res = await fetch(`${process.env.API_URL}logout`, {
       method: 'POST',
       headers: {
@@ -59,11 +60,14 @@ const Profile = () => {
         refresh_token: userData.refresh_token
       }),
     });
+
     return res;
   }
 
   const logout = () => {
+
     const temp = logoutApiData();
+
     temp.then((data) => {
       if (data.status == 200) {
         dispatch(userLogout());
@@ -76,7 +80,6 @@ const Profile = () => {
           setLogoutConfirm(false);
         }, 10);
       }
-
     })
   }
 
@@ -165,7 +168,7 @@ const Profile = () => {
             {userDetail.email}
           </Text>
           <Text style={{ color: COLORS.white, ...FONTS.body4 }}>
-            +91{userDetail.mobile}
+            +91 {userDetail.mobile}
           </Text>
         </View>
       </View>
