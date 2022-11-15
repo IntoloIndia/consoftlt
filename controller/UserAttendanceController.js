@@ -2,16 +2,8 @@ import {API_URL} from '@env';
 
 const getUserAttendance = async (company_id, year, month, user_id) => {
   try {
-    const res = await fetch(
-      API_URL +
-        'attendance/' +
-        company_id +
-        '/' +
-        year +
-        '/' +
-        month +
-        '/' +
-        user_id,
+    const resp = await fetch(
+      `${process.env.API_URL}attendance/${company_id}/${year}/${month}/${user_id}`,
       {
         method: 'get',
         headers: {
@@ -19,7 +11,25 @@ const getUserAttendance = async (company_id, year, month, user_id) => {
         },
       },
     );
-    const data = await res.json();
+    // const res = await fetch(
+    //  API_URL +
+    //     'attendance/' +
+    //     company_id +
+    //     '/' +
+    //     year +
+    //     '/' +
+    //     month +
+    //     '/' +
+    //     user_id,
+    //   {
+    //     method: 'get',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //   },
+    // );
+
+    const data = await resp.json();
     return data;
   } catch (error) {
     console.log(error);

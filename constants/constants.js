@@ -5,8 +5,10 @@ const USER_PRIVILEGES = {
   OTHER_USER: 'other team',
 };
 
+const INTERNAL_SERVER_ERROR="Internal server error";
+
 const STATUS = {
   ST_200: '200',
 };
 
-export default {USER_PRIVILEGES, STATUS};
+export default {USER_PRIVILEGES, STATUS,INTERNAL_SERVER_ERROR};

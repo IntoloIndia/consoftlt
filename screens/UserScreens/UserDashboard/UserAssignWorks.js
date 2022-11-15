@@ -23,6 +23,7 @@ import {
   submitComment
 } from '../../../controller/UserAssignWorkController';
 
+Entypo.loadFont();
 const UserAssignWorks = ({ loading }) => {
   // const dispatch = useDispatch();
   const [assignWorksData, setAssignWorksData] = React.useState([]);

@@ -1102,6 +1102,11 @@
   "resolved" "https://registry.npmjs.org/@eva-design/dss/-/dss-2.1.1.tgz"
   "version" "2.1.1"
 
+"@eva-design/eva@^2.1.1":
+  "integrity" "sha512-WS1ykETXyq0Kxa0aFlPMBeftEtBeTDv9qEUeQ4VvbTETMc7hsZPSkPr2HudtQhFihiM72GFfwAK6GIAlF6GXdQ=="
+  "resolved" "https://registry.npmjs.org/@eva-design/eva/-/eva-2.1.1.tgz"
+  "version" "2.1.1"
+
 "@eva-design/processor@^2.0.0":
   "integrity" "sha512-lbxZLm5ARhuk/wxWkaiWhw5XeZ+Xcp1JGCjcZl+S5rUbLppfp4U47jfq861EY27BP1dpQ5PyTVFCbl5eHlRFdg=="
   "resolved" "https://registry.npmjs.org/@eva-design/processor/-/processor-2.1.1.tgz"
@@ -6371,7 +6376,7 @@
     "react-freeze" "^1.0.0"
     "warn-once" "^0.1.0"
 
-"react-native-svg@*":
+"react-native-svg@*", "react-native-svg@^13.5.0":
   "integrity" "sha512-JWou/k4zfXRY6TsVgM4i30D0z54McqQ64D5cAfOzX17ThZwFjOheN24owmbAs7Y+naD0Bk5j409kT/6FZEop4g=="
   "resolved" "https://registry.npmjs.org/react-native-svg/-/react-native-svg-13.5.0.tgz"
   "version" "13.5.0"
@@ -6391,7 +6396,7 @@
   dependencies:
     "use-latest-callback" "^0.1.5"
 
-"react-native-vector-icons@*":
+"react-native-vector-icons@*", "react-native-vector-icons@^9.2.0":
   "integrity" "sha512-wKYLaFuQST/chH3AJRjmOLoLy3JEs1JR6zMNgTaemFpNoXs0ztRnTxcxFD9xhX7cJe1/zoN5BpQYe7kL0m5yyA=="
   "resolved" "https://registry.npmjs.org/react-native-vector-icons/-/react-native-vector-icons-9.2.0.tgz"
   "version" "9.2.0"

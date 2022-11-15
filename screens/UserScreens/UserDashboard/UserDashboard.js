@@ -22,6 +22,8 @@ import {
 //saurabh
 import UserAssignWorks from './UserAssignWorks';
 
+
+
 const UserDashboard = () => {
   // refresh
   function delay(timeout) {
@@ -74,6 +76,7 @@ const UserDashboard = () => {
       userData.company_id,
       userData._id,
     );
+    console.log('res',response)
     if (response.status == 200) {
       setAttendanceModal(true);
     }

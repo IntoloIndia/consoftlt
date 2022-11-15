@@ -182,15 +182,19 @@ const ViewReport = () => {
     // fetch report path
     const fetchReportPath = async () => {
         const response = await getProjectReportPath(company_id, projectId);
+  
 
         if (response.data) {
             {
+           
                 response.data.map(async (ele, i) => {
 
                     if (ele.verification_1 === user_id || ele.verification_2 === user_id || ele.started_by === user_id) {
 
                         let user_id = '';
                         rep_resp = await getReport(projectId, MyDateString, user_id);
+                        // console.log("🚀 ~ file: ViewReport.js ~ line 195 ~ response.data.map ~ rep_resp", rep_resp)
+                        
 
                         if (rep_resp.data) {
 
@@ -291,9 +295,7 @@ const ViewReport = () => {
     const fetchVerifyReport = async () => {
 
         let response = await verifyReport(projectId, reportId, user_id);
-        // console.log("🚀 ~ file: ViewReport.js ~ line 127 ~ fetchVerifyReport ~ reportId", reportId)
-        // console.log("🚀 ~ file: ViewReport.js ~ line 127 ~ fetchVerifyReport ~ user_id", user_id)
-        // console.log("🚀 ~ file: ViewReport.js ~ line 127 ~ fetchVerifyReport ~ projectId", projectId)
+    
         if (response.status === 200) {
             alert('Verified');
             fetchReportPath(projectId);
@@ -558,7 +560,6 @@ const ViewReport = () => {
     }
 
     const trackVerificationProcess = () => {
-        // console.log("🚀 ~ file: ViewReport.js ~ line 1647 ~ trackVerificationProcess ~ user_id", user_id)
 
         return (<View
             style={{

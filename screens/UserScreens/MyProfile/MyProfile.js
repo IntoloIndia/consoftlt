@@ -10,7 +10,15 @@ import {
   ImageBackground,
 } from 'react-native';
 import {Title} from 'react-native-paper';
-import {SIZES, COLORS, icons, FONTS, images} from '../../../constants';
+import {
+  SIZES,
+  COLORS,
+  icons,
+  FONTS,
+  images,
+  INTERNAL_SERVER_ERROR,
+} from '../../../constants';
+import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import {getUserAttendance} from '../../../controller/UserAttendanceController';
 import CustomCalender from './CustomCalender';
 import {useSelector} from 'react-redux';
@@ -31,6 +39,8 @@ const MyProfile = () => {
   const [haliddayates, setHalidayDates] = useState([]);
   const [loginTime, setLoginTime] = useState('');
   const [logoutTime, setLogoutTime] = useState('');
+
+  const [allAppliedLeave, setAllAppliedLeave] = useState('');
 
   const [attendance, setAttendance] = React.useState('');
   // console.log(userDetail);
@@ -66,18 +76,26 @@ const MyProfile = () => {
   }, []);
 
   const userAttendance = async () => {
-    let response = await getUserAttendance(userData._id, userData.company_id);
-    response.data.map(ele => {
-      let data = ele.presentdates;
-      data.map(e => {
-        let inTime = e.in_time;
-        let outTime = e.out_time;
+    let response = await getUserAttendance(
+      userData.company_id,
+      year,
+      month,
+      user_id,
+    );
+    // console.log('response--', response);
+    // console.log(userData.company_id,year,month,user_id)
+    if (response.data.length > 0) {
+      response.data.map(ele => {
+        let data = ele.presentdates;
+        data.map(e => {
+          let inTime = e.in_time;
+          let outTime = e.out_time;
 
-        // console.log(Time)
-        setLoginTime(inTime);
-        setLogoutTime(outTime);
+          setLoginTime(inTime);
+          setLogoutTime(outTime);
+        });
       });
-    });
+    }
     // setAttendance(response.data);
   };
 
@@ -85,8 +103,6 @@ const MyProfile = () => {
     // userLeaves();
     userAttendance();
   }, []);
-
-  // console.log(inTime)
 
   const dateClickHandler = (date, i) => {
     //  const newDate= removedate?[...leavesdate, date]:leavesdate.pop(date);
@@ -139,9 +155,22 @@ const MyProfile = () => {
     setShowLeaves(leavesDate);
   };
 
+  const appliedLeave = async () => {
+    const resp = await fetch(
+      process.env.API_URL + 'leaves/' + userData.company_id,
+    );
+    const leavesDate = await resp.json();
+    if (leavesDate.data.length > 0) {
+      leavesDate.data.map((ele, idx) => {
+        setAllAppliedLeave(ele.leavedates);
+      });
+    }
+  };
+
   useEffect(() => {
     showleavesdata();
     userPresentDays();
+    appliedLeave();
   }, []);
 
   useMemo(() => {
@@ -225,7 +254,9 @@ const MyProfile = () => {
   const currentYear = new Date().getFullYear();
 
   const [openYears, setOpenYears] = React.useState(false);
+
   const [yearsValue, setYearsValue] = React.useState('');
+
   const [years, setYears] = React.useState([
     {label: currentYear, value: currentYear},
     {label: currentYear - 1, value: currentYear - 1},
@@ -241,8 +272,30 @@ const MyProfile = () => {
   };
 
   const year = yearsValue == '' ? date.getFullYear() : yearsValue;
+
   const month =
     monthsValue == '' ? ('0' + (date.getMonth() + 1)).slice(-2) : monthsValue;
+
+
+  const [leaveFilterDate, setLeaveFilterDate] = React.useState(new Date());
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setLeaveFilterDate(currentDate);
+  };
+
+  const showMode = currentMode => {
+    DateTimePickerAndroid.open({
+      value: date,
+      onChange,
+      mode: currentMode,
+      is24Hour: true,
+    });
+  };
+
+  const showDatepicker = () => {
+    showMode('date');  
+  };
 
   const userPresentDays = async () => {
     let response = await getUserAttendance(
@@ -384,28 +437,36 @@ const MyProfile = () => {
               />
             </View>
           </View>
-          <FlatList
-            data={attendancedDate}
+          <ScrollView
+            horizontal={true}
             contentContainerStyle={{
-              // marginTop: SIZES.radius,
-              paddingBottom: 20,
-            }}
-            keyExtractor={item => `${item._id}`}
-            renderItem={renderItem}
-            scrollEnabled={true}
-            showsVerticalScrollIndicator={false}
-            maxHeight={200}
-            ItemSeparatorComponent={() => {
-              return (
-                <View
-                  style={{
-                    height: 1,
-                    backgroundColor: COLORS.gray2,
-                    marginVertical: 12,
-                  }}></View>
-              );
-            }}
-          />
+              borderWidth: 1,
+              width: '100%',
+              height: '100%',
+            }}>
+            <FlatList
+              data={attendancedDate}
+              contentContainerStyle={{
+                // marginTop: SIZES.radius,
+                paddingBottom: 20,
+              }}
+              keyExtractor={item => `${item._id}`}
+              renderItem={renderItem}
+              scrollEnabled={true}
+              showsVerticalScrollIndicator={false}
+              maxHeight={200}
+              ItemSeparatorComponent={() => {
+                return (
+                  <View
+                    style={{
+                      height: 1,
+                      backgroundColor: COLORS.gray2,
+                      marginVertical: 12,
+                    }}></View>
+                );
+              }}
+            />
+          </ScrollView>
         </Collapsible>
       </View>
     );
@@ -730,9 +791,102 @@ const MyProfile = () => {
       </View>
     );
   }
+
+  const renderAllLeave = ({item}) => {
+    return (
+      <View style={{flex: 1}}>
+        <View
+          style={{
+            flex: 1,
+            flexDirection: 'row',
+            justifyContent: 'space-around',
+          }}>
+          <Text style={{color: COLORS.darkGray}}>{item.leave_date}</Text>
+          {item.approved == true ? (
+            <Text style={{color: COLORS.green_400}}>Approoved</Text>
+          ) : (
+            <Text style={{color: COLORS.red}}>Unapproved</Text>
+          )}
+        </View>
+      </View>
+    );
+  };
+
+  function renderDetails1() {
+    return (
+      <View
+        style={{
+          flex: 1,
+          // height:"100%",
+          margin: 15,
+          padding: 15,
+          backgroundColor: COLORS.white2,
+          elevation: 5,
+        }}>
+        <View
+          style={{
+            // flex:1,
+            height: '100%',
+            marginTop: 5,
+            marginBottom: 15,
+          }}>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <Text style={{...FONTS.h3, color: COLORS.darkGray}}>
+              Applied Leave Roaster
+            </Text>
+            <TouchableOpacity
+              style={{
+                backgroundColor: COLORS.darkGray,
+                padding: 10,
+                borderRadius: 2,
+              }}
+              onPress={showDatepicker}
+            >
+              <Image
+                source={icons.filter}
+                style={{height: 14, width: 14, tintColor: '#ffffff'}}
+              />
+            </TouchableOpacity>
+          </View>
+          <View
+            style={{
+              height: '100%',
+              marginTop: 15,
+            }}>
+            <FlatList
+              data={allAppliedLeave}
+              contentContainerStyle={{
+                borderWidth: 1,
+                borderColor:COLORS.lightGray1,
+                padding: 5,
+                // height: '100%',
+                paddingVertical: 10,
+              }}
+              keyExtractor={item => `${item._id}`}
+              renderItem={renderAllLeave}
+              scrollEnabled={false}
+              showsVerticalScrollIndicator={false}
+              // maxHeight={1000}
+              ItemSeparatorComponent={() => {
+                return (
+                  <View
+                    style={{
+                      height: 1,
+                      backgroundColor: COLORS.gray2,
+                      marginVertical: 12,
+                    }}></View>
+                );
+              }}
+            />
+          </View>
+        </View>
+      </View>
+    );
+  }
   return (
-    <ScrollView>
-      {renderDetails()}
+    <ScrollView style={{flex: 1}}>
+      {/* {renderDetails()} */}
+      {/* {renderDetails1()} */}
       {renderModal()}
       {renderUserAttendance()}
     </ScrollView>
