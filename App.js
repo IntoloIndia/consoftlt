@@ -1,117 +1,96 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React from 'react';
-import type {Node} from 'react';
+import {createStackNavigator} from '@react-navigation/stack';
+import {NavigationContainer} from '@react-navigation/native';
+import {Tabs, user_tabs} from './navigation';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
-
+  Login,
+  CompanyRegistration,
+  CompanyPayment,
+  VerifyProductKey,
+} from './screens/OnBoarding';
+import {store} from './app/store';
+import {Provider} from 'react-redux';
 import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+  Home,
+  VerifyAndRevertWork,
+  ProjectTeam,
+  ProjectSeheduleTime,
+  ProjectsDetails,
+  CompanyTeamShow,
+  Contractors,
+  CategoryandType,
+  StocksAndInventry,
+  ToolsAndMachinery,
+  Account,
+  UserRole,
+  ReportSettings,
+  Boq,
+  CompanyTeam,
+} from './screens/AdminScreens';
+import {
+  Profile,
+  UserEndVoucher,
+  UserReports,
+  Demo1,
+  MyProfile,
+} from './screens/UserScreens';
 
-/* $FlowFixMe[missing-local-annot] The type annotation(s) required by Flow's
- * LTI update could not be added via codemod */
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
+const Stack = createStackNavigator();
+
+const App = () => {
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}
+        initialRouteName={'Login'}>
+        <Stack.Screen name="Home" component={Tabs} />
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen
+          name="CompanyRegistration"
+          component={CompanyRegistration}
+        />
+        <Stack.Screen name="CompanyPayment" component={CompanyPayment} />
+        <Stack.Screen name="VerifyProductKey" component={VerifyProductKey} />
+        <Stack.Screen name="Home1" component={Home} />
+        <Stack.Screen
+          name="VerifyAndRevertWork"
+          component={VerifyAndRevertWork}
+        />
+        <Stack.Screen name="ProjectsDetails" component={ProjectsDetails} />
+        <Stack.Screen name="CompanyTeamShow" component={CompanyTeamShow} />
+        <Stack.Screen name="ProjectTeam" component={ProjectTeam} />
+        <Stack.Screen name="Contractors" component={Contractors} />
+        {/* <Stack.Screen name="ProjectReports" component={ProjectReports} /> */}
+        <Stack.Screen name="StocksAndInventry" component={StocksAndInventry} />
+        <Stack.Screen name="ToolsAndMachinery" component={ToolsAndMachinery} />
+        <Stack.Screen
+          name="ProjectSeheduleTime"
+          component={ProjectSeheduleTime}
+        />
+        <Stack.Screen name="Account" component={Account} />
+        <Stack.Screen name="UserRole" component={UserRole} />
+        <Stack.Screen name="ReportSettings" component={ReportSettings} />
+        <Stack.Screen name="Boq" component={Boq} />
+        <Stack.Screen name="CategoryandType" component={CategoryandType} />
+        <Stack.Screen name="CompanyTeam" component={CompanyTeam} />
+        {/* user */}
+        <Stack.Screen name="UserDashboard" component={user_tabs} />
+        <Stack.Screen name="Profile" component={Profile} />
+        <Stack.Screen name="UserEndVoucher" component={UserEndVoucher} />
+        <Stack.Screen name="ViewReport" component={ViewReport} />
+        <Stack.Screen name="Demo1" component={Demo1} />
+        <Stack.Screen name="MyProfile" component={MyProfile} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
-const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
+export default () => {
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <Provider store={store}>
+      <App />
+    </Provider>
   );
 };
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
-
-export default App;
