@@ -10,7 +10,14 @@ import {
   ImageBackground,
 } from 'react-native';
 import {Title} from 'react-native-paper';
-import {SIZES, COLORS, icons, FONTS, images} from '../../../constants';
+import {
+  SIZES,
+  COLORS,
+  icons,
+  FONTS,
+  images,
+  INTERNAL_SERVER_ERROR,
+} from '../../../constants';
 import {getUserAttendance} from '../../../controller/UserAttendanceController';
 import CustomCalender from './CustomCalender';
 import {useSelector} from 'react-redux';
@@ -66,18 +73,26 @@ const MyProfile = () => {
   }, []);
 
   const userAttendance = async () => {
-    let response = await getUserAttendance(userData._id, userData.company_id);
-    response.data.map(ele => {
-      let data = ele.presentdates;
-      data.map(e => {
-        let inTime = e.in_time;
-        let outTime = e.out_time;
+    let response = await getUserAttendance(
+      userData.company_id,
+      year,
+      month,
+      user_id,
+    );
+    // console.log('response--', response);
+    // console.log(userData.company_id,year,month,user_id)
+    if (response.data.length > 0) {
+      response.data.map(ele => {
+        let data = ele.presentdates;
+        data.map(e => {
+          let inTime = e.in_time;
+          let outTime = e.out_time;
 
-        // console.log(Time)
-        setLoginTime(inTime);
-        setLogoutTime(outTime);
+          setLoginTime(inTime);
+          setLogoutTime(outTime);
+        });
       });
-    });
+    }
     // setAttendance(response.data);
   };
 
@@ -85,8 +100,6 @@ const MyProfile = () => {
     // userLeaves();
     userAttendance();
   }, []);
-
-  // console.log(inTime)
 
   const dateClickHandler = (date, i) => {
     //  const newDate= removedate?[...leavesdate, date]:leavesdate.pop(date);
@@ -384,28 +397,36 @@ const MyProfile = () => {
               />
             </View>
           </View>
-          <FlatList
-            data={attendancedDate}
+          <ScrollView
+            horizontal={true}
             contentContainerStyle={{
-              // marginTop: SIZES.radius,
-              paddingBottom: 20,
-            }}
-            keyExtractor={item => `${item._id}`}
-            renderItem={renderItem}
-            scrollEnabled={true}
-            showsVerticalScrollIndicator={false}
-            maxHeight={200}
-            ItemSeparatorComponent={() => {
-              return (
-                <View
-                  style={{
-                    height: 1,
-                    backgroundColor: COLORS.gray2,
-                    marginVertical: 12,
-                  }}></View>
-              );
-            }}
-          />
+              borderWidth: 1,
+              width: '100%',
+              height: '100%',
+            }}>
+            <FlatList
+              data={attendancedDate}
+              contentContainerStyle={{
+                // marginTop: SIZES.radius,
+                paddingBottom: 20,
+              }}
+              keyExtractor={item => `${item._id}`}
+              renderItem={renderItem}
+              scrollEnabled={true}
+              showsVerticalScrollIndicator={false}
+              maxHeight={200}
+              ItemSeparatorComponent={() => {
+                return (
+                  <View
+                    style={{
+                      height: 1,
+                      backgroundColor: COLORS.gray2,
+                      marginVertical: 12,
+                    }}></View>
+                );
+              }}
+            />
+          </ScrollView>
         </Collapsible>
       </View>
     );
@@ -731,11 +752,11 @@ const MyProfile = () => {
     );
   }
   return (
-    <ScrollView>
+    <View style={{flex:1}}>
       {renderDetails()}
       {renderModal()}
       {renderUserAttendance()}
-    </ScrollView>
+    </View>
   );
 };
 

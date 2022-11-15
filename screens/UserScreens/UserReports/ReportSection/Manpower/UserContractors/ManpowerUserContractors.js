@@ -12,7 +12,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { Divider } from '@ui-kitten/components';
 import { Dropdown } from 'react-native-element-dropdown';
-import Config from '../../../../../../config'
+// import Config from '../../../../../../config'
 import { COLORS, FONTS, SIZES, dummyData, icons, images } from '../../../../../../constants'
 import { FormInput, Drop, IconButton, CustomDropdown, TextButton, CustomToast, DeleteConfirmationToast } from '../../../../../../Components';
 import { EditDeletebuttons, ManPowerProjectTeam } from '../../../../index.js'
@@ -1280,7 +1280,7 @@ const ManpowerUserContractors = ({ ProList, Main_drp_pro_value, loading }) => {
             }}
           >
             <ScrollView
-              horizontal={true}
+              horizontal={false}
               contentContainerStyle={{ borderWidth: 1, width: '100%', height: '100%' }}>
               <FlatList
                 data={Report_list ? Report_list : alert('Currently there are no contractors!!')}

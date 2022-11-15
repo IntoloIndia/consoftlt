@@ -261,21 +261,18 @@ const UserReports = ({ route }) => {
             }}>
               <Manpower projectTeamList={projectTeamList} ProList={ProList} Main_drp_pro_value={value} loading={loading} />
             </View>
-            <View style={{ marginVertical: 5 }}>
-              {/* Stock component */}
+            {/* <View style={{ marginVertical: 5 }}>
               <Stock project_id={value} Main_drp_pro_value={value} loading={loading} />
-            </View>
-            <View style={{ marginVertical: 5 }} Main_drp_pro_value={value}>
-              {/* Quantity */}
+            </View> */}
+            {/* <View style={{ marginVertical: 5 }} Main_drp_pro_value={value}>
               <Quantity project_id={value} Main_drp_pro_value={value} loading={loading} />
-            </View>
+            </View> */}
             {/* <View style={{ marginVertical: 5 }}>
               <Quality />
             </View> */}
-            <View style={{ marginVertical: 5 }}>
-              {/* Quality */}
+            {/* <View style={{ marginVertical: 5 }}>
               <TAndP Main_drp_pro_value={value} loading={loading} />
-            </View>
+            </View> */}
             <View style={{
 
             }}>

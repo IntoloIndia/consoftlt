@@ -119,13 +119,13 @@ const UserTabs = ({navigation, route}) => {
         }}
       />
       <Tab.Screen
-        name="Requirement"
-        component={UserEndVoucher}
+        name="Report"
+        component={UserReports}
         options={{
           tabBarIcon: ({focused}) => (
             <View style={{alignItems: 'center', justifyContent: 'center'}}>
               <Image
-                source={icons.tasks}
+                source={icons.report}
                 style={{
                   height: 18,
                   width: 18,
@@ -137,13 +137,13 @@ const UserTabs = ({navigation, route}) => {
                   color: focused ? COLORS.yellow_700 : COLORS.black,
                   ...FONTS.body5,
                 }}>
-                Requirement
+                Report
               </Text>
             </View>
           ),
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Report"
         component={UserReports}
         // initialParams={{userId: useridRef}}
@@ -164,7 +164,7 @@ const UserTabs = ({navigation, route}) => {
           tabBarButton: props => <TabBarCustomButton {...props} />,
           // headerShown:false
         }}
-      />
+      /> */}
       <Tab.Screen
         name="My Profile"
         component={MyProfile}
