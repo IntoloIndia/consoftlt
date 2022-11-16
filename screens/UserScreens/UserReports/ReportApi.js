@@ -378,10 +378,9 @@ const get_stock_item_name = async () => {
 
     }
 }
-const get_equipment_item_name = async () => {
+const get_equipment_item_name = async (company_id) => {
     try {
-        const res = await fetch(`${process.env.API_URL}tools-machinery`)
-
+        const res = await fetch(`${process.env.API_URL}tools-machinery/${company_id}`)
         const data = await res.json();
         return data;
     } catch (error) {

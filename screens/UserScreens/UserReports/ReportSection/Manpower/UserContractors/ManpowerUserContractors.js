@@ -354,7 +354,7 @@ const ManpowerUserContractors = ({ProList, Main_drp_pro_value, loading}) => {
       }, 100);
       setTimeout(() => {
         setSubmitToast(false);
-      }, 200);
+      }, 1000);
     }
   };
 
