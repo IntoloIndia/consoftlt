@@ -101,15 +101,12 @@ const Home = ({navigation}) => {
     }
   };
 
-  // console.log('comid', companyData);
-
   const onSubmitUserAttendance = async () => {
     const formData = {
       company_id: companyData._id,
       user_id: companyData.user_id,
     };
     const response = await postUserAttendance(formData);
-    // console.log(response);
     if (response.status === 200) {
       setAttendanceModal(false);
       alert(response.message);
@@ -124,7 +121,6 @@ const Home = ({navigation}) => {
     if (response.status == 200) {
       setAttendanceModal(true);
     }
-    // console.log(response);
   };
 
   React.useEffect(() => {
@@ -181,64 +177,63 @@ const Home = ({navigation}) => {
   }
 
   return (
-    <SafeAreaView>
-      <ScrollView
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-        showsVerticalScrollIndicator={false}>
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+      showsVerticalScrollIndicator={false}>
+      <View
+        style={{
+          flex: 1,
+          marginBottom: 100,
+        }}>
         <View
           style={{
-            flex: 1,
-            marginBottom: 100,
+            marginHorizontal: SIZES.padding,
+            marginVertical: SIZES.radius,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
           }}>
-          <View
-            style={{
-              marginHorizontal: SIZES.padding,
-              marginVertical: SIZES.radius,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}>
-            <View>
-              <TouchableOpacity onPress={() => navigation.navigate('Account')}>
-                <Text
-                  style={{
-                    ...FONTS.h2,
-                    textTransform: 'capitalize',
-                    color: COLORS.lightblue_700,
-                    fontWeight: 'bold',
-                  }}>
-                  {companyData.company_name}
-                </Text>
-              </TouchableOpacity>
-            </View>
-            <TouchableOpacity>
-              <Image
-                source={images.consoft_PNG}
+          <View style={{flex: 1}}>
+            <TouchableOpacity onPress={() => navigation.navigate('Account')}>
+              <Text
                 style={{
-                  height: 40,
-                  width: 80,
-                  borderRadius: 5,
-                }}
-              />
+                  ...FONTS.h2,
+                  textTransform: 'capitalize',
+                  color: COLORS.lightblue_700,
+                  fontWeight: 'bold',
+                }}>
+                {companyData.company_name}
+              </Text>
             </TouchableOpacity>
           </View>
-          <ProjectsBanner company={companyData._id} />
-          <SubmittedWorks data={submitWork} Submitfunction={fetchSubmitWork} />
-          {/* <ProjectReports
+          <TouchableOpacity style={{}}>
+            <Image
+              source={images.consoft_new}
+              style={{
+                height: 30,
+                width: 80,
+                borderRadius: 5,
+              }}
+            />
+          </TouchableOpacity>
+        </View>
+
+        <ProjectsBanner company={companyData._id} />
+        <SubmittedWorks data={submitWork} Submitfunction={fetchSubmitWork} />
+        {/* <ProjectReports
             data={reportData}
             reportFunction={fetchProjectAtGlance}
           /> */}
-          <AssignedWorks
-            data={assignWorkData}
-            AssignWorkfunction={fetchAssignWorks}
-          />
-          {/* <VerifyAndRevertWork verify={verify} revert={revert} /> */}
-        </View>
-        {renderAttendanceModal()}
-      </ScrollView>
-    </SafeAreaView>
+        <AssignedWorks
+          data={assignWorkData}
+          AssignWorkfunction={fetchAssignWorks}
+        />
+        {/* <VerifyAndRevertWork verify={verify} revert={revert} /> */}
+      </View>
+      {renderAttendanceModal()}
+    </ScrollView>
   );
 };
 
