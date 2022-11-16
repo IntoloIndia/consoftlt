@@ -2240,7 +2240,7 @@ const ViewReport = () => {
 
         const footerComponent = () => (
             <View style={{ flex: 1 }}>
-                {renderQuantity()}
+                {/* {renderQuantity()} */}
                 {/* {user_id && renderFooter()} */}
             </View>
         );
@@ -2251,6 +2251,7 @@ const ViewReport = () => {
                     style={{
                         flex: 1,
                         backgroundColor: COLORS.transparentBlack7,
+                        justifyContent:'flex-end'
                     }}>
                     <View
                         style={{
@@ -2258,7 +2259,7 @@ const ViewReport = () => {
                             backgroundColor: COLORS.white,
                             paddingHorizontal: SIZES.radius,
                             paddingBottom: SIZES.radius,
-                            height: '100%',
+                            height: '55%',
                             borderTopLeftRadius: 20,
                             borderTopRightRadius: 20,
                         }}>
@@ -2384,9 +2385,9 @@ const ViewReport = () => {
                                 />
                             </View>
                         </View>
-                        <View style={{ flex: 1 }}>
+                        {/* <View style={{ flex: 1 }}>
                             {trackVerificationProcess()}
-                        </View>
+                        </View> */}
 
                     </View>
                 </View>

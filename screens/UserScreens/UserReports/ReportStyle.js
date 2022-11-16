@@ -1,40 +1,46 @@
-import { StyleSheet } from 'react-native'
-import { COLORS, FONTS, SIZES, dummyData, icons, images } from '../../../constants'
+import {StyleSheet} from 'react-native';
+import {
+  COLORS,
+  FONTS,
+  SIZES,
+  dummyData,
+  icons,
+  images,
+} from '../../../constants';
 export default styles = StyleSheet.create({
   header: {
     flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     borderWidth: 1,
     backgroundColor: COLORS.lightblue_200,
     borderColor: COLORS.lightblue_200,
     margin: SIZES.base * 0.3,
     borderRadius: 2,
     width: SIZES.width * 0.7,
-    elevation: 2
+    elevation: 2,
   },
 
   con_body: {
     flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-around",
+    flexDirection: 'row',
+    justifyContent: 'space-around',
     backgroundColor: COLORS.lightblue_100,
     marginHorizontal: 5,
     width: SIZES.width * 0.7,
-    alignSelf: "center",
-
+    alignSelf: 'center',
   },
   body_del_btn: {
     // backgroundColor: "green",
-    top: 2
+    top: 2,
   },
   body_edit_btn: {
     // backgroundColor: "gray",
-    paddingHorizontal: 4
+    paddingHorizontal: 4,
   },
   body_ed_de_view: {
-    flexDirection: "row",
-    justifyContent: "space-around",
+    flexDirection: 'row',
+    justifyContent: 'space-around',
     // justifyContent: "space-between",
     // right: -52,
     // backgroundColor: "red",
@@ -51,7 +57,7 @@ export default styles = StyleSheet.create({
     margin: 12,
     borderWidth: 1,
     padding: 2,
-    width: 38
+    width: 38,
   },
   Project_list_drop: {
     height: 30,
@@ -61,19 +67,19 @@ export default styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 5,
     width: SIZES.width * 1 * 0.962,
-    borderRadius: 2
+    borderRadius: 2,
   },
   cont_Project_list_drop: {
     height: 38,
     borderRadius: 5,
     borderWidth: 1,
     borderColor: COLORS.transparentBlack1,
-    alignSelf: "center",
+    alignSelf: 'center',
     paddingHorizontal: 8,
     marginTop: 20,
     marginBottom: 5,
     width: 320,
-    bottom: -15
+    bottom: -15,
   },
   //for quantity styles
   dropdown: {
@@ -152,6 +158,4 @@ export default styles = StyleSheet.create({
     marginLeft: 5,
     borderColor: COLORS.gray,
   },
-
-
-})
+});
