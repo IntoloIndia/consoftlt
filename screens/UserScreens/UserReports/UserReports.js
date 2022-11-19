@@ -340,4 +340,3 @@ const UserReports = ({ route }) => {
 }
 
 export default UserReports
-
