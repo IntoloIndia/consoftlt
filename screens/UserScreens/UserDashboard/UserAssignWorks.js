@@ -21,6 +21,7 @@ import styles from '../TaskModal/css/InProgressModalStyle.js';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {useSelector, useDispatch} from 'react-redux';
 import Voice from '@react-native-community/voice';
+
 // import Config from '../../../config';
 import {
   getAssignWorks,
@@ -29,6 +30,11 @@ import {
 } from '../../../controller/UserAssignWorkController';
 
 Entypo.loadFont();
+import {LogBox} from 'react-native';
+
+LogBox.ignoreLogs(['new NativeEventEmitter']);
+LogBox.ignoreAllLogs();
+LogBox.ignoreLogs(['Warning: ...']);
 const UserAssignWorks = ({loading}) => {
   // const dispatch = useDispatch();
   const [assignWorksData, setAssignWorksData] = React.useState([]);
@@ -66,24 +72,28 @@ const UserAssignWorks = ({loading}) => {
   useEffect(() => {
     function onSpeechStart(e) {
       console.log('onSpeechStart: ');
-      setStarted('√');
-      setStarted(true);      
+      // setStarted('√');
+      setStarted(true);
     }
 
     function onSpeechResults(e) {
       console.log('onSpeechResults: ', e);
-      e.value.map(ele=>{
+
+      e.value.map(ele => {
         setResults(ele);
-        console.log('ele--')
-        console.log(ele)
-      })
+        // console.log('ele--');
+        // console.log(ele);
+      });
+      Voice.removeAllListeners();
+      // Voice.removeAllListeners();
       // setResults(e.value);
     }
 
-    function onSpeechPartialResults(e) {
-      console.log('onSpeechPartialResults: ', e);
-      setPartialResults(e.value);
-    }
+    // function onSpeechPartialResults(e) {
+    //   console.log('onSpeechPartialResults: ', e);
+    //   setPartialResults(e.value);
+    //   Voice.removeAllListeners();
+    // }
 
     function onSpeechVolumeChanged(e) {
       // console.log('onSpeechVolumeChanged: ', e);
@@ -94,29 +104,27 @@ const UserAssignWorks = ({loading}) => {
     // Voice.onSpeechEnd = onSpeechEnd;
     // Voice.onSpeechError = onSpeechError;
     Voice.onSpeechResults = onSpeechResults;
-    Voice.onSpeechPartialResults = onSpeechPartialResults;
-    Voice.onSpeechVolumeChanged = onSpeechVolumeChanged;
+    // Voice.onSpeechPartialResults = onSpeechPartialResults;
+    // Voice.onSpeechVolumeChanged = onSpeechVolumeChanged;
 
     return () => {
+      // Voice.removeAllListeners();
       Voice.destroy().then(Voice.removeAllListeners);
     };
   }, []);
 
   const _startRecognizing = async () => {
-    const temp=await Voice.isAvailable();
-    const temp1=await Voice.isRecognizing();
-    const temp2=await Voice.isRecognizing();
-    console.log('TM 2',temp2)
-    console.log('VO RE', temp1)
-    console.log(temp);
-    console.log('startrec---')
-    setPitch('');
-    setError('');
-    setStarted(true);
-    setResults([]);
-    setPartialResults([]);
-    setEnd('');
+    // const temp=await Voice.isAvailable();
+    // const temp1=await Voice.isRecognizing();
+
     try {
+      // setPitch('');
+      // setError('');
+      setStarted(true);
+      setResults([]);
+      // setPartialResults([]);
+      // setEnd('');
+
       await Voice.start('en-US');
     } catch (e) {
       console.error(e);
@@ -124,11 +132,12 @@ const UserAssignWorks = ({loading}) => {
   };
 
   const _stopRecognizing = async () => {
-    console.log("STOP--")
+    console.log('STOP--');
 
     //Stops listening for speech
     try {
       setStarted(false);
+      Voice.removeAllListeners();
       await Voice.stop();
     } catch (e) {
       console.error(e);
@@ -168,7 +177,6 @@ const UserAssignWorks = ({loading}) => {
   };
 
   const onPressOut = () => {
-
     setTimeout(() => {
       Animated.spring(animation, {
         toValue: 0.2,
@@ -547,8 +555,8 @@ const UserAssignWorks = ({loading}) => {
                     placeholder="Comment section..."
                     placeholderTextColor={COLORS.gray}
                     onChangeText={text => {
-                      setTextMsg(text)
-                      setResults(text)
+                      setTextMsg(text);
+                      setResults(text);
                     }}
                     value={results}
                   />
@@ -562,10 +570,16 @@ const UserAssignWorks = ({loading}) => {
                       }}
                     />
                   </TouchableHighlight>
-                  {started==true? (
+                  {started == true ? (
                     <TouchableHighlight
                       onPress={_stopRecognizing}
-                      style={{flex: 0.5, backgroundColor: 'red'}}>
+                      style={{
+                        width: '30%',
+                        alignSelf: 'center',
+                        marginBottom: 2,
+                        alignItems: 'center',
+                        backgroundColor: 'red',
+                      }}>
                       <Text style={styles.action}>Stop</Text>
                     </TouchableHighlight>
                   ) : (
