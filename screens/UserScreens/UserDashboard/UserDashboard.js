@@ -147,7 +147,7 @@ const UserDashboard = () => {
       <View
         style={{
           // flexDirection: 'row',
-          flex: 1,
+          flex:1,
           justifyContent: 'space-between',
           // position: 'absolute',
           // top: SIZES.height * 0.7,
@@ -186,50 +186,34 @@ const UserDashboard = () => {
           />
         )} */}
 
-        {/* <TouchableOpacity
-          style={{
-            
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            
-            
-            width: '95%',
-            height:'80%',
-          
-  
-
-          }}
-          onPress={() => {
-            handleDoneTask();
-          }}>  */}
-        <View
-          style={{
-            flex: 1,
-            marginTop: SIZES.base * 8,
-            ...styles.shadow,
-            padding: 10,
-            alignSelf: 'center',
-            borderRadius: 5,
-            flexDirection: 'row',
-            alignItems: 'center',
-          }}>
-          {/* <Image source={icons.done} style={{height: 22, width: 22}} />
-            <Text style={{...FONTS.h4, color: COLORS.darkGray, left: 10}}>
-              Done Tasks
-            </Text> */}
-          <DoneModal
-            doneModal={doneModal}
-            setdoneModal={setdoneModal}
-            loading={loading}
-          />
-        </View>
-        {/* </TouchableOpacity> */}
         <TouchableOpacity
           style={{
             marginTop: SIZES.base,
             flexDirection: 'row',
             justifyContent: 'space-between',
-            alignSelf: 'center',
+            alignSelf:'center',
+            backgroundColor: COLORS.white,
+            width: '95%',
+            padding: 10,
+            borderRadius: 5,
+            ...styles.shadow,
+          }}
+          onPress={() => {
+            handleDoneTask();
+          }}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Image source={icons.done} style={{height: 22, width: 22}} />
+            <Text style={{...FONTS.h4, color: COLORS.darkGray, left: 10}}>
+              Done Tasks
+            </Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            marginTop: SIZES.base,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignSelf:'center',
             backgroundColor: COLORS.white,
             width: '95%',
             padding: 10,
@@ -247,16 +231,16 @@ const UserDashboard = () => {
             </Text>
           </View>
           <View>
-            <Entypo name="chevron-right" size={25} color={COLORS.black} />
+          <Entypo name="chevron-right" size={25} color={COLORS.black} />
           </View>
         </TouchableOpacity>
-        {/* {doneModalnum && (
+        {doneModalnum && (
           <DoneModal
             doneModal={doneModal}
             setdoneModal={setdoneModal}
             loading={loading}
           />
-        )} */}
+        )}
       </View>
       {renderAttendanceModal()}
     </ScrollView>
