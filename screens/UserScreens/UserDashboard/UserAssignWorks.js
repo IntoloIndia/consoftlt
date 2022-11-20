@@ -22,7 +22,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import {useSelector, useDispatch} from 'react-redux';
 import Voice from '@react-native-community/voice';
 
-// import Config from '../../../config';
+
 import {
   getAssignWorks,
   submitWork,
@@ -32,9 +32,8 @@ import {
 Entypo.loadFont();
 import {LogBox} from 'react-native';
 
-LogBox.ignoreLogs(['new NativeEventEmitter']);
-LogBox.ignoreAllLogs();
-LogBox.ignoreLogs(['Warning: ...']);
+LogBox.ignoreLogs(["EventEmitter.removeListener"]);
+
 const UserAssignWorks = ({loading}) => {
   // const dispatch = useDispatch();
   const [assignWorksData, setAssignWorksData] = React.useState([]);
@@ -72,7 +71,6 @@ const UserAssignWorks = ({loading}) => {
   useEffect(() => {
     function onSpeechStart(e) {
       console.log('onSpeechStart: ');
-      // setStarted('√');
       setStarted(true);
     }
 
@@ -81,12 +79,10 @@ const UserAssignWorks = ({loading}) => {
 
       e.value.map(ele => {
         setResults(ele);
-        // console.log('ele--');
-        // console.log(ele);
+
       });
       Voice.removeAllListeners();
-      // Voice.removeAllListeners();
-      // setResults(e.value);
+
     }
 
     // function onSpeechPartialResults(e) {
@@ -106,16 +102,16 @@ const UserAssignWorks = ({loading}) => {
     Voice.onSpeechResults = onSpeechResults;
     // Voice.onSpeechPartialResults = onSpeechPartialResults;
     // Voice.onSpeechVolumeChanged = onSpeechVolumeChanged;
+    
 
     return () => {
-      // Voice.removeAllListeners();
-      Voice.destroy().then(Voice.removeAllListeners);
+      Voice.removeAllListeners();
+      // Voice.destroy().then(Voice.removeAllListeners);
     };
   }, []);
 
   const _startRecognizing = async () => {
-    // const temp=await Voice.isAvailable();
-    // const temp1=await Voice.isRecognizing();
+
 
     try {
       // setPitch('');
@@ -134,7 +130,6 @@ const UserAssignWorks = ({loading}) => {
   const _stopRecognizing = async () => {
     console.log('STOP--');
 
-    //Stops listening for speech
     try {
       setStarted(false);
       Voice.removeAllListeners();
