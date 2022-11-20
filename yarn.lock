@@ -6309,6 +6309,11 @@
   "resolved" "https://registry.npmjs.org/react-native-dropdown-picker/-/react-native-dropdown-picker-5.4.3.tgz"
   "version" "5.4.3"
 
+"react-native-duo-toggle-switch@^1.1.0":
+  "integrity" "sha512-1K4O8W8Y3GrZ3M2wSDOoLpKdBUPIUWkBcAjE1xfh3H1TfeOjssyZKCNnD+Pdso7GCFxgcK0daBf1cdLHJak67w=="
+  "resolved" "https://registry.npmjs.org/react-native-duo-toggle-switch/-/react-native-duo-toggle-switch-1.1.0.tgz"
+  "version" "1.1.0"
+
 "react-native-element-dropdown@^2.4.0":
   "integrity" "sha512-xdwOWMsPnlICe/dvgE8aYySBF9DJE+dJqqoVFd6+vAtP+IbCDhkEZdbrgwn72c9ukFNzE4Tg8+gGCGqrN5XwrA=="
   "resolved" "https://registry.npmjs.org/react-native-element-dropdown/-/react-native-element-dropdown-2.4.0.tgz"
