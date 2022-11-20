@@ -576,7 +576,7 @@ const ReportDisplay = () => {
     const footerComponent = () => (
       <View>
         {/* {renderQuantity()} */}
-        {/* {renderFooter()} */}
+        {renderFooter()}
       </View>
     );
 
@@ -590,10 +590,10 @@ const ReportDisplay = () => {
           }}>
           <View
             style={{
-              top: 20,
+              // top: 20,
               backgroundColor: COLORS.white,
               paddingHorizontal: SIZES.base,
-              height: '55%',
+              height: '90%',
               borderTopLeftRadius: 10,
               borderTopRightRadius: 10,
             }}>
@@ -1163,7 +1163,7 @@ const ReportDisplay = () => {
         <Text
           style={{
             fontSize: 18,
-            color: COLORS.lightblue_700,
+            color: COLORS.majorelle_blue_900,
             textAlign: 'center',
             textDecorationLine: 'underline',
             marginBottom: 15,

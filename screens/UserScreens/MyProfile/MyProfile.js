@@ -18,13 +18,12 @@ import {
   images,
   INTERNAL_SERVER_ERROR,
 } from '../../../constants';
-import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
+import {DateTimePickerAndroid} from '@react-native-community/datetimepicker';
 import {getUserAttendance} from '../../../controller/UserAttendanceController';
 import CustomCalender from './CustomCalender';
 import {useSelector} from 'react-redux';
 import Collapsible from 'react-native-collapsible';
 import DropDownPicker from 'react-native-dropdown-picker';
-import { ProgressBar } from '../../../Components';
 
 const MyProfile = () => {
   const userData = useSelector(state => state.user);
@@ -277,7 +276,6 @@ const MyProfile = () => {
   const month =
     monthsValue == '' ? ('0' + (date.getMonth() + 1)).slice(-2) : monthsValue;
 
-
   const [leaveFilterDate, setLeaveFilterDate] = React.useState(new Date());
 
   const onChange = (event, selectedDate) => {
@@ -295,7 +293,7 @@ const MyProfile = () => {
   };
 
   const showDatepicker = () => {
-    showMode('date');  
+    showMode('date');
   };
 
   const userPresentDays = async () => {
@@ -841,8 +839,7 @@ const MyProfile = () => {
                 padding: 10,
                 borderRadius: 2,
               }}
-              onPress={showDatepicker}
-            >
+              onPress={showDatepicker}>
               <Image
                 source={icons.filter}
                 style={{height: 14, width: 14, tintColor: '#ffffff'}}
@@ -858,7 +855,7 @@ const MyProfile = () => {
               data={allAppliedLeave}
               contentContainerStyle={{
                 borderWidth: 1,
-                borderColor:COLORS.lightGray1,
+                borderColor: COLORS.lightGray1,
                 padding: 5,
                 // height: '100%',
                 paddingVertical: 10,
@@ -890,8 +887,6 @@ const MyProfile = () => {
       {/* {renderDetails1()} */}
       {renderModal()}
       {renderUserAttendance()}
-
-      <ProgressBar progress={'25%'}/>
     </ScrollView>
   );
 };

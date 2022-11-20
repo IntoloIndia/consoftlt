@@ -32,7 +32,7 @@ const ProgressBar = ({containerStyle, progress}) => {
             right: 10,
             fontWeight: 'bold',
           }}>
-          {progress}%
+          {progress}
         </Text>
       </View>
     </View>
