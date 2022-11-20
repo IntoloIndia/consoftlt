@@ -58,7 +58,7 @@ const UserAssignWorks = ({loading}) => {
   const [commentCollapse, setCommentCollapse] = useState(false);
   const [commentStatus, setCommentStatus] = useState(false);
 
-  //
+  
   const [pitch, setPitch] = useState('');
   const [error, setError] = useState('');
   const [end, setEnd] = useState(false);
@@ -67,7 +67,7 @@ const UserAssignWorks = ({loading}) => {
   // const [started, setStarted] = useState('');
   const [results, setResults] = useState([]);
   const [partialResults, setPartialResults] = useState([]);
-  //
+  
   useEffect(() => {
     function onSpeechStart(e) {
       console.log('onSpeechStart: ');
