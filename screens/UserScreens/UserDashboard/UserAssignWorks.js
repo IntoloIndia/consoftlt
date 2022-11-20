@@ -199,7 +199,8 @@ const UserAssignWorks = ({loading}) => {
   // submit comment
   const submitComments = async work_id => {
     const submit_data = {
-      comment: textMsg,
+//       comment: textMsg,
+      comment: results,
     };
 
     const data = await submitComment(submit_data, work_id);
