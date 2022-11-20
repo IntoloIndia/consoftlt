@@ -39,7 +39,7 @@ const Drop = ({
         maxHeight={maxHeight}
         dropDownContainerStyle={{
           marginTop: SIZES.radius * 1.4,
-          backgroundColor: COLORS.lightblue_800,
+          backgroundColor: COLORS.majorelle_blue_900,
           borderWidth: null,
           // marginBottom:20
           ...dropdownContainerStyle,

@@ -32,6 +32,8 @@ const Graph_paper = require('../assets/images/projects/Graph_paper.png');
 const home_banner = require('../assets/images/banner.png');
 const consoft_new = require('../assets/images/consoft_new.png');
 
+const consoft_lt_logo = require('../assets/images/consoft_lt_logo.png');
+
 export default {
   background_01,
   background_02,
@@ -64,5 +66,6 @@ export default {
   Graph_paper,
   civil_eng,
   home_banner,
-  consoft_new
+  consoft_new,
+  consoft_lt_logo,
 };

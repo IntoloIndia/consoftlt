@@ -24,6 +24,7 @@ import CustomCalender from './CustomCalender';
 import {useSelector} from 'react-redux';
 import Collapsible from 'react-native-collapsible';
 import DropDownPicker from 'react-native-dropdown-picker';
+import { ProgressBar } from '../../../Components';
 
 const MyProfile = () => {
   const userData = useSelector(state => state.user);
@@ -335,7 +336,7 @@ const MyProfile = () => {
               <View
                 style={{
                   backgroundColor: COLORS.success_700,
-                  padding: 5,
+                  padding: 2,
                   alignItems: 'center',
                   borderLeftWidth: i != 0 && i % 5 ? 5 : null,
                   borderColor: 'white',
@@ -889,6 +890,8 @@ const MyProfile = () => {
       {/* {renderDetails1()} */}
       {renderModal()}
       {renderUserAttendance()}
+
+      <ProgressBar progress={'25%'}/>
     </ScrollView>
   );
 };

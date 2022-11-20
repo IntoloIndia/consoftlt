@@ -38,7 +38,7 @@ const Tabs = () => {
               marginHorizontal: SIZES.radius,
             }}>
             <Image
-              source={images.consoft_PNG}
+              source={images.consoft_lt_logo}
               resizeMode="contain"
               style={{height: 100, width: 100}}
             />

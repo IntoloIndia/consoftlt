@@ -611,8 +611,8 @@ const ProjectsBanner = ({company}) => {
                     marginBottom: SIZES.padding,
                     borderRadius: SIZES.base,
                     backgroundColor: isEnableSubmit()
-                      ? COLORS.lightblue_700
-                      : COLORS.transparentPrimary,
+                      ? COLORS.majorelle_blue_800
+                      : COLORS.majorelle_blue_300,
                   }}
                   onPress={() => saveProjectSubmit()}
                 />
@@ -881,7 +881,7 @@ const ProjectsBanner = ({company}) => {
                     marginBottom: SIZES.padding,
                     borderRadius: SIZES.base,
                     backgroundColor: isEnableSubmit()
-                      ? COLORS.lightblue_700
+                      ? COLORS.majorelle_blue_800
                       : COLORS.transparentPrimary,
                   }}
                   onPress={() => updateProjectSubmit()}
@@ -967,7 +967,7 @@ const ProjectsBanner = ({company}) => {
         marginTop: SIZES.radius,
         marginHorizontal: SIZES.radius,
         padding: 15,
-        backgroundColor: COLORS.lightblue_600,
+        backgroundColor: COLORS.majorelle_blue_800,
         borderRadius: 5,
         ...styles.shadow,
       }}>

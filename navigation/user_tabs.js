@@ -81,7 +81,7 @@ const UserTabs = ({navigation, route}) => {
               marginHorizontal: SIZES.radius,
             }}>
             <Image
-              source={images.consoft_PNG}
+              source={images.consoft_lt_logo}
               resizeMode="contain"
               style={{height: '100%', width: 100}}
             />
@@ -103,12 +103,14 @@ const UserTabs = ({navigation, route}) => {
                 style={{
                   height: 18,
                   width: 18,
-                  tintColor: focused ? COLORS.yellow_700 : COLORS.black,
+                  tintColor: focused
+                    ? COLORS.majorelle_blue_1000
+                    : COLORS.black,
                 }}
               />
               <Text
                 style={{
-                  color: focused ? COLORS.yellow_700 : COLORS.black,
+                  color: focused ? COLORS.majorelle_blue_1000 : COLORS.black,
                   ...FONTS.body5,
                 }}>
                 Dashboard
@@ -129,12 +131,14 @@ const UserTabs = ({navigation, route}) => {
                 style={{
                   height: 18,
                   width: 18,
-                  tintColor: focused ? COLORS.yellow_700 : COLORS.black,
+                  tintColor: focused
+                    ? COLORS.majorelle_blue_1000
+                    : COLORS.black,
                 }}
               />
               <Text
                 style={{
-                  color: focused ? COLORS.yellow_700 : COLORS.black,
+                  color: focused ? COLORS.majorelle_blue_1000 : COLORS.black,
                   ...FONTS.body5,
                 }}>
                 Report
@@ -176,12 +180,14 @@ const UserTabs = ({navigation, route}) => {
                 style={{
                   height: 18,
                   width: 18,
-                  tintColor: focused ? COLORS.yellow_700 : COLORS.black,
+                  tintColor: focused
+                    ? COLORS.majorelle_blue_1000
+                    : COLORS.black,
                 }}
               />
               <Text
                 style={{
-                  color: focused ? COLORS.yellow_700 : COLORS.black,
+                  color: focused ? COLORS.majorelle_blue_1000 : COLORS.black,
                   ...FONTS.body5,
                 }}>
                 My Profile
@@ -201,12 +207,14 @@ const UserTabs = ({navigation, route}) => {
                 style={{
                   height: 18,
                   width: 18,
-                  tintColor: focused ? COLORS.yellow_700 : COLORS.black,
+                  tintColor: focused
+                    ? COLORS.majorelle_blue_1000
+                    : COLORS.black,
                 }}
               />
               <Text
                 style={{
-                  color: focused ? COLORS.yellow_700 : COLORS.black,
+                  color: focused ? COLORS.majorelle_blue_1000 : COLORS.black,
                   ...FONTS.body5,
                 }}>
                 Profile

@@ -270,7 +270,7 @@ const AssignedWorks = ({data, AssignWorkfunction}) => {
       return (
         <View
           style={{
-            backgroundColor: COLORS.lightblue_600,
+            backgroundColor: COLORS.majorelle_blue_800,
             padding: 10,
             borderRadius: 5,
           }}>

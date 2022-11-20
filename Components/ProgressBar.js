@@ -7,9 +7,11 @@ const ProgressBar = ({containerStyle, progress}) => {
     <View
       style={{
         width: '100%',
-        height: 10,
-        borderRadius: 10,
-        backgroundColor: COLORS.lightGray1,
+        height: 12,
+        borderRadius: 0,
+        backgroundColor: COLORS.majorelle_blue_700,
+        marginVertical: 2,
+        marginBottom: 5,
         ...containerStyle,
       }}>
       <View
@@ -18,8 +20,8 @@ const ProgressBar = ({containerStyle, progress}) => {
           left: 0,
           height: '100%',
           width: progress,
-          borderRadius: 10,
-          backgroundColor: COLORS.rose_600,
+          borderRadius: 0,
+          backgroundColor: COLORS.success_500,
           justifyContent: 'center',
         }}>
         <Text

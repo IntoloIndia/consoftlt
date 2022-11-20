@@ -469,7 +469,6 @@ const CompanyTeamShow = () => {
                   alignItems: 'center',
                   marginTop: SIZES.padding,
                   borderRadius: SIZES.base,
-                  backgroundColor: COLORS.lightblue_700,
                 }}
                 onPress={userId != '' ? onEditTeam : postTeam}
               />
@@ -611,7 +610,6 @@ const CompanyTeamShow = () => {
           marginHorizontal: SIZES.radius,
           marginBottom: SIZES.padding,
           borderRadius: SIZES.radius,
-          backgroundColor: COLORS.lightblue_700,
           ...styles.shadow,
         }}
         onPress={() => {

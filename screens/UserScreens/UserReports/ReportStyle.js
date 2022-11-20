@@ -60,14 +60,12 @@ export default styles = StyleSheet.create({
     width: 38,
   },
   Project_list_drop: {
-    height: 30,
+    // height: 30,
     borderWidth: 1,
-    borderColor: COLORS.lightblue_400,
-    paddingHorizontal: 8,
-    marginTop: 20,
+    borderColor: COLORS.majorelle_blue_800,
+    paddingHorizontal: SIZES.radius,
+    // marginTop: 20,
     marginBottom: 5,
-    width: SIZES.width * 1 * 0.962,
-    borderRadius: 2,
   },
   cont_Project_list_drop: {
     height: 38,
