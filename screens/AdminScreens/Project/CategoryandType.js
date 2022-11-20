@@ -344,6 +344,7 @@ const CategoryandType = () => {
                 paddingHorizontal: 5,
                 borderRadius: 2,
                 right: 10,
+                backgroundColor: COLORS.majorelle_blue_800,
               }}
               labelStyle={{...FONTS.h5}}
               onPress={() => {
@@ -510,6 +511,7 @@ const CategoryandType = () => {
                 paddingHorizontal: 5,
                 borderRadius: 2,
                 right: 10,
+                backgroundColor: COLORS.majorelle_blue_800,
               }}
               labelStyle={{...FONTS.h5}}
               onPress={() => {

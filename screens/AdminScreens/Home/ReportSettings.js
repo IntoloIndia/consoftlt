@@ -847,7 +847,7 @@ const ReportSettings = ({route}) => {
             <View style={{alignItems: 'center', marginTop: SIZES.padding * 4}}>
               <TouchableOpacity
                 style={{
-                  backgroundColor: COLORS.lightblue_800,
+                  backgroundColor: COLORS.majorelle_blue_800,
                   paddingHorizontal: 100,
                   paddingVertical: 8,
                   alignItems: 'center',
@@ -873,7 +873,6 @@ const ReportSettings = ({route}) => {
           marginHorizontal: SIZES.radius,
           marginBottom: SIZES.padding,
           borderRadius: SIZES.radius,
-          backgroundColor: COLORS.lightblue_700,
         }}
         onPress={() => {
           setPathAddModal(true);

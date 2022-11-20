@@ -194,171 +194,68 @@ const ReportDisplay = () => {
   const createPDF = async () => {
     let options = {
       html: `<!DOCTYPE html>
-      <html>
-      <style>
-      #main_div{
-      padding:15px;border: solid 1px #525C67; border-radius: 2px;
-      }
-      
-      #project_details{
-      display: flex;flex-direction: row;  justify-content: space-between;align-items: center;
-      }
-      
-      #manpower h2{
-      text-align:center;
-      text-decoration:underline;
-      }
-      
-      #manpower h2{
-      text-decoration:underline;
-      }
-      
-      #contractors{
-      display: flex;flex-direction: row;padding:5px;
-      }
-      
-      #quantity h2{
-      text-align:center;
-      text-decoration:underline;
-      }
-      
-      #quantity table{
-      border-collapse: collapse;
-      width: 100%;
-      }
-      
-      #quantity th, td{
-      border: 1px solid #525C67;
-      padding: 5px;
-      }
-      
-      #quantity th {
-      padding:8px;
-      text-align: left;
-      background-color: #dcfce7;
-      color: black;
-      }
-      
-      #footer{
-      display: flex;flex-direction: row;justify-content: space-between;align-items: center;margin-top:40px; padding-left:50px; padding-right:50px;
-      }
-
-      #sub_header th{
-        padding:8px;
-        text-align: left;
-        background-color: #ffedd5;
-        color: black;
-      }
-
-      </style>
-      <head>
-      <title>Project Report</title>
-      </head>
-      <body>
-      <h2 style="text-align:center; text-decoration: underline;">Daily Progress Report</h2>
-      <div id="main_div">
-      <div id="project_details">
-      <h1>${reportData.project_name}</h1>
-      <p>Date : ${reportData.date} <br>Time : ${reportData.time} </p>
-      </div>
-      <hr>
-      <div id="manpower">
-        <h2>Manpower</h2>
-        <h3 >Contractors -</h3>
-        <div id="contractors">
-        ${manpower.map(
-          (ele, index) =>
-            ` <div style="width:30%;border: solid 1px #525C67; padding:5px; margin-left:${
-              index != 0 ? '12px' : null
-            }">
-               <h3>${ele.contractor_name}</h3>
-               ${ele.manpowerCategories.map(
-                 (ele1, i) => `${i + 1} . 
-                      ${ele1.manpower_category_name} - 
-                      ${ele1.manpower_member}<br/>`,
-               )}
-            </div>`,
-        )}
-        </div>
-      </div>
-      <hr>
-      <div id="quantity">
-      <h2>Executed Quantity</h2>
-      <table>
-      <tr>
-        <th>Sn.</th>
-          <th>Items</th>
-          <th>Nos</th>
-          <th>Length</th>
-          <th>Width</th>
-          <th>Height</th>
-          <th>Unit</th>
-          <th>MM</th>
-          <th>Qty</th>
-          <th>Remark</th>
-      </tr>
-      ${quantity.map((ele, index) =>
-        ele.quantityWorkItems.map(
-          (ele1, index1) => `<tr>
-          <td>${index1 + 1}</td>
-          <td>${ele1.item_name}</td>
-          <td>${ele1.nos == null ? '-' : ele1.nos}</td>
-          <td>${ele1.num_length == null ? '-' : ele1.num_length}</td>
-          <td>${ele1.num_width == null ? '-' : ele1.num_width}</td>
-          <td>${ele1.num_height == null ? '-' : ele1.num_height}</td>
-          <td>${ele1.unit_name}</td>
-          <td>${ele1.steel_mm == null ? '-' : ele1.steel_mm}</td>
-          <td>${ele1.num_total == null ? '-' : ele1.num_total}</td>
-          <td>${ele1.remark}</td>
-      </tr>
-      ${ele1.subquantityitems.map(
-        (ele2, index2) => `
-        ${
-          index2 == 0 &&
-          `<tr id="sub_header">
-            <td></td>
-            <td></td>
-            <th>Nos</th>
-            <th>L</th>
-            <th>W</th>
-            <th>H</th>
-            <th>Unit</th>
-            <th>MM</th>
-            <th>Qty</th>
-            <th>Remarks</th>
-           </tr>`
-        }
-        <tr>
-        <td></td>
-        <td></td>
-        <td>${ele2.sub_nos}</td>
-        <td>${ele2.sub_length}</td>
-        <td>${ele2.sub_width}</td>
-        <td>${ele2.sub_height}</td>
-        <td>-</td>
-        <td>${ele2.sub_steel_mm == null ? '-' : ele2.sub_steel_mm}</td>
-        <td>${ele2.sub_total}</td>
-        <td>${ele2.sub_remark}</td>
-        </tr>
-        `,
-      )}
-      `,
-        ),
-      )}
-      </table>
-      </div>
-      <hr>
-      <div id="footer">
-      <p>Approved by - <br>(Signature)${reportPath.map(
-        (ele, i) => `<br>
-      <br>${ele.admin_1_name}(Ad-1)<br><br>${ele.admin_2_name}(Ad-2)
-      `,
-      )} </p>
-      <p>Date - ${MynewDateString}</p>
-      </div>
-      </div>
-      </body>
-      </html>`,
+      <html lang="en">
+        <head>
+          <!-- Bootstrap CSS -->
+          <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+          <title>Report</title>
+        </head>
+        <body>
+          <div class="text-center">
+            <h4 style="margin-bottom:1px;">${companyDetail.company_name}</h4>
+            <div class="d-flex justify-content-center">
+              <p>Mobile No - 7879299436 , Mail - Intenics@gmail.com</br>BargiHills, IT-Park, Jabalpur, Madhya Pradesh</p>
+            </div>
+          </div>
+          <div style="padding:15px;border: solid 1px #525C67; border-radius: 5px; margin-top: 0px;">
+            <div style="display: flex;flex-direction: row;  justify-content: space-between;align-items: center; margin:0px;">
+              <h5 style="margin:0px;">Project name - ${
+                reportData.project_name
+              }</h5>
+              <p style="margin:3px;">Date - ${reportData.date} </br> Time - ${
+        reportData.time
+      }</p>
+            </div>
+            <hr>
+            <div>
+              <h5 style="text-align: center; text-decoration:underline;">Manpower</h5>
+              <h6 style="text-decoration:underline;">Contractors</h6>
+              <div style="display: flex;flex-direction: row;">
+                ${manpower.map((ele, index) => {
+                  return `<div class="card" style="width: 12rem; margin-left:${
+                    index != 0 ? '12px' : null
+                  }">
+                      <div class="card-header" style="padding:5px;">
+                        ${ele.contractor_name}
+                      </div>
+                      <div class="card-body" style="padding:8px;">
+                        ${ele.manpowerCategories.map(
+                          (ele1, i) => `${i + 1}. 
+                            ${ele1.manpower_category_name} - ${
+                            ele1.manpower_member
+                          }<br/>`,
+                        )}
+                      </div>
+                    </div>`;
+                })}
+              </div>
+            </div>
+            <hr>
+            <div style=" display: flex;flex-direction: row;justify-content: space-between;align-items: center; padding-left:30px; padding-right:30px">
+              <div>
+                <p style="margin-bottom:0px;">Approved by(Signature) </p>
+                <p style="margin-top:0px; margin-bottom:0px;">${reportPath.map(
+                  (ele, i) => `
+                ${ele.admin_1_name}(Admin-1) - <br>${ele.admin_2_name}(Admin-2) -
+                `,
+                )}</p>
+              </div>
+              <p>Date - ${MynewDateString}</p>
+            </div>
+          </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  </body>
+</html>`,
       fileName: `${reportData.project_name} report`,
       directory: 'Download',
       base64: true,
@@ -616,7 +513,7 @@ const ReportDisplay = () => {
             style={{
               flex: 0.8,
               fontSize: 25,
-              color: COLORS.lightblue_800,
+              color: COLORS.majorelle_blue_900,
               textTransform: 'capitalize',
             }}>
             {reportData.project_name}
@@ -655,7 +552,7 @@ const ReportDisplay = () => {
           <Text
             style={{
               fontSize: 18,
-              color: COLORS.lightblue_700,
+              color: COLORS.majorelle_blue_900,
               textAlign: 'center',
               textDecorationLine: 'underline',
               marginBottom: 5,
@@ -689,7 +586,7 @@ const ReportDisplay = () => {
           style={{
             flex: 1,
             backgroundColor: COLORS.transparentBlack7,
-            justifyContent:'flex-end'
+            justifyContent: 'flex-end',
           }}>
           <View
             style={{

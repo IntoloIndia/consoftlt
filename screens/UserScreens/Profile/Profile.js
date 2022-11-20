@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -8,12 +8,17 @@ import {
   StyleSheet,
   LogBox,
 } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
-import { ProfileValue, DeleteConfirmationToast, LogoutConfirmation, CustomToast } from '../../../Components';
-import { SIZES, COLORS, FONTS, icons, images } from '../../../constants';
-import { userLogout } from '../../../services/userAuthApi';
-import { defaultFallbackFonts } from 'react-native-render-html';
+import {useSelector, useDispatch} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
+import {
+  ProfileValue,
+  DeleteConfirmationToast,
+  LogoutConfirmation,
+  CustomToast,
+} from '../../../Components';
+import {SIZES, COLORS, FONTS, icons, images} from '../../../constants';
+import {userLogout} from '../../../services/userAuthApi';
+import {defaultFallbackFonts} from 'react-native-render-html';
 
 const Profile = () => {
   const navigation = useNavigation();
@@ -40,7 +45,7 @@ const Profile = () => {
       .catch(error => {
         console.log(error);
       });
-  }
+  };
 
   // get user data
   useEffect(() => {
@@ -49,7 +54,6 @@ const Profile = () => {
   }, []);
 
   const logoutApiData = async () => {
-    
     const res = await fetch(`${process.env.API_URL}logout`, {
       method: 'POST',
       headers: {
@@ -57,18 +61,17 @@ const Profile = () => {
       },
       body: JSON.stringify({
         user_id: userData._id,
-        refresh_token: userData.refresh_token
+        refresh_token: userData.refresh_token,
       }),
     });
 
     return res;
-  }
+  };
 
   const logout = () => {
-
     const temp = logoutApiData();
 
-    temp.then((data) => {
+    temp.then(data => {
       if (data.status == 200) {
         dispatch(userLogout());
         setLogoutSuccessfully(true);
@@ -80,16 +83,12 @@ const Profile = () => {
           setLogoutConfirm(false);
         }, 10);
       }
-    })
-  }
-
-
+    });
+  };
 
   // React.useEffect(() => {
   //   LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   // }, []);
-
-
 
   function renderProfileCard() {
     return (
@@ -100,7 +99,7 @@ const Profile = () => {
           paddingHorizontal: SIZES.padding,
           paddingVertical: 20,
           borderRadius: SIZES.radius,
-          backgroundColor: COLORS.lightblue_800,
+          backgroundColor: COLORS.majorelle_blue_800,
           alignItems: 'center',
         }}>
         {/* profile image  */}
@@ -164,10 +163,10 @@ const Profile = () => {
             }}>
             {userDetail.name}
           </Text>
-          <Text style={{ color: COLORS.white, ...FONTS.body4 }}>
+          <Text style={{color: COLORS.white, ...FONTS.body4}}>
             {userDetail.email}
           </Text>
-          <Text style={{ color: COLORS.white, ...FONTS.body4 }}>
+          <Text style={{color: COLORS.white, ...FONTS.body4}}>
             +91 {userDetail.mobile}
           </Text>
         </View>
@@ -181,7 +180,11 @@ const Profile = () => {
         style={{
           ...styles.profileSectionContainer1,
         }}>
-        <ProfileValue icon={icons.logout} value="LogOut" onPress={() => setLogoutConfirm(true)} />
+        <ProfileValue
+          icon={icons.logout}
+          value="LogOut"
+          onPress={() => setLogoutConfirm(true)}
+        />
       </View>
     );
   }
@@ -190,7 +193,6 @@ const Profile = () => {
     <View
       style={{
         flex: 1,
-        backgroundColor: COLORS.white,
       }}>
       <ScrollView
         contentContainerStyle={{

@@ -14,7 +14,7 @@ const TextButton = ({
       style={{
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: COLORS.lightblue_700,
+        backgroundColor: COLORS.majorelle_blue_800,
         ...buttonContainerStyle,
       }}
       disabled={disabled}

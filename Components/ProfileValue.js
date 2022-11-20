@@ -19,7 +19,7 @@ const ProfileValue = ({icon, value, onPress, image}) => {
           alignItems: 'center',
           justifyContent: 'center',
           borderRadius: 20,
-          backgroundColor: COLORS.lightblue_100,
+          backgroundColor: COLORS.majorelle_blue_100,
         }}>
         <Image
           source={icon}
@@ -27,7 +27,7 @@ const ProfileValue = ({icon, value, onPress, image}) => {
           style={{
             height: 20,
             width: 20,
-            tintColor: COLORS.lightblue_800,
+            tintColor: COLORS.majorelle_blue_900,
           }}
         />
       </View>

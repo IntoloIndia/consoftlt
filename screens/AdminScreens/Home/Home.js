@@ -185,11 +185,11 @@ const Home = ({navigation}) => {
       <View
         style={{
           flex: 1,
-          marginBottom: 100,
+          marginBottom: 20,
         }}>
         <View
           style={{
-            marginHorizontal: SIZES.padding,
+            marginHorizontal: SIZES.radius,
             marginVertical: SIZES.radius,
             flexDirection: 'row',
             justifyContent: 'space-between',
@@ -201,7 +201,7 @@ const Home = ({navigation}) => {
                 style={{
                   ...FONTS.h2,
                   textTransform: 'capitalize',
-                  color: COLORS.lightblue_700,
+                  color: COLORS.majorelle_blue_800,
                   fontWeight: 'bold',
                 }}>
                 {companyData.company_name}
@@ -210,11 +210,11 @@ const Home = ({navigation}) => {
           </View>
           <TouchableOpacity style={{}}>
             <Image
-              source={images.consoft_new}
+              source={images.consoft_lt_logo}
               style={{
-                height: 30,
-                width: 80,
-                borderRadius: 5,
+                height: 28,
+                width: 90,
+                borderRadius: 2,
               }}
             />
           </TouchableOpacity>

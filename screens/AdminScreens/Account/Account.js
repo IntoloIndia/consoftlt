@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  ScrollView,
-} from 'react-native';
+import {View, Text, Image, TouchableOpacity, ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {SIZES, COLORS, FONTS, icons, images} from '../../../constants';
 import {
@@ -71,7 +65,7 @@ const Account = () => {
           flexDirection: 'row',
           padding: 20,
           borderRadius: SIZES.base,
-          backgroundColor: COLORS.lightblue_800,
+          backgroundColor: COLORS.majorelle_blue_800,
           alignItems: 'center',
         }}>
         <TouchableOpacity

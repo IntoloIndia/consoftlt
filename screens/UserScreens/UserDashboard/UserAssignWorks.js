@@ -10,18 +10,21 @@ import {
   RefreshControl,
   ScrollView,
   Pressable,
-  TouchableHighlight,
 } from 'react-native';
 import {SIZES, COLORS, FONTS, icons, images} from '../../../constants';
 import {AccordionList} from 'accordion-collapse-react-native';
 import {TextInput} from 'react-native-paper';
 import {Divider, IndexPath} from '@ui-kitten/components';
-import {CustomToast, DeleteConfirmationToast} from '../../../Components';
+
+import {
+  CustomToast,
+  DeleteConfirmationToast,
+  ProgressBar,
+} from '../../../Components';
 import styles from '../TaskModal/css/InProgressModalStyle.js';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {useSelector, useDispatch} from 'react-redux';
-import Voice from '@react-native-community/voice';
-
+// import Config from '../../../config';
 
 import {
   getAssignWorks,
@@ -30,9 +33,6 @@ import {
 } from '../../../controller/UserAssignWorkController';
 
 Entypo.loadFont();
-import {LogBox} from 'react-native';
-
-LogBox.ignoreLogs(["EventEmitter.removeListener"]);
 
 const UserAssignWorks = ({loading}) => {
   // const dispatch = useDispatch();
@@ -199,7 +199,9 @@ const UserAssignWorks = ({loading}) => {
   // submit comment
   const submitComments = async work_id => {
     const submit_data = {
+
       comment: textMsg,
+
     };
 
     const data = await submitComment(submit_data, work_id);
@@ -294,22 +296,23 @@ const UserAssignWorks = ({loading}) => {
     return (
       <View
         style={{
-          marginTop: index == 0 ? null : SIZES.base,
-          paddingHorizontal: SIZES.base,
+          marginTop: index == 0 ? 0 : SIZES.base,
+          paddingHorizontal: 10,
           elevation: 1,
           paddingVertical: 5,
-          backgroundColor: COLORS.darkGray,
-          borderTopLeftRadius: 5,
-          borderTopRightRadius: 5,
+
+          backgroundColor: COLORS.majorelle_blue_800,
         }}>
-        <View
+        {/* <View
           style={{
-            backgroundColor: COLORS.white,
-            elevation: 15,
+            elevation: 5,
             width: `${item.work_percent}%`,
             borderBottomWidth: 10,
-            borderColor: COLORS.green,
-          }}></View>
+            borderColor: COLORS.success_400,
+            marginBottom: 3,
+          }}></View> */}
+        <ProgressBar progress={`${item.work_percent}%`} />
+
         <View
           style={{
             flexDirection: 'row',
@@ -323,15 +326,14 @@ const UserAssignWorks = ({loading}) => {
                 paddingHorizontal: 5,
                 backgroundColor: COLORS.white,
                 color: COLORS.black,
-                elevation: 10,
-                borderRadius: 1,
+                elevation: 5,
               }}>
               {item.work_code}
             </Text>
             <Text
               style={{
                 ...FONTS.h4,
-                color: COLORS.lightGray2,
+                color: COLORS.white,
                 left: 10,
               }}>
               {item.work}
@@ -395,29 +397,47 @@ const UserAssignWorks = ({loading}) => {
           justifyContent: 'space-between',
           alignItems: 'center',
         }}>
-        <View style={{flexDirection: 'row'}}>
+
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <TouchableOpacity
-            style={{elevation: 20}}
+            style={{
+              backgroundColor: COLORS.majorelle_blue_200,
+              // padding: 1,
+              borderRadius: 3,
+            }}
             onPress={() => {
               __handle_decrease_counter(item, index);
             }}>
-            <Entypo name="minus" size={25} color={COLORS.white} />
+            <Entypo name="minus" size={25} color={COLORS.majorelle_blue_800} />
           </TouchableOpacity>
-          <View>
-            <TextInput
-              style={[styles.inputfromone, {elevation: 5}]}
-              editable={false}
-              value={String(`${item.work_percent} %`)}
-              onChangeText={text => __handle_counter(text, index)}
-              placeholderTextColor={COLORS.lightGray1}
-              keyboardType="numeric"
-              placeholder={'counter'}
-            />
-          </View>
+
+          <TextInput
+            style={{
+              width: '40%',
+              height: 25,
+              textAlign: 'center',
+              left: 5,
+              backgroundColor: COLORS.majorelle_blue_200,
+              borderWidth: 1,
+              borderColor: COLORS.darkGray,
+              color: COLORS.black,
+            }}
+            editable={false}
+            value={String(`${item.work_percent} %`)}
+            onChangeText={text => __handle_counter(text, index)}
+            keyboardType="numeric"
+            placeholder={'%'}
+          />
+
           <TouchableOpacity
-            style={{elevation: 20}}
+            style={{
+              backgroundColor: COLORS.majorelle_blue_200,
+              borderRadius: 3,
+              left: 10,
+            }}
             onPress={() => __handle_increase_counter(item, index)}>
-            <Entypo name="plus" size={25} color={COLORS.white} />
+            <Entypo name="plus" size={25} color={COLORS.majorelle_blue_800} />
+
           </TouchableOpacity>
         </View>
         <TouchableOpacity
@@ -432,10 +452,10 @@ const UserAssignWorks = ({loading}) => {
           <Text
             style={{
               color: COLORS.white,
-              backgroundColor: COLORS.lightblue_500,
+
               elevation: 15,
               // borderWidth: 1,
-              backgroundColor: COLORS.lightblue_600,
+              backgroundColor: COLORS.majorelle_blue_800,
               paddingHorizontal: 10,
               paddingVertical: 3,
               borderRadius: 3,
@@ -451,10 +471,9 @@ const UserAssignWorks = ({loading}) => {
     return (
       <View
         style={{
-          backgroundColor: COLORS.darkGray,
-          padding: SIZES.radius,
+          backgroundColor: COLORS.majorelle_blue_50,
+          padding: SIZES.base,
           borderBottomLeftRadius: 5,
-          elevation: 15,
           borderBottomRightRadius: 5,
         }}
         key={item.key}>
@@ -476,10 +495,12 @@ const UserAssignWorks = ({loading}) => {
                 justifyContent: 'space-between',
                 marginHorizontal: 2,
               }}>
-              <Text style={{...FONTS.h5, color: COLORS.white}}>
+
+              <Text style={{...FONTS.h5, color: COLORS.darkGray}}>
                 Targate Date: {item.exp_completion_date}
               </Text>
-              <Text style={{...FONTS.h5, color: COLORS.white}}>
+              <Text style={{...FONTS.h5, color: COLORS.darkGray}}>
+
                 Targate Time: {item.exp_completion_time}
               </Text>
             </View>
@@ -489,10 +510,12 @@ const UserAssignWorks = ({loading}) => {
                 justifyContent: 'space-between',
                 marginHorizontal: 2,
               }}>
-              <Text style={{...FONTS.h5, color: COLORS.white}}>
+
+              <Text style={{...FONTS.h5, color: COLORS.darkGray}}>
                 Assign Date: {item.assign_date}
               </Text>
-              <Text style={{...FONTS.h5, color: COLORS.white}}>
+              <Text style={{...FONTS.h5, color: COLORS.darkGray}}>
+
                 Assign Time: {item.assign_time}
               </Text>
             </View>
@@ -514,12 +537,14 @@ const UserAssignWorks = ({loading}) => {
               {item.comment_status == false && item.work_percent == 0 ? (
                 <TouchableOpacity
                   style={{
-                    backgroundColor: COLORS.lightblue_600,
+                    backgroundColor: COLORS.majorelle_blue_800,
                     paddingVertical: SIZES.base * 0.3,
                     alignContent: 'center',
-                    borderColor: COLORS.lightblue_500,
-                    elevation: 15,
-                    borderWidth: 1,
+
+                    // borderColor: COLORS.white,
+                    elevation: 10,
+                    // borderWidth: 1,
+
                     borderRadius: 2,
                     paddingHorizontal: SIZES.radius * 0.5,
                   }}
@@ -549,61 +574,36 @@ const UserAssignWorks = ({loading}) => {
                     multiline={true}
                     placeholder="Comment section..."
                     placeholderTextColor={COLORS.gray}
-                    onChangeText={text => {
-                      setTextMsg(text);
-                      setResults(text);
-                    }}
-                    value={results}
-                  />
-                  <TouchableHighlight
-                    onPress={_startRecognizing}
-                    style={{top: 14, left: 12, width: '30%'}}>
-                    <Image
-                      style={styles1.button}
-                      source={{
-                        uri: 'https://raw.githubusercontent.com/AboutReact/sampleresource/master/microphone.png',
-                      }}
-                    />
-                  </TouchableHighlight>
-                  {started == true ? (
-                    <TouchableHighlight
-                      onPress={_stopRecognizing}
-                      style={{
-                        width: '30%',
-                        alignSelf: 'center',
-                        marginBottom: 2,
-                        alignItems: 'center',
-                        backgroundColor: 'red',
-                      }}>
-                      <Text style={styles.action}>Stop</Text>
-                    </TouchableHighlight>
-                  ) : (
-                    <TouchableOpacity
-                      style={{
-                        alignItems: 'flex-end',
-                        // paddingHorizontal: 4,
-                        // marginTop: SIZES.base,
-                        // backgroundColor: "red",
-                        marginLeft: SIZES.body1 * 4,
-                        padding: 2,
-                      }}
-                      onPress={() => submitComments(item._id)}>
-                      {item.work_status == false ? (
-                        <Text
-                          style={{
-                            color: COLORS.lightGray2,
 
-                            backgroundColor: COLORS.lightblue_900,
-                            paddingHorizontal: 5,
-                            paddingVertical: 3,
-                            elevation: 8,
-                            borderRadius: 3,
-                          }}>
-                          Submit comment
-                        </Text>
-                      ) : null}
-                    </TouchableOpacity>
-                  )}
+                    onChangeText={text => setTextMsg(text)}
+                    value={textMsg}
+                  />
+                  <TouchableOpacity
+                    style={{
+                      alignItems: 'flex-end',
+                      paddingHorizontal: 4,
+                      // marginTop: SIZES.base,
+                      // backgroundColor: "red",
+                      marginLeft: SIZES.body1 * 4,
+                      padding: 2,
+                    }}
+                    onPress={() => submitComments(item._id)}>
+                    {item.work_status == false ? (
+                      <Text
+                        style={{
+                          color: COLORS.lightGray2,
+
+                          backgroundColor: COLORS.majorelle_blue_800,
+                          paddingHorizontal: 5,
+                          paddingVertical: 3,
+                          elevation: 8,
+                          borderRadius: 3,
+                        }}>
+                        Submit comment
+                      </Text>
+                    ) : null}
+                  </TouchableOpacity>
+
                 </View>
               ) : null
             ) : null}
@@ -625,24 +625,20 @@ const UserAssignWorks = ({loading}) => {
       </View>
     );
   };
+
   return (
     <View
       style={{
-        marginHorizontal: SIZES.base,
-        marginVertical: SIZES.radius,
-        paddingHorizontal: SIZES.base,
-        paddingTop: SIZES.base,
-        paddingBottom: SIZES.base,
+        margin: SIZES.radius,
+        padding: SIZES.radius,
         backgroundColor: COLORS.white,
-        borderRadius: SIZES.base,
-        // borderWidth:1,
+        borderRadius: 5,
         ...styles1.shadow,
       }}>
       <Text
         style={{
           ...FONTS.h2,
           color: COLORS.darkGray,
-          marginHorizontal: SIZES.base,
           marginBottom: SIZES.base,
         }}>
         Assigned Works
@@ -678,15 +674,21 @@ const UserAssignWorks = ({loading}) => {
             onPressIn={onPressIn}
             onPressOut={onPressOut}
             isExpanded={false}
-            style={{
-              // borderWidth: 1,
-              // borderColor: COLORS.lightblue_400,
-              padding: 5,
-              // marginBottom:40,
-            }}
-            contentContainerStyle={{
-              bottom: 14,
-            }}
+
+            style={
+              {
+                // borderWidth: 1,
+                // borderColor: COLORS.lightblue_400,
+                // padding: 5,
+                // marginBottom:40,
+              }
+            }
+            contentContainerStyle={
+              {
+                // bottom: 14,
+              }
+            }
+
             // onToggle={(isExpanded) => {
             //   setIsExpand(!isExpand);
             //   // setIsExpandId(isExpanded);
@@ -720,18 +722,10 @@ const UserAssignWorks = ({loading}) => {
         title="Delete"
         message="Deleted Successfully..."
       />
-      {/* <DeleteConfirmationToast
-        isVisible={deleteConfirm}
-        onClose={() => setDeleteConfirm(false)}
-        title={'Are You Sure?'}
-        message={'Do you really want to delete?'}
-        color={COLORS.rose_600}
-        icon={icons.delete_withbg}
-        onClickYes={() => deleteContReportButton()}
-      /> */}
     </View>
   );
 };
+
 const styles1 = StyleSheet.create({
   shadow: {
     shadowColor: '#000',

@@ -14,7 +14,6 @@ import {
   UIManager,
   ToastAndroid,
   Pressable,
-  TextInput,
   TouchableWithoutFeedback,
   KeyboardAvoidingView,
   TouchableOpacity,
@@ -67,6 +66,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useSelector} from 'react-redux';
 import {Button} from 'react-native-paper';
 import moment from 'moment';
+import {TextInput} from 'react-native-paper';
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -478,81 +478,55 @@ const ManpowerUserContractors = ({ProList, Main_drp_pro_value, loading}) => {
   //create contractor model
   function renderCreateContractorModal() {
     return (
-      <Modal animationType="fade" transparent={true} visible={ConReportModal}>
+      <Modal animationType="slide" transparent={true} visible={ConReportModal}>
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={{
             flex: 1,
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: COLORS.transparentBlack7,
+            backgroundColor: COLORS.transparentBlack6,
           }}>
           <View
             style={{
-              width: '90%',
+              position: 'absolute',
+              width: '95%',
               padding: SIZES.padding,
-              borderRadius: SIZES.base,
+              borderRadius: 5,
               backgroundColor: COLORS.white,
             }}>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Text style={{flex: 1, fontSize: 20, color: COLORS.darkGray}}>
-                Contractors
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                marginBottom: 10,
+              }}>
+              <Text style={{fontSize: 25, color: COLORS.darkGray}}>
+                Add New Contractors
               </Text>
-              <IconButton
-                containerStyle={{
-                  boborderWidth: 2,
-                  borderRadius: 10,
-                  borderColor: COLORS.gray2,
-                }}
-                icon={icons.cross}
-                iconStyle={{
-                  tintColor: COLORS.gray,
-                }}
-                onPress={() => setConReportModal(false)}
-              />
+              <ImageBackground
+                style={{
+                  backgroundColor: COLORS.white,
+                  padding: 2,
+                  elevation: 20,
+                }}>
+                <TouchableOpacity onPress={() => setConReportModal(false)}>
+                  <Image
+                    source={icons.cross}
+                    style={{
+                      height: 25,
+                      width: 25,
+                      tintColor: COLORS.rose_600,
+                    }}
+                  />
+                </TouchableOpacity>
+              </ImageBackground>
             </View>
+
             <ScrollView scrollEnabled={false} nestedScrollEnabled={false}>
-              {/* <Dropdown
-                style={[
-                  cont_Project_list_drop,
-                  proListIsFocus && {
-                    borderColor: COLORS.lightblue_600,
-                  },
-
-                ]}
-                placeholderStyle={{ fontSize: 16, color: COLORS.darkGray, left: 5 }
-                }
-                selectedTextStyle={{ color: COLORS.gray, }
-                }
-
-                containerStyle={{ width: 320, borderRadius: 5 }}
-                inputSearchStyle={{ color: COLORS.gray, height: 40, borderRadius: 5, padding: -5 }}
-                iconStyle={{
-                  height: 28
-                  // fontSize: 16, 
-                }}
-                data={ProList}
-                search
-                maxHeight={200}
-                labelField="label"
-                valueField="value"
-                placeholder={'Select Project'}
-                searchPlaceholder="Search..."
-                value={value}
-                onFocus={() =>
-                  setProListIsFocus(true)
-                }
-                onBlur={() =>
-                  setProListIsFocus(false)
-                }
-                onChange={item => {
-                  setValue(item.value);
-                  setProListIsFocus(false);
-                }}
-
-              /> */}
-
               <FormInput
+                label="Contractor name"
                 placeholder="Contractor Name"
                 onChange={value => {
                   utils.validateText(value, setContError);
@@ -584,7 +558,8 @@ const ManpowerUserContractors = ({ProList, Main_drp_pro_value, loading}) => {
                 }
               />
               <FormInput
-                label="Phone no."
+                label="Mobile no"
+                placeholder="Mobile No"
                 keyboardType="numeric"
                 autoCompleteType="cc-number"
                 value={ContractorPhone}
@@ -620,13 +595,11 @@ const ManpowerUserContractors = ({ProList, Main_drp_pro_value, loading}) => {
             </ScrollView>
             <TextButton
               label="Submit"
-              // disabled={isEnableSubmit() ? false : true}
               buttonContainerStyle={{
-                height: 55,
+                height: 45,
                 alignItems: 'center',
-                marginTop: SIZES.padding * 2,
+                marginTop: SIZES.padding * 1.5,
                 borderRadius: SIZES.radius,
-                backgroundColor: COLORS.lightblue_700,
               }}
               onPress={() => {
                 Insert_Contractor_data();
@@ -659,63 +632,79 @@ const ManpowerUserContractors = ({ProList, Main_drp_pro_value, loading}) => {
 
   function add_category_modal() {
     return (
-      <View>
-        <Modal
-          transparent={false}
-          visible={addCatetoryModal}
-          animationType="slide">
+      <Modal
+        transparent={true}
+        visible={addCatetoryModal}
+        animationType="slide">
+        <View
+          style={{
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: COLORS.transparentBlack7,
+          }}>
           <View
             style={{
-              flex: 1,
-              backgroundColor: '#000000aa',
+              backgroundColor: COLORS.white,
+              padding: 20,
+              borderRadius: 5,
+              width: '95%',
             }}>
             <View
               style={{
-                backgroundColor: '#fff',
-                marginTop: 80,
-                padding: 20,
-                borderRadius: 20,
-                margin: 10,
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                marginBottom: 10,
               }}>
-              <View
+              <Text style={{fontSize: 25, color: COLORS.darkGray}}>
+                Add new category
+              </Text>
+              <ImageBackground
                 style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
+                  backgroundColor: COLORS.white,
+                  padding: 2,
+                  elevation: 20,
                 }}>
-                <Text style={{...FONTS.h2, color: COLORS.darkGray}}>
-                  Add New Category
-                </Text>
-                <Pressable onPress={() => setAddCategoryModal(false)}>
-                  <AntDesign name="close" size={30} color={COLORS.black} />
-                </Pressable>
-              </View>
-              <View style={{marginTop: 20}}>
-                <FormInput
-                  label="Category Name"
-                  onChange={text => {
-                    setCategName(text);
-                  }}
-                />
-              </View>
-              <View>
-                <TextButton
-                  label="save"
-                  buttonContainerStyle={{
-                    height: 45,
-                    borderRadius: SIZES.radius,
-                    marginTop: SIZES.padding,
-                  }}
-                  onPress={() => {
-                    SaveNewCategory();
-                  }}
-                />
-              </View>
-              {/* <Toast config={showToastItem} /> */}
+                <TouchableOpacity onPress={() => setAddCategoryModal(false)}>
+                  <Image
+                    source={icons.cross}
+                    style={{
+                      height: 25,
+                      width: 25,
+                      tintColor: COLORS.rose_600,
+                    }}
+                  />
+                </TouchableOpacity>
+              </ImageBackground>
+            </View>
+
+            <View>
+              <FormInput
+                label="Category name"
+                placeholder="Category name"
+                onChange={text => {
+                  setCategName(text);
+                }}
+              />
+            </View>
+
+            <View>
+              <TextButton
+                label="Submit"
+                buttonContainerStyle={{
+                  height: 45,
+                  borderRadius: SIZES.radius,
+                  marginTop: SIZES.padding * 1.5,
+                }}
+                onPress={() => {
+                  SaveNewCategory();
+                }}
+              />
             </View>
           </View>
-        </Modal>
-      </View>
+        </View>
+      </Modal>
     );
   }
 
@@ -726,12 +715,12 @@ const ManpowerUserContractors = ({ProList, Main_drp_pro_value, loading}) => {
         style={
           removeAddManpowerOnEdit || filterNewCategory.length > 0
             ? {
-                maxHeight: 370,
-                marginVertical: SIZES.padding * 2,
-                borderRadius: 2,
-                elevation: 2,
-                borderColor: COLORS.lightblue_100,
-                paddingBottom: SIZES.base * 2,
+                // maxHeight: 370,
+                marginVertical: SIZES.padding,
+                // borderRadius: 1,
+                elevation: 1,
+                // borderColor: COLORS.black,
+                // paddingBottom: SIZES.radius,
               }
             : null
         }>
@@ -739,24 +728,29 @@ const ManpowerUserContractors = ({ProList, Main_drp_pro_value, loading}) => {
           filterNewCategory.map((memberInput, index) => {
             return (
               <View
-                style={{
-                  alignItems: 'stretch',
-                  margin: 1,
-                }}
+                style={
+                  {
+                    // alignItems: 'stretch',
+                    // margin: 1,
+                  }
+                }
                 key={index}>
                 <View
                   key={index}
                   style={{
-                    flex: 1,
+                    // flex: 1,
                     flexDirection: 'row',
-                    justifyContent: 'space-around',
-                    marginHorizontal: SIZES.base,
-                    paddingBottom: SIZES.base,
+                    justifyContent: 'space-between',
+                    // marginHorizontal: SIZES.base,
+                    // paddingBottom: SIZES.base,
+                    // alignItems:'center',
+                    paddingHorizontal: 12,
                   }}>
                   <FormInput
                     placeholder="Name"
                     containerStyle={{
-                      width: 180,
+                      width: '55%',
+                      // width: 180,
                     }}
                     editable={false}
                     onChange={text => {
@@ -794,7 +788,8 @@ const ManpowerUserContractors = ({ProList, Main_drp_pro_value, loading}) => {
                   <FormInput
                     placeholder="Count"
                     containerStyle={{
-                      width: 85,
+                      width: '30%',
+                      // width: 85,
                     }}
                     inputStyle={{height: 40, width: 30, marginLeft: -12}}
                     keyboardType="numeric"
@@ -836,31 +831,27 @@ const ManpowerUserContractors = ({ProList, Main_drp_pro_value, loading}) => {
                     }
                   />
 
-                  <View
+                  <TouchableOpacity
                     style={{
-                      alignSelf: 'flex-end',
-                      paddingBottom: SIZES.base * 0.8,
+                      // alignSelf: 'center',
+                      backgroundColor: COLORS.red,
+                      padding: 8,
+                      // height:20,
+                      borderRadius: 5,
+                      marginTop: 32,
+                    }}
+                    onPress={() => {
+                      deleteMemberHandler(index);
                     }}>
-                    <TouchableOpacity
+                    <Image
+                      source={icons.delete_icon}
                       style={{
-                        alignSelf: 'center',
-                        elevation: 8,
-                        // borderWidth: 1,
-                        borderColor: COLORS.transparent,
+                        width: 15,
+                        height: 15,
+                        tintColor: COLORS.white,
                       }}
-                      onPress={() => {
-                        deleteMemberHandler(index);
-                      }}>
-                      <Image
-                        source={icons.delete_icon}
-                        style={{
-                          width: 20,
-                          height: 20,
-                          tintColor: COLORS.red,
-                        }}
-                      />
-                    </TouchableOpacity>
-                  </View>
+                    />
+                  </TouchableOpacity>
                 </View>
               </View>
             );
@@ -869,12 +860,12 @@ const ManpowerUserContractors = ({ProList, Main_drp_pro_value, loading}) => {
           <View
             style={{
               flex: 1,
-              alignSelf: 'center',
-              marginVertical: SIZES.body1,
+              alignItems: 'center',
+              justifyContent: 'center',
             }}>
             {/* {removeAddManpowerOnEdit ? <Text style={{ ...FONTS.h2, color: COLORS.darkGray }}>Currently, no category to Update!!</Text> : null} */}
-            <Text style={{...FONTS.h2, color: COLORS.darkGray}}>
-              Currently, no category to show or update!!
+            <Text style={{...FONTS.h3, color: COLORS.darkGray, marginTop: 100}}>
+              Currently, no categories are available to show or update.
             </Text>
           </View>
         )}
@@ -893,61 +884,60 @@ const ManpowerUserContractors = ({ProList, Main_drp_pro_value, loading}) => {
           style={{
             flex: 1,
             alignItems: 'center',
-            backgroundColor: COLORS.transparentBlack7,
+            justifyContent: 'flex-end',
+            backgroundColor: COLORS.transparentBlack6,
           }}>
           <View
             style={{
               position: 'absolute',
-              left: 0,
-              top: 85,
-              right: 0,
               width: '100%',
-              height: '90%',
+              height: '80%',
               padding: SIZES.padding,
-              borderTopRightRadius: SIZES.radius,
-              borderTopLeftRadius: SIZES.radius,
               backgroundColor: COLORS.white,
+              borderTopLeftRadius: 5,
+              borderTopRightRadius: 5,
             }}>
             <View
               style={{
                 flexDirection: 'row',
-                alignItems: 'center',
                 justifyContent: 'space-between',
+                alignItems: 'center',
+                marginBottom: 10,
               }}>
-              <Text style={{...FONTS.h2, color: COLORS.darkGray}}>
-                Add Category and Members
+              <Text style={{fontSize: 22, color: COLORS.darkGray}}>
+                Add category & members
               </Text>
-              <IconButton
-                containerStyle={{
-                  boborderWidth: 2,
-                  borderRadius: 10,
-                  borderColor: COLORS.gray2,
-                }}
-                icon={icons.cross}
-                iconStyle={{
-                  tintColor: COLORS.gray,
-                }}
-                onPress={() => {
-                  setRemoveAddManpowerOnEdit(false);
-                  setAddConMemberReportModal(false);
-                }}
-              />
+              <ImageBackground
+                style={{
+                  backgroundColor: COLORS.white,
+                  padding: 2,
+                  elevation: 20,
+                }}>
+                <TouchableOpacity
+                  onPress={() => {
+                    setRemoveAddManpowerOnEdit(false);
+                    setAddConMemberReportModal(false);
+                  }}>
+                  <Image
+                    source={icons.cross}
+                    style={{height: 25, width: 25, tintColor: COLORS.rose_600}}
+                  />
+                </TouchableOpacity>
+              </ImageBackground>
             </View>
+
             <View
               style={{
-                justifyContent: 'space-between',
+                alignItems: 'flex-end',
               }}>
               {!removeAddManpowerOnEdit ? (
                 <TextButton
-                  label="Add Category"
+                  label="Add New Category"
                   buttonContainerStyle={{
-                    height: 33,
-                    alignItems: 'center',
-                    width: 110,
-                    paddingHorizontal: 0,
-                    marginTop: SIZES.padding,
-                    borderRadius: SIZES.radius * 0.5,
-                    backgroundColor: COLORS.lightblue_700,
+                    backgroundColor: COLORS.majorelle_blue_900,
+                    paddingHorizontal: 5,
+                    paddingVertical: 2,
+                    borderRadius: 3,
                   }}
                   onPress={() => {
                     setAddCategoryModal(true);
@@ -955,22 +945,21 @@ const ManpowerUserContractors = ({ProList, Main_drp_pro_value, loading}) => {
                 />
               ) : null}
             </View>
+
             <View style={{flex: 1}}>{ShowCategory()}</View>
             <View
               style={{
                 alignItems: 'center',
                 paddingBottom: 12,
-                // height: "10%"
               }}>
               {removeAddManpowerOnEdit ? (
                 <TextButton
                   label="Update"
                   buttonContainerStyle={{
-                    height: 55,
+                    height: 45,
                     width: '100%',
                     alignItems: 'center',
-                    borderRadius: SIZES.radius,
-                    backgroundColor: COLORS.lightblue_700,
+                    borderRadius: SIZES.base,
                   }}
                   onPress={() => {
                     updateManpowerReport(updateManpowerId);
@@ -980,11 +969,10 @@ const ManpowerUserContractors = ({ProList, Main_drp_pro_value, loading}) => {
                 <TextButton
                   label="Submit"
                   buttonContainerStyle={{
-                    height: 55,
+                    height: 45,
                     width: '100%',
                     alignItems: 'center',
-                    borderRadius: SIZES.radius,
-                    backgroundColor: COLORS.lightblue_700,
+                    borderRadius: SIZES.base,
                   }}
                   onPress={() => {
                     setRemoveAddManpowerOnEdit(false);
@@ -1003,12 +991,14 @@ const ManpowerUserContractors = ({ProList, Main_drp_pro_value, loading}) => {
   const add_contractor = () => {
     return (
       <TouchableOpacity
-        style={{
-          borderRadius: SIZES.radius * 0.2,
-          justifyContent: 'center',
-          flexDirection: 'row',
-          paddingHorizontal: 2,
-        }}
+        style={
+          {
+            // borderRadius: SIZES.radius * 0.2,
+            // justifyContent: 'center',
+            // flexDirection: 'row',
+            // paddingHorizontal: 2,
+          }
+        }
         onPress={() => {
           LayoutAnimation.configureNext({
             duration: 300,
@@ -1024,9 +1014,21 @@ const ManpowerUserContractors = ({ProList, Main_drp_pro_value, loading}) => {
         }}>
         <View
           style={{
-            alignSelf: 'center',
+            backgroundColor: COLORS.majorelle_blue_200,
+            padding: 5,
+            paddingHorizontal: 6,
+            borderRadius: 5,
+            flexDirection: 'row',
+            alignItems: 'center',
           }}>
-          <Ionicons name="person-add" size={22} color={COLORS.lightblue_400} />
+          <Ionicons
+            name="person-add"
+            size={16}
+            color={COLORS.majorelle_blue_800}
+          />
+          <Text style={{fontSize: 12, color: COLORS.black, left: 3}}>
+            Add New
+          </Text>
         </View>
       </TouchableOpacity>
     );
@@ -1035,21 +1037,21 @@ const ManpowerUserContractors = ({ProList, Main_drp_pro_value, loading}) => {
   const sub_body_section = (item, index) => {
     return (
       <View
-        style={{
-          flex: 1,
-          flexDirection: 'row',
-          width: SIZES.width * 0.7,
-          maxHeight: 300,
-          alignSelf: 'center',
-          paddingLeft: SIZES.base,
-          position: 'relative',
-          paddingBottom: 10,
-        }}
+        style={
+          {
+            // flex: 1,
+            // flexDirection: 'row',
+            // width: SIZES.width * 0.7,
+            // maxHeight: 300,
+            // alignSelf: 'center',
+            // paddingLeft: SIZES.base,
+            // position: 'relative',
+            // paddingBottom: 10,
+          }
+        }
         key={index}>
         {manpowerReportData.length > 0 ? (
-          <ScrollView
-            nestedScrollEnabled={true}
-            contentContainerStyle={{left: -2, paddingBottom: 15}}>
+          <ScrollView nestedScrollEnabled={true} contentContainerStyle={{}}>
             {
               <View>
                 <View>
@@ -1063,54 +1065,35 @@ const ManpowerUserContractors = ({ProList, Main_drp_pro_value, loading}) => {
                                 <View
                                   style={{
                                     flexDirection: 'row',
-                                    justifyContent: 'space-around',
+                                    alignItems: 'center',
                                   }}
                                   key={index1}>
-                                  <View
-                                    style={{
-                                      flexDirection: 'row',
-                                      justifyContent: 'space-between',
-                                      width: '100%',
-                                    }}>
-                                    <View
+                                  <View style={{flexDirection: 'row'}}>
+                                    <Text
                                       style={{
-                                        backgroundColor: COLORS.lightGray1,
-                                        width: 1,
-                                        position: 'absolute',
-                                        left: -3,
-                                        top: 0,
-                                        right: 0,
-                                        bottom: 0,
-                                      }}></View>
-                                    <View style={{width: 50, paddingLeft: 18}}>
-                                      <Text
-                                        style={{
-                                          color: COLORS.gray,
-                                          ...FONTS.h5,
-                                          textAlign: 'center',
-                                        }}>
-                                        {index1 + 1}
-                                      </Text>
-                                    </View>
-                                    <View style={{width: 150}}>
-                                      <Text
-                                        style={{
-                                          color: COLORS.blue,
-                                          ...FONTS.h5,
-                                        }}>
-                                        {sub_main_list.manpower_category_name}
-                                      </Text>
-                                    </View>
-                                    <View style={{width: 120}}>
-                                      <Text
-                                        style={{
-                                          color: COLORS.black,
-                                          ...FONTS.h5,
-                                        }}>
-                                        {sub_main_list.manpower_member}
-                                      </Text>
-                                    </View>
+                                        color: COLORS.black,
+                                        ...FONTS.h5,
+                                      }}>
+                                      {index1 + 1}
+                                      {'. '}
+                                    </Text>
+                                    <Text
+                                      style={{
+                                        color: COLORS.black,
+                                        ...FONTS.h5,
+                                        textTransform: 'capitalize',
+                                      }}>
+                                      {sub_main_list.manpower_category_name}
+                                      {' - '}
+                                    </Text>
                                   </View>
+                                  <Text
+                                    style={{
+                                      color: COLORS.black,
+                                      ...FONTS.h5,
+                                    }}>
+                                    {sub_main_list.manpower_member}
+                                  </Text>
                                 </View>
                               );
                             },
@@ -1134,14 +1117,14 @@ const ManpowerUserContractors = ({ProList, Main_drp_pro_value, loading}) => {
         style={{
           flex: 1,
           flexDirection: 'row',
-          width: SIZES.width * 0.7,
-          maxHeight: 310,
-          alignSelf: 'center',
-          paddingLeft: SIZES.base,
-          position: 'relative',
+          // width: SIZES.width * 0.7,
+          // maxHeight: 310,
+          // alignSelf: 'center',
+          // paddingLeft: SIZES.base,
+          // position: 'relative',
           // paddingBottom: 10,
-          elevation: 22,
-          backgroundColor: COLORS.transparent,
+          // elevation: 22,
+          // backgroundColor: COLORS.transparent,
         }}
         key={index}>
         {sub_body_section(item, index)}
@@ -1163,26 +1146,37 @@ const ManpowerUserContractors = ({ProList, Main_drp_pro_value, loading}) => {
     // setactive(!active)
   };
 
-  const Editdeletebutton = ({edit_size, del_size, __id}) => {
+  const Editdeletebutton = ({__id}) => {
     return (
-      <>
-        <View style={body_ed_de_view}>
-          <View style={body_del_btn}>
-            <TouchableOpacity onPress={() => editManpowerReportBtn(__id)}>
-              <FontAwesome name="edit" color={COLORS.blue} size={edit_size} />
-            </TouchableOpacity>
-          </View>
-          <View style={body_edit_btn}>
-            <TouchableOpacity onPress={() => deleteContReportButton(__id)}>
-              <MaterialCommunityIcons
-                name="delete"
-                color={COLORS.red}
-                size={del_size}
-              />
-            </TouchableOpacity>
-          </View>
-        </View>
-      </>
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}>
+        <TouchableOpacity
+          onPress={() => editManpowerReportBtn(__id)}
+          style={{
+            backgroundColor: COLORS.green,
+            padding: 5,
+            right: 12,
+            borderRadius: 3,
+          }}>
+          <Image
+            source={icons.edit}
+            style={{width: 12, height: 12, tintColor: COLORS.white}}
+          />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => deleteContReportButton(__id)}
+          style={{backgroundColor: COLORS.red, padding: 5, borderRadius: 3}}>
+          <Image
+            source={icons.delete_icon}
+            style={{width: 12, height: 12, tintColor: COLORS.white}}
+          />
+        </TouchableOpacity>
+      </View>
     );
   };
 
@@ -1201,78 +1195,79 @@ const ManpowerUserContractors = ({ProList, Main_drp_pro_value, loading}) => {
     });
     const open = active == index;
     return (
-      <>
-        <TouchableOpacity
-          style={[
-            header,
-            {
-              width: '100%',
-              // width: SIZES.width * 0.70,
-              justifyContent: 'space-between',
-              alignSelf: 'center',
-            },
-          ]}
-          key={item._id}
-          onPress={() => {
-            toggleExpanded(item, index);
+      <View style={{marginVertical: 5}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            backgroundColor: COLORS.majorelle_blue_100,
           }}>
-          <View
+          <TouchableOpacity
             style={{
-              width: SIZES.width * 0.7,
-              justifyContent: 'center',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
             }}
-            activeOpacity={1}>
+            key={item._id}
+            onPress={() => {
+              toggleExpanded(item, index);
+            }}>
+            <Text>
+              {index + 1}
+              {'. '}
+            </Text>
             <Text
-              style={[
-                FONTS.body5,
-                {color: COLORS.black, letterSpacing: 1, textAlign: 'left'},
-              ]}>
+              style={{
+                ...FONTS.h4,
+                color: COLORS.darkGray,
+                textTransform: 'capitalize',
+              }}>
               {item.contractor_name}
             </Text>
-          </View>
-          <View style={{right: 68, top: 2}}>
+          </TouchableOpacity>
+
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <Pressable
               onPress={() => {
                 setContractorId(item._id);
                 filterCategoryByContId(item._id);
+              }}
+              style={{
+                right: 20,
+                backgroundColor: COLORS.majorelle_blue_800,
+                padding: 5,
+                borderRadius: 3,
               }}>
-              <MaterialIcons
-                name="add-box"
-                size={18}
-                color={COLORS.lightblue_600}
+              <Image
+                source={icons.plus}
+                style={{width: 12, height: 12, tintColor: COLORS.white}}
               />
             </Pressable>
+
+            <Editdeletebutton __id={item._id} />
           </View>
-          <View
-            style={{
-              justifyContent: 'space-between',
-              alignSelf: 'center',
-              alignItems: 'center',
-              left: -65,
-            }}>
-            <View
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <Editdeletebutton edit_size={15} del_size={18} __id={item._id} />
-            </View>
-          </View>
-        </TouchableOpacity>
+        </View>
         <View
           style={{
-            borderBottomWidth: item._id == con_item_id ? 1 : 0,
-            borderColor: item._id == con_item_id ? COLORS.lightblue_300 : null,
+            marginTop: item._id == con_item_id ? 5 : null,
+            backgroundColor: item._id == con_item_id ? COLORS.white : null,
+            padding: item._id == con_item_id ? 5 : null,
+            elevation: item._id == con_item_id ? 1 : null,
           }}>
           {open && item._id == con_item_id ? _body(item, index) : null}
         </View>
-      </>
+      </View>
     );
   };
 
   return (
     <View style={{marginTop: 5}}>
-      <Animated.View style={{transform: [{scale}]}}>
+      <Animated.View
+        style={{
+          transform: [{scale}],
+          flexDirection: 'row',
+          // justifyContent: 'space-between',
+        }}>
         <Pressable
           onPressIn={onPressIn}
           onPressOut={onPressOut}
@@ -1280,22 +1275,17 @@ const ManpowerUserContractors = ({ProList, Main_drp_pro_value, loading}) => {
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
-            marginBottom: -22,
-            paddingVertical: 2,
-            paddingHorizontal: 10,
-            borderWidth: 1,
-            width: SIZES.width * 0.72,
-            backgroundColor: COLORS.lightblue_500,
-            alignSelf: 'center',
-            borderRadius: 4,
-            borderColor: COLORS.lightblue_300,
+            paddingVertical: 3,
+            paddingHorizontal: SIZES.radius,
+            width: '60%',
+            backgroundColor: COLORS.majorelle_blue_700,
           }}>
           <View>
             <Text
               onPressIn={onPressIn}
               onPressOut={onPressOut}
               onPress={() => setConTeamTabCollapse(!conTeamTabCollapse)}
-              style={[FONTS.body4, {color: COLORS.white2}]}>
+              style={{...FONTS.h4, color: COLORS.white}}>
               Contractors
             </Text>
           </View>
@@ -1315,18 +1305,10 @@ const ManpowerUserContractors = ({ProList, Main_drp_pro_value, loading}) => {
             </TouchableOpacity>
           </View>
         </Pressable>
+        <View style={{left: 15}}>
+          {conTeamTabCollapse ? add_contractor() : null}
+        </View>
       </Animated.View>
-      <View
-        style={{
-          alignSelf: 'flex-end',
-          flexDirection: 'row',
-          right: SIZES.base,
-          bottom: SIZES.base * 0.5,
-          // top: 0
-        }}>
-        {/* button section adding contractor */}
-        {conTeamTabCollapse ? add_contractor() : null}
-      </View>
 
       {/* getting data from api and display on screen */}
       {conTeamTabCollapse && Report_list.length > 0 ? (
@@ -1352,13 +1334,10 @@ const ManpowerUserContractors = ({ProList, Main_drp_pro_value, loading}) => {
               horizontal={false}
               showsVerticalScrollIndicator={false}
               contentContainerStyle={{
-                borderWidth: 1,
-                // paddingBottom: 235,
-                // paddingBottom: 235,
-                borderColor: COLORS.lightblue_300,
-                marginHorizontal: 42,
+                // width: '70%',
+                padding: 10,
+                backgroundColor: COLORS.majorelle_blue_100,
               }}
-              // maxHeight={268}
               maxHeight={200}
               nestedScrollEnabled={true}
               renderItem={({item, index}) => _head(item, index)}

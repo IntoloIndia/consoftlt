@@ -214,6 +214,7 @@ const Login = ({navigation}) => {
               alignItems: 'center',
               marginVertical: SIZES.padding,
               borderRadius: SIZES.base,
+              backgroundColor: COLORS.majorelle_blue_900,
             }}
             onPress={userOnSubmit}
           />
@@ -379,6 +380,7 @@ const Login = ({navigation}) => {
               alignItems: 'center',
               marginTop: SIZES.padding,
               borderRadius: SIZES.base,
+              backgroundColor: COLORS.majorelle_blue_900,
             }}
             onPress={companyOnSubmit}
           />
@@ -431,7 +433,7 @@ const Login = ({navigation}) => {
           <TextButton
             label="Free Register Or Purchase"
             buttonContainerStyle={{
-              backgroundColor: COLORS.lightblue_900,
+              backgroundColor: COLORS.majorelle_blue_1000,
               paddingHorizontal: SIZES.radius * 3,
               paddingVertical: 5,
               borderRadius: 5,
@@ -566,7 +568,7 @@ const Login = ({navigation}) => {
 
   return (
     <LinearGradient
-      colors={[COLORS.lightblue_100, COLORS.lightblue_300]}
+      colors={[COLORS.white, COLORS.majorelle_blue_400]}
       style={{flex: 1}}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -579,19 +581,19 @@ const Login = ({navigation}) => {
             }}>
             <View
               style={{
-                marginBottom: 48,
+                marginBottom: 10,
                 alignItems: 'center',
               }}>
               <Image
-                source={images.consoft_new}
+                source={images.consoft_lt_logo}
                 resizeMode="contain"
                 style={{
-                  height: 100,
+                  height: 70,
                 }}
               />
               <View
                 style={{
-                  marginTop: SIZES.radius,
+                  marginTop: SIZES.padding,
                   height: 30,
                   justifyContent: 'center',
                 }}>
