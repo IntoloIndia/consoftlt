@@ -187,7 +187,6 @@ const UserRole = () => {
                 alignItems: 'center',
                 marginTop: SIZES.padding,
                 borderRadius: SIZES.base,
-                backgroundColor: COLORS.lightblue_700,
               }}
               onPress={roleId != '' ? onEditUserRole : submitUserRole}
             />
@@ -302,7 +301,7 @@ const UserRole = () => {
           marginHorizontal: SIZES.radius,
           marginBottom: SIZES.padding,
           borderRadius: SIZES.radius,
-          backgroundColor: COLORS.lightblue_700,
+          backgroundColor: COLORS.majorelle_blue_800,
           ...styles.shadow,
         }}
         onPress={() => {

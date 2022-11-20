@@ -372,7 +372,6 @@ const ProjectTeam = ({route}) => {
           marginHorizontal: SIZES.radius,
           marginBottom: SIZES.padding,
           borderRadius: SIZES.radius,
-          backgroundColor: COLORS.lightblue_700,
         }}
         onPress={() => {
           setRoleValue('');

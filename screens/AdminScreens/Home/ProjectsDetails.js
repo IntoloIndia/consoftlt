@@ -45,7 +45,7 @@ const ProjectsDetails = ({route}) => {
           style={{
             padding: 5,
             borderRadius: 20,
-            backgroundColor: COLORS.lightblue_100,
+            backgroundColor: COLORS.majorelle_blue_100,
           }}>
           <Image
             source={item.img}
@@ -53,7 +53,7 @@ const ProjectsDetails = ({route}) => {
             style={{
               height: 20,
               width: 20,
-              tintColor: COLORS.lightblue_800,
+              tintColor: COLORS.majorelle_blue_800,
             }}
           />
         </View>
@@ -120,7 +120,6 @@ const ProjectsDetails = ({route}) => {
           marginHorizontal: SIZES.radius,
           marginBottom: SIZES.padding,
           borderRadius: SIZES.radius,
-          backgroundColor: COLORS.lightblue_700,
           ...styles.shadow,
         }}
         onPress={() => setWorkModal(true)}

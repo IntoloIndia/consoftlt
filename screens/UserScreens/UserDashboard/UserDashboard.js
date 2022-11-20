@@ -9,20 +9,18 @@ import {
   RefreshControl,
   LogBox,
   Modal,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
 } from 'react-native';
-import { icons, COLORS, SIZES, FONTS, images } from '../../../constants';
-import { useSelector } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
-import { InProgressModal, DoneModal } from '../TaskModal';
+import {icons, COLORS, SIZES, FONTS, images} from '../../../constants';
+import {useSelector} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
+import {InProgressModal, DoneModal} from '../TaskModal';
 import {
   getCheckUserPresent,
   postUserAttendance,
 } from '../../../controller/UserAttendanceController.js';
 //saurabh
 import UserAssignWorks from './UserAssignWorks';
-
-
 
 const UserDashboard = () => {
   // refresh
@@ -76,7 +74,7 @@ const UserDashboard = () => {
       userData.company_id,
       userData._id,
     );
-    console.log('res',response)
+    console.log('res', response);
     if (response.status == 200) {
       setAttendanceModal(true);
     }
@@ -88,8 +86,6 @@ const UserDashboard = () => {
       CheckUserPresentStatus();
     }
   }, []);
-
-
 
   function renderAttendanceModal() {
     return (
@@ -110,7 +106,7 @@ const UserDashboard = () => {
                 borderRadius: 5,
                 backgroundColor: COLORS.white,
               }}>
-              <Text style={{ ...FONTS.h3, color: COLORS.darkGray }}>
+              <Text style={{...FONTS.h3, color: COLORS.darkGray}}>
                 Please, First Mark Your today's Attendance is "Compulsory"
                 Before Entering the Home Screen.
               </Text>
@@ -124,7 +120,7 @@ const UserDashboard = () => {
                   borderRadius: 5,
                 }}
                 onPress={() => onSubmitUserAttendance()}>
-                <Text style={{ ...FONTS.h3, color: COLORS.white }}>Present</Text>
+                <Text style={{...FONTS.h3, color: COLORS.white}}>Present</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -133,11 +129,10 @@ const UserDashboard = () => {
     );
   }
 
-
   return (
     <ScrollView
       contentContainerStyle={{
-        flex: 1
+        flex: 1,
       }}
       refreshControl={
         <RefreshControl
@@ -146,13 +141,12 @@ const UserDashboard = () => {
           refreshing={loading}
           onRefresh={loadMore}
         />
-      }
-    >
+      }>
       <UserAssignWorks loading={loading} />
       <View
         style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
+          flexDirection: 'row',
+          justifyContent: 'space-between',
           position: 'absolute',
           top: SIZES.height * 0.7,
           left: 0,
@@ -190,25 +184,24 @@ const UserDashboard = () => {
           />
         )} */}
 
-
         <TouchableOpacity
           style={{
             marginTop: SIZES.base,
             flexDirection: 'row',
             justifyContent: 'space-between',
             backgroundColor: COLORS.white,
-            width: "45%",
+            width: '45%',
             padding: 10,
             borderRadius: 5,
             ...styles.shadow,
           }}
           onPress={() => {
-            handleDoneTask()
+            handleDoneTask();
           }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Image source={icons.done} style={{ height: 22, width: 22 }} />
-            <Text style={{ ...FONTS.h4, color: COLORS.darkGray, left: 10 }}>
-              Done Tasks !
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Image source={icons.done} style={{height: 22, width: 22}} />
+            <Text style={{...FONTS.h4, color: COLORS.darkGray, left: 10}}>
+              Done Tasks
             </Text>
           </View>
         </TouchableOpacity>
@@ -218,7 +211,7 @@ const UserDashboard = () => {
             flexDirection: 'row',
             justifyContent: 'space-between',
             backgroundColor: COLORS.white,
-            width: "45%",
+            width: '45%',
             padding: 10,
             borderRadius: 5,
             ...styles.shadow,
@@ -226,17 +219,20 @@ const UserDashboard = () => {
           onPress={() => {
             // handleDoneTask()
             navigation.navigate('ViewReport');
-
           }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Image source={icons.report} style={{ height: 24, width: 24 }} />
-            <Text style={{ ...FONTS.h4, color: COLORS.darkGray, left: 10 }}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Image source={icons.report} style={{height: 24, width: 24}} />
+            <Text style={{...FONTS.h4, color: COLORS.darkGray, left: 10}}>
               View Reports
             </Text>
           </View>
         </TouchableOpacity>
         {doneModalnum && (
-          <DoneModal doneModal={doneModal} setdoneModal={setdoneModal} loading={loading} />
+          <DoneModal
+            doneModal={doneModal}
+            setdoneModal={setdoneModal}
+            loading={loading}
+          />
         )}
       </View>
       {renderAttendanceModal()}

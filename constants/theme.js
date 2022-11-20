@@ -3,6 +3,28 @@ const {width, height} = Dimensions.get('window');
 
 export const COLORS = {
   //
+  majorelle_blue_50: '#F7F6FD',
+  majorelle_blue_100: '#ECEAFB',
+  majorelle_blue_200: '#D8D4F7',
+  majorelle_blue_300: '#C5BFF2',
+  majorelle_blue_400: '#B2AAEE',
+  majorelle_blue_500: '#9F95EA',
+  majorelle_blue_600: '#8B7FE6',
+  majorelle_blue_700: '#786AE2',
+  majorelle_blue_800: '#6150DC',
+  majorelle_blue_900: '#513FD9',
+  majorelle_blue_1000: '#3E2AD5',
+  majorelle_blue_1100: '#3826C0',
+  majorelle_blue_1200: '#3222AA',
+  majorelle_blue_1300: '#2B1D95',
+  majorelle_blue_1400: '#251980',
+  majorelle_blue_1500: '#1F156A',
+  majorelle_blue_1600: '#191155',
+  majorelle_blue_1700: '#130D40',
+  majorelle_blue_1800: '#060415',
+  majorelle_blue_1900: '#000000',
+
+  //
   lightblue_50: '#f0f9ff',
   lightblue_100: '#e0f2fe',
   lightblue_200: '#bae6fd',
