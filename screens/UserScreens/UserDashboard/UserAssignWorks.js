@@ -9,6 +9,7 @@ import {
   LayoutAnimation,
   RefreshControl,
   ScrollView,
+  TouchableHighlight,
   Pressable,
 } from 'react-native';
 import {SIZES, COLORS, FONTS, icons, images} from '../../../constants';
@@ -31,7 +32,7 @@ import {
   submitWork,
   submitComment,
 } from '../../../controller/UserAssignWorkController';
-
+import Voice from '@react-native-community/voice';
 Entypo.loadFont();
 
 const UserAssignWorks = ({loading}) => {
@@ -58,7 +59,6 @@ const UserAssignWorks = ({loading}) => {
   const [commentCollapse, setCommentCollapse] = useState(false);
   const [commentStatus, setCommentStatus] = useState(false);
 
-  
   const [pitch, setPitch] = useState('');
   const [error, setError] = useState('');
   const [end, setEnd] = useState(false);
@@ -67,7 +67,7 @@ const UserAssignWorks = ({loading}) => {
   // const [started, setStarted] = useState('');
   const [results, setResults] = useState([]);
   const [partialResults, setPartialResults] = useState([]);
-  
+
   useEffect(() => {
     function onSpeechStart(e) {
       console.log('onSpeechStart: ');
@@ -79,10 +79,8 @@ const UserAssignWorks = ({loading}) => {
 
       e.value.map(ele => {
         setResults(ele);
-
       });
       Voice.removeAllListeners();
-
     }
 
     // function onSpeechPartialResults(e) {
@@ -102,7 +100,6 @@ const UserAssignWorks = ({loading}) => {
     Voice.onSpeechResults = onSpeechResults;
     // Voice.onSpeechPartialResults = onSpeechPartialResults;
     // Voice.onSpeechVolumeChanged = onSpeechVolumeChanged;
-    
 
     return () => {
       Voice.removeAllListeners();
@@ -111,8 +108,6 @@ const UserAssignWorks = ({loading}) => {
   }, []);
 
   const _startRecognizing = async () => {
-
-
     try {
       // setPitch('');
       // setError('');
@@ -199,9 +194,8 @@ const UserAssignWorks = ({loading}) => {
   // submit comment
   const submitComments = async work_id => {
     const submit_data = {
-
-      comment: textMsg,
-
+      // comment: textMsg,
+      comment: results,
     };
 
     const data = await submitComment(submit_data, work_id);
@@ -397,7 +391,6 @@ const UserAssignWorks = ({loading}) => {
           justifyContent: 'space-between',
           alignItems: 'center',
         }}>
-
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <TouchableOpacity
             style={{
@@ -437,7 +430,6 @@ const UserAssignWorks = ({loading}) => {
             }}
             onPress={() => __handle_increase_counter(item, index)}>
             <Entypo name="plus" size={25} color={COLORS.majorelle_blue_800} />
-
           </TouchableOpacity>
         </View>
         <TouchableOpacity
@@ -495,12 +487,10 @@ const UserAssignWorks = ({loading}) => {
                 justifyContent: 'space-between',
                 marginHorizontal: 2,
               }}>
-
               <Text style={{...FONTS.h5, color: COLORS.darkGray}}>
                 Targate Date: {item.exp_completion_date}
               </Text>
               <Text style={{...FONTS.h5, color: COLORS.darkGray}}>
-
                 Targate Time: {item.exp_completion_time}
               </Text>
             </View>
@@ -510,12 +500,10 @@ const UserAssignWorks = ({loading}) => {
                 justifyContent: 'space-between',
                 marginHorizontal: 2,
               }}>
-
               <Text style={{...FONTS.h5, color: COLORS.darkGray}}>
                 Assign Date: {item.assign_date}
               </Text>
               <Text style={{...FONTS.h5, color: COLORS.darkGray}}>
-
                 Assign Time: {item.assign_time}
               </Text>
             </View>
@@ -574,36 +562,62 @@ const UserAssignWorks = ({loading}) => {
                     multiline={true}
                     placeholder="Comment section..."
                     placeholderTextColor={COLORS.gray}
-
-                    onChangeText={text => setTextMsg(text)}
-                    value={textMsg}
-                  />
-                  <TouchableOpacity
-                    style={{
-                      alignItems: 'flex-end',
-                      paddingHorizontal: 4,
-                      // marginTop: SIZES.base,
-                      // backgroundColor: "red",
-                      marginLeft: SIZES.body1 * 4,
-                      padding: 2,
+                    onChangeText={text =>{
+                      setResults(text);
+                      setTextMsg(text);
                     }}
-                    onPress={() => submitComments(item._id)}>
-                    {item.work_status == false ? (
-                      <Text
-                        style={{
-                          color: COLORS.lightGray2,
+                    value={results}
+                  />
+                  <TouchableHighlight
+                    onPress={_startRecognizing}
+                    style={{top: 14, left: 12, width: '30%'}}>
+                    <Image
+                      style={styles1.button}
+                      source={{
+                        uri: 'https://raw.githubusercontent.com/AboutReact/sampleresource/master/microphone.png',
+                      }}
+                    />
+                  </TouchableHighlight>
 
-                          backgroundColor: COLORS.majorelle_blue_800,
-                          paddingHorizontal: 5,
-                          paddingVertical: 3,
-                          elevation: 8,
-                          borderRadius: 3,
-                        }}>
-                        Submit comment
-                      </Text>
-                    ) : null}
-                  </TouchableOpacity>
+                  {started == true ? (
+                    <TouchableHighlight
+                      onPress={_stopRecognizing}
+                      style={{
+                        width: '30%',
+                        alignSelf: 'center',
+                        marginBottom: 2,
+                        alignItems: 'center',
+                        backgroundColor: 'red',
+                      }}>
+                      <Text style={styles.action}>Stop</Text>
+                    </TouchableHighlight>
+                  ) : (
+                    <TouchableOpacity
+                      style={{
+                        alignItems: 'flex-end',
+                        paddingHorizontal: 4,
+                        // marginTop: SIZES.base,
+                        // backgroundColor: "red",
+                        marginLeft: SIZES.body1 * 4,
+                        padding: 2,
+                      }}
+                      onPress={() => submitComments(item._id)}>
+                      {item.work_status == false ? (
+                        <Text
+                          style={{
+                            color: COLORS.lightGray2,
 
+                            backgroundColor: COLORS.majorelle_blue_800,
+                            paddingHorizontal: 5,
+                            paddingVertical: 3,
+                            elevation: 8,
+                            borderRadius: 3,
+                          }}>
+                          Submit comment
+                        </Text>
+                      ) : null}
+                    </TouchableOpacity>
+                  )}
                 </View>
               ) : null
             ) : null}
@@ -674,7 +688,6 @@ const UserAssignWorks = ({loading}) => {
             onPressIn={onPressIn}
             onPressOut={onPressOut}
             isExpanded={false}
-
             style={
               {
                 // borderWidth: 1,
@@ -688,7 +701,6 @@ const UserAssignWorks = ({loading}) => {
                 // bottom: 14,
               }
             }
-
             // onToggle={(isExpanded) => {
             //   setIsExpand(!isExpand);
             //   // setIsExpandId(isExpanded);

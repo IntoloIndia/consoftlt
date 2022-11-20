@@ -7,6 +7,7 @@ import {
   FlatList,
   Image,
   ImageBackground,
+  StyleSheet
 } from 'react-native';
 import {icons, COLORS, SIZES, FONTS, dummyData} from '../../../constants';
 import {get_completed_task} from '../UserReports/ReportApi.js';
@@ -61,13 +62,14 @@ const DoneModal = ({doneModal, setdoneModal, loading}) => {
     );
 
   return (
-    <Modal animationType="slide" transparent={true} visible={doneModal}>
+    // <Modal animationType="slide" transparent={true} visible={doneModal}>
       <View
         style={{
           flex: 1,
           alignItems: 'center',
           justifyContent: 'flex-end',
           backgroundColor: COLORS.transparentBlack6,
+     
         }}>
         <View
           style={{
@@ -76,8 +78,8 @@ const DoneModal = ({doneModal, setdoneModal, loading}) => {
             height: '80%',
             padding: 20,
             backgroundColor: COLORS.white,
-            borderTopLeftRadius: 5,
-            borderTopRightRadius: 5,
+            borderRadius:5,
+            ...styles.shadow,
           }}>
           <View
             style={{
@@ -95,7 +97,7 @@ const DoneModal = ({doneModal, setdoneModal, loading}) => {
                 padding: 2,
                 elevation: 20,
               }}>
-              <TouchableOpacity onPress={() => setdoneModal(false)}>
+              {/* <TouchableOpacity onPress={() => setdoneModal(false)}>
                 <Image
                   source={icons.cross}
                   style={{
@@ -104,7 +106,7 @@ const DoneModal = ({doneModal, setdoneModal, loading}) => {
                     tintColor: COLORS.rose_600,
                   }}
                 />
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </ImageBackground>
           </View>
 
@@ -119,8 +121,19 @@ const DoneModal = ({doneModal, setdoneModal, loading}) => {
           />
         </View>
       </View>
-    </Modal>
+    //  </Modal> 
   );
 };
-
+const styles = StyleSheet.create({
+  shadow: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4.65,
+    elevation: 8,
+  },
+});
 export default DoneModal;

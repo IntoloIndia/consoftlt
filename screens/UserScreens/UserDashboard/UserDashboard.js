@@ -15,6 +15,7 @@ import {icons, COLORS, SIZES, FONTS, images} from '../../../constants';
 import {useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {InProgressModal, DoneModal} from '../TaskModal';
+import Entypo from 'react-native-vector-icons/Entypo';
 import {
   getCheckUserPresent,
   postUserAttendance,
@@ -145,15 +146,16 @@ const UserDashboard = () => {
       <UserAssignWorks loading={loading} />
       <View
         style={{
-          flexDirection: 'row',
+          // flexDirection: 'row',
+          flex: 1,
           justifyContent: 'space-between',
-          position: 'absolute',
-          top: SIZES.height * 0.7,
-          left: 0,
-          right: 0,
+          // position: 'absolute',
+          // top: SIZES.height * 0.7,
+          // left: 0,
+          // right: 0,
           // bottom:0,
-          marginHorizontal: SIZES.radius,
-          paddingHorizontal: SIZES.radius,
+          // marginHorizontal: SIZES.radius,
+          // paddingHorizontal: SIZES.radius,
           paddingVertical: SIZES.radius,
           borderRadius: SIZES.base,
           // backgroundColor: COLORS.lightblue_500,
@@ -184,34 +186,52 @@ const UserDashboard = () => {
           />
         )} */}
 
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={{
-            marginTop: SIZES.base,
+            
             flexDirection: 'row',
             justifyContent: 'space-between',
-            backgroundColor: COLORS.white,
-            width: '45%',
-            padding: 10,
-            borderRadius: 5,
-            ...styles.shadow,
+            
+            
+            width: '95%',
+            height:'80%',
+          
+  
+
           }}
           onPress={() => {
             handleDoneTask();
+          }}>  */}
+        <View
+          style={{
+            flex: 1,
+            marginTop: SIZES.base * 8,
+            ...styles.shadow,
+            padding: 10,
+            alignSelf: 'center',
+            borderRadius: 5,
+            flexDirection: 'row',
+            alignItems: 'center',
           }}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Image source={icons.done} style={{height: 22, width: 22}} />
+          {/* <Image source={icons.done} style={{height: 22, width: 22}} />
             <Text style={{...FONTS.h4, color: COLORS.darkGray, left: 10}}>
               Done Tasks
-            </Text>
-          </View>
-        </TouchableOpacity>
+            </Text> */}
+          <DoneModal
+            doneModal={doneModal}
+            setdoneModal={setdoneModal}
+            loading={loading}
+          />
+        </View>
+        {/* </TouchableOpacity> */}
         <TouchableOpacity
           style={{
             marginTop: SIZES.base,
             flexDirection: 'row',
             justifyContent: 'space-between',
+            alignSelf: 'center',
             backgroundColor: COLORS.white,
-            width: '45%',
+            width: '95%',
             padding: 10,
             borderRadius: 5,
             ...styles.shadow,
@@ -221,19 +241,22 @@ const UserDashboard = () => {
             navigation.navigate('ViewReport');
           }}>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Image source={icons.report} style={{height: 24, width: 24}} />
-            <Text style={{...FONTS.h4, color: COLORS.darkGray, left: 10}}>
+            <Image source={icons.report} style={{height: 26, width: 26}} />
+            <Text style={{...FONTS.h3, color: COLORS.darkGray, left: 15}}>
               View Reports
             </Text>
           </View>
+          <View>
+            <Entypo name="chevron-right" size={25} color={COLORS.black} />
+          </View>
         </TouchableOpacity>
-        {doneModalnum && (
+        {/* {doneModalnum && (
           <DoneModal
             doneModal={doneModal}
             setdoneModal={setdoneModal}
             loading={loading}
           />
-        )}
+        )} */}
       </View>
       {renderAttendanceModal()}
     </ScrollView>

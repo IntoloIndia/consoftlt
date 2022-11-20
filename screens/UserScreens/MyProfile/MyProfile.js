@@ -891,7 +891,7 @@ const MyProfile = () => {
       {renderModal()}
       {renderUserAttendance()}
 
-      <ProgressBar progress={'25%'}/>
+      {/* <ProgressBar progress={'25%'}/> */}
     </ScrollView>
   );
 };
