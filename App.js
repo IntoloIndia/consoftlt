@@ -29,7 +29,9 @@ import {
 } from './screens/AdminScreens';
 
 import * as eva from '@eva-design/eva';
+
 import {ApplicationProvider, Layout, Text} from '@ui-kitten/components';
+
 import {
   Profile,
   UserEndVoucher,
@@ -38,6 +40,12 @@ import {
   MyProfile,
   ViewReport,
 } from './screens/UserScreens';
+
+import {LogBox} from 'react-native';
+
+LogBox.ignoreAllLogs();
+LogBox.ignoreLogs([`new NativeEventEmitter()`]);
+
 
 const Stack = createStackNavigator();
 

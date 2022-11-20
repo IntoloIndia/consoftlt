@@ -15,6 +15,7 @@ import {SIZES, COLORS, FONTS, icons, images} from '../../../constants';
 import {AccordionList} from 'accordion-collapse-react-native';
 import {TextInput} from 'react-native-paper';
 import {Divider, IndexPath} from '@ui-kitten/components';
+
 import {
   CustomToast,
   DeleteConfirmationToast,
@@ -24,6 +25,7 @@ import styles from '../TaskModal/css/InProgressModalStyle.js';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {useSelector, useDispatch} from 'react-redux';
 // import Config from '../../../config';
+
 import {
   getAssignWorks,
   submitWork,
@@ -31,6 +33,7 @@ import {
 } from '../../../controller/UserAssignWorkController';
 
 Entypo.loadFont();
+
 const UserAssignWorks = ({loading}) => {
   // const dispatch = useDispatch();
   const [assignWorksData, setAssignWorksData] = React.useState([]);
@@ -55,6 +58,7 @@ const UserAssignWorks = ({loading}) => {
   const [commentCollapse, setCommentCollapse] = useState(false);
   const [commentStatus, setCommentStatus] = useState(false);
 
+
   const userData = useSelector(state => state.user);
   // console.log(userData._id)
   const onPressIn = () => {
@@ -63,6 +67,7 @@ const UserAssignWorks = ({loading}) => {
       useNativeDriver: true,
     }).start();
   };
+
   const onPressOut = () => {
     setTimeout(() => {
       Animated.spring(animation, {
@@ -91,7 +96,9 @@ const UserAssignWorks = ({loading}) => {
   // submit comment
   const submitComments = async work_id => {
     const submit_data = {
+
       comment: textMsg,
+
     };
 
     const data = await submitComment(submit_data, work_id);
@@ -190,6 +197,7 @@ const UserAssignWorks = ({loading}) => {
           paddingHorizontal: 10,
           elevation: 1,
           paddingVertical: 5,
+
           backgroundColor: COLORS.majorelle_blue_800,
         }}>
         {/* <View
@@ -201,6 +209,7 @@ const UserAssignWorks = ({loading}) => {
             marginBottom: 3,
           }}></View> */}
         <ProgressBar progress={`${item.work_percent}%`} />
+
         <View
           style={{
             flexDirection: 'row',
@@ -285,6 +294,7 @@ const UserAssignWorks = ({loading}) => {
           justifyContent: 'space-between',
           alignItems: 'center',
         }}>
+
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <TouchableOpacity
             style={{
@@ -324,6 +334,7 @@ const UserAssignWorks = ({loading}) => {
             }}
             onPress={() => __handle_increase_counter(item, index)}>
             <Entypo name="plus" size={25} color={COLORS.majorelle_blue_800} />
+
           </TouchableOpacity>
         </View>
         <TouchableOpacity
@@ -381,10 +392,12 @@ const UserAssignWorks = ({loading}) => {
                 justifyContent: 'space-between',
                 marginHorizontal: 2,
               }}>
+
               <Text style={{...FONTS.h5, color: COLORS.darkGray}}>
                 Targate Date: {item.exp_completion_date}
               </Text>
               <Text style={{...FONTS.h5, color: COLORS.darkGray}}>
+
                 Targate Time: {item.exp_completion_time}
               </Text>
             </View>
@@ -394,10 +407,12 @@ const UserAssignWorks = ({loading}) => {
                 justifyContent: 'space-between',
                 marginHorizontal: 2,
               }}>
+
               <Text style={{...FONTS.h5, color: COLORS.darkGray}}>
                 Assign Date: {item.assign_date}
               </Text>
               <Text style={{...FONTS.h5, color: COLORS.darkGray}}>
+
                 Assign Time: {item.assign_time}
               </Text>
             </View>
@@ -422,9 +437,11 @@ const UserAssignWorks = ({loading}) => {
                     backgroundColor: COLORS.majorelle_blue_800,
                     paddingVertical: SIZES.base * 0.3,
                     alignContent: 'center',
+
                     // borderColor: COLORS.white,
                     elevation: 10,
                     // borderWidth: 1,
+
                     borderRadius: 2,
                     paddingHorizontal: SIZES.radius * 0.5,
                   }}
@@ -454,6 +471,7 @@ const UserAssignWorks = ({loading}) => {
                     multiline={true}
                     placeholder="Comment section..."
                     placeholderTextColor={COLORS.gray}
+
                     onChangeText={text => setTextMsg(text)}
                     value={textMsg}
                   />
@@ -482,6 +500,7 @@ const UserAssignWorks = ({loading}) => {
                       </Text>
                     ) : null}
                   </TouchableOpacity>
+
                 </View>
               ) : null
             ) : null}
@@ -552,6 +571,7 @@ const UserAssignWorks = ({loading}) => {
             onPressIn={onPressIn}
             onPressOut={onPressOut}
             isExpanded={false}
+
             style={
               {
                 // borderWidth: 1,
@@ -565,6 +585,7 @@ const UserAssignWorks = ({loading}) => {
                 // bottom: 14,
               }
             }
+
             // onToggle={(isExpanded) => {
             //   setIsExpand(!isExpand);
             //   // setIsExpandId(isExpanded);
@@ -612,6 +633,10 @@ const styles1 = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 4.65,
     elevation: 8,
+  },
+  button: {
+    width: 21,
+    height: 20,
   },
 });
 export default UserAssignWorks;
