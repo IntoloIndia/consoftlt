@@ -2302,9 +2302,9 @@ const ViewReport = () => {
                 />
               </View>
             </View>
-            {/* <View style={{ flex: 1 }}>
+            <View style={{ flex: 1 }}>
                             {trackVerificationProcess()}
-                        </View> */}
+                        </View>
           </View>
         </View>
       </Modal>
