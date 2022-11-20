@@ -9,6 +9,7 @@ import {
   LayoutAnimation,
   RefreshControl,
   ScrollView,
+  TouchableHighlight,
   Pressable,
 } from 'react-native';
 import {SIZES, COLORS, FONTS, icons, images} from '../../../constants';
@@ -31,7 +32,7 @@ import {
   submitWork,
   submitComment,
 } from '../../../controller/UserAssignWorkController';
-
+import Voice from '@react-native-community/voice';
 Entypo.loadFont();
 
 const UserAssignWorks = ({loading}) => {
@@ -58,6 +59,103 @@ const UserAssignWorks = ({loading}) => {
   const [commentCollapse, setCommentCollapse] = useState(false);
   const [commentStatus, setCommentStatus] = useState(false);
 
+  const [pitch, setPitch] = useState('');
+  const [error, setError] = useState('');
+  const [end, setEnd] = useState(false);
+  // const [end, setEnd] = useState('');
+  const [started, setStarted] = useState(false);
+  // const [started, setStarted] = useState('');
+  const [results, setResults] = useState([]);
+  const [partialResults, setPartialResults] = useState([]);
+
+  useEffect(() => {
+    function onSpeechStart(e) {
+      console.log('onSpeechStart: ');
+      setStarted(true);
+    }
+
+    function onSpeechResults(e) {
+      console.log('onSpeechResults: ', e);
+
+      e.value.map(ele => {
+        setResults(ele);
+      });
+      Voice.removeAllListeners();
+    }
+
+    // function onSpeechPartialResults(e) {
+    //   console.log('onSpeechPartialResults: ', e);
+    //   setPartialResults(e.value);
+    //   Voice.removeAllListeners();
+    // }
+
+    function onSpeechVolumeChanged(e) {
+      // console.log('onSpeechVolumeChanged: ', e);
+      setPitch(e.value);
+    }
+
+    Voice.onSpeechStart = onSpeechStart;
+    // Voice.onSpeechEnd = onSpeechEnd;
+    // Voice.onSpeechError = onSpeechError;
+    Voice.onSpeechResults = onSpeechResults;
+    // Voice.onSpeechPartialResults = onSpeechPartialResults;
+    // Voice.onSpeechVolumeChanged = onSpeechVolumeChanged;
+
+    return () => {
+      Voice.removeAllListeners();
+      // Voice.destroy().then(Voice.removeAllListeners);
+    };
+  }, []);
+
+  const _startRecognizing = async () => {
+    try {
+      // setPitch('');
+      // setError('');
+      setStarted(true);
+      setResults([]);
+      // setPartialResults([]);
+      // setEnd('');
+
+      await Voice.start('en-US');
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const _stopRecognizing = async () => {
+    console.log('STOP--');
+
+    try {
+      setStarted(false);
+      Voice.removeAllListeners();
+      await Voice.stop();
+    } catch (e) {
+      console.error(e);
+    }
+  };
+  const _cancelRecognizing = async () => {
+    //Cancels the speech recognition
+    try {
+      await Voice.cancel();
+    } catch (e) {
+      console.error(e);
+    }
+    error(e);
+  };
+  const _destroyRecognizer = async () => {
+    //Destroys the current SpeechRecognizer instance
+    try {
+      await Voice.destroy();
+    } catch (e) {
+      console.error(e);
+    }
+    setPitch('');
+    setError('');
+    setStarted('');
+    setResults([]);
+    setPartialResults([]);
+    setEnd('');
+  };
 
   const userData = useSelector(state => state.user);
   // console.log(userData._id)
@@ -96,9 +194,8 @@ const UserAssignWorks = ({loading}) => {
   // submit comment
   const submitComments = async work_id => {
     const submit_data = {
-
-      comment: textMsg,
-
+      // comment: textMsg,
+      comment: results,
     };
 
     const data = await submitComment(submit_data, work_id);
@@ -294,7 +391,6 @@ const UserAssignWorks = ({loading}) => {
           justifyContent: 'space-between',
           alignItems: 'center',
         }}>
-
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <TouchableOpacity
             style={{
@@ -334,7 +430,6 @@ const UserAssignWorks = ({loading}) => {
             }}
             onPress={() => __handle_increase_counter(item, index)}>
             <Entypo name="plus" size={25} color={COLORS.majorelle_blue_800} />
-
           </TouchableOpacity>
         </View>
         <TouchableOpacity
@@ -392,12 +487,10 @@ const UserAssignWorks = ({loading}) => {
                 justifyContent: 'space-between',
                 marginHorizontal: 2,
               }}>
-
               <Text style={{...FONTS.h5, color: COLORS.darkGray}}>
                 Targate Date: {item.exp_completion_date}
               </Text>
               <Text style={{...FONTS.h5, color: COLORS.darkGray}}>
-
                 Targate Time: {item.exp_completion_time}
               </Text>
             </View>
@@ -407,12 +500,10 @@ const UserAssignWorks = ({loading}) => {
                 justifyContent: 'space-between',
                 marginHorizontal: 2,
               }}>
-
               <Text style={{...FONTS.h5, color: COLORS.darkGray}}>
                 Assign Date: {item.assign_date}
               </Text>
               <Text style={{...FONTS.h5, color: COLORS.darkGray}}>
-
                 Assign Time: {item.assign_time}
               </Text>
             </View>
@@ -471,36 +562,62 @@ const UserAssignWorks = ({loading}) => {
                     multiline={true}
                     placeholder="Comment section..."
                     placeholderTextColor={COLORS.gray}
-
-                    onChangeText={text => setTextMsg(text)}
-                    value={textMsg}
-                  />
-                  <TouchableOpacity
-                    style={{
-                      alignItems: 'flex-end',
-                      paddingHorizontal: 4,
-                      // marginTop: SIZES.base,
-                      // backgroundColor: "red",
-                      marginLeft: SIZES.body1 * 4,
-                      padding: 2,
+                    onChangeText={text =>{
+                      setResults(text);
+                      setTextMsg(text);
                     }}
-                    onPress={() => submitComments(item._id)}>
-                    {item.work_status == false ? (
-                      <Text
-                        style={{
-                          color: COLORS.lightGray2,
+                    value={results}
+                  />
+                  <TouchableHighlight
+                    onPress={_startRecognizing}
+                    style={{top: 14, left: 12, width: '30%'}}>
+                    <Image
+                      style={styles1.button}
+                      source={{
+                        uri: 'https://raw.githubusercontent.com/AboutReact/sampleresource/master/microphone.png',
+                      }}
+                    />
+                  </TouchableHighlight>
 
-                          backgroundColor: COLORS.majorelle_blue_800,
-                          paddingHorizontal: 5,
-                          paddingVertical: 3,
-                          elevation: 8,
-                          borderRadius: 3,
-                        }}>
-                        Submit comment
-                      </Text>
-                    ) : null}
-                  </TouchableOpacity>
+                  {started == true ? (
+                    <TouchableHighlight
+                      onPress={_stopRecognizing}
+                      style={{
+                        width: '30%',
+                        alignSelf: 'center',
+                        marginBottom: 2,
+                        alignItems: 'center',
+                        backgroundColor: 'red',
+                      }}>
+                      <Text style={styles.action}>Stop</Text>
+                    </TouchableHighlight>
+                  ) : (
+                    <TouchableOpacity
+                      style={{
+                        alignItems: 'flex-end',
+                        paddingHorizontal: 4,
+                        // marginTop: SIZES.base,
+                        // backgroundColor: "red",
+                        marginLeft: SIZES.body1 * 4,
+                        padding: 2,
+                      }}
+                      onPress={() => submitComments(item._id)}>
+                      {item.work_status == false ? (
+                        <Text
+                          style={{
+                            color: COLORS.lightGray2,
 
+                            backgroundColor: COLORS.majorelle_blue_800,
+                            paddingHorizontal: 5,
+                            paddingVertical: 3,
+                            elevation: 8,
+                            borderRadius: 3,
+                          }}>
+                          Submit comment
+                        </Text>
+                      ) : null}
+                    </TouchableOpacity>
+                  )}
                 </View>
               ) : null
             ) : null}
@@ -571,7 +688,6 @@ const UserAssignWorks = ({loading}) => {
             onPressIn={onPressIn}
             onPressOut={onPressOut}
             isExpanded={false}
-
             style={
               {
                 // borderWidth: 1,
@@ -585,7 +701,6 @@ const UserAssignWorks = ({loading}) => {
                 // bottom: 14,
               }
             }
-
             // onToggle={(isExpanded) => {
             //   setIsExpand(!isExpand);
             //   // setIsExpandId(isExpanded);
