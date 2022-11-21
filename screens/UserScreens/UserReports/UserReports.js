@@ -298,9 +298,9 @@ const UserReports = ({route}) => {
               {/* <View style={{ marginVertical: 5 }}>
               <Quality />
             </View> */}
-              {/* <View style={{ marginVertical: 5 }}>
+              <View style={{ marginVertical: 5 }}>
               <TAndP Main_drp_pro_value={value} loading={loading} />
-            </View> */}
+            </View>
 
               {/* <TouchableOpacity
                 style={{
