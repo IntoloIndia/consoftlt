@@ -15,9 +15,9 @@ const getItem = async () => {
   }
 };
 
-const getStockEntry = async () => {
+const getStockEntry = async company_id => {
   try {
-    const res = await fetch(API_URL + 'stock-entry', {
+    const res = await fetch(API_URL + 'stock-entry/' + company_id, {
       method: 'get',
       headers: {
         'Content-Type': 'application/json',

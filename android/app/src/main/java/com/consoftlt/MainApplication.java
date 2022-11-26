@@ -12,6 +12,8 @@ import com.facebook.soloader.SoLoader;
 import com.consoftlt.newarchitecture.MainApplicationReactNativeHost;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import com.wenkesj.voice.VoicePackage;
+import com.facebook.react.bridge.ReactMethod;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -26,6 +28,8 @@ public class MainApplication extends Application implements ReactApplication {
         protected List<ReactPackage> getPackages() {
           @SuppressWarnings("UnnecessaryLocalVariable")
           List<ReactPackage> packages = new PackageList(this).getPackages();
+          // packages.add(new MyReactNativePackage());
+          // packages.add(new VoicePackage());
           // Packages that cannot be autolinked yet can be added manually here, for example:
           // packages.add(new MyReactNativePackage());
           return packages;
@@ -35,7 +39,12 @@ public class MainApplication extends Application implements ReactApplication {
         protected String getJSMainModuleName() {
           return "index";
         }
+      
       };
+    
+
+  
+
 
   private final ReactNativeHost mNewArchitectureNativeHost =
       new MainApplicationReactNativeHost(this);
@@ -49,6 +58,17 @@ public class MainApplication extends Application implements ReactApplication {
     }
   }
 
+  // Required for rn built in EventEmitter Calls.
+    @ReactMethod
+    public void addListener(String eventName) {
+
+    }
+
+    @ReactMethod
+    public void removeListeners(Integer count) {
+
+    }
+    
   @Override
   public void onCreate() {
     super.onCreate();
@@ -57,6 +77,8 @@ public class MainApplication extends Application implements ReactApplication {
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
   }
+
+
 
   /**
    * Loads Flipper in React Native templates. Call this in the onCreate method with something like

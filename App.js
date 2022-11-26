@@ -26,10 +26,14 @@ import {
   ReportSettings,
   Boq,
   CompanyTeam,
+  Items,
+  ManageStock,
 } from './screens/AdminScreens';
 
 import * as eva from '@eva-design/eva';
+
 import {ApplicationProvider, Layout, Text} from '@ui-kitten/components';
+
 import {
   Profile,
   UserEndVoucher,
@@ -38,6 +42,11 @@ import {
   MyProfile,
   ViewReport,
 } from './screens/UserScreens';
+
+import {LogBox} from 'react-native';
+
+LogBox.ignoreAllLogs();
+LogBox.ignoreLogs([`new NativeEventEmitter()`]);
 
 const Stack = createStackNavigator();
 
@@ -86,6 +95,10 @@ const App = () => {
           <Stack.Screen name="Boq" component={Boq} />
           <Stack.Screen name="CategoryandType" component={CategoryandType} />
           <Stack.Screen name="CompanyTeam" component={CompanyTeam} />
+
+          <Stack.Screen name="items" component={Items} />
+          <Stack.Screen name="ManageStock" component={ManageStock} />
+
           {/* user */}
           <Stack.Screen name="UserDashboard" component={user_tabs} />
           <Stack.Screen name="Profile" component={Profile} />

@@ -9,12 +9,14 @@ import {
   LayoutAnimation,
   RefreshControl,
   ScrollView,
+  TouchableHighlight,
   Pressable,
 } from 'react-native';
 import {SIZES, COLORS, FONTS, icons, images} from '../../../constants';
 import {AccordionList} from 'accordion-collapse-react-native';
 import {TextInput} from 'react-native-paper';
 import {Divider, IndexPath} from '@ui-kitten/components';
+
 import {
   CustomToast,
   DeleteConfirmationToast,
@@ -24,13 +26,15 @@ import styles from '../TaskModal/css/InProgressModalStyle.js';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {useSelector, useDispatch} from 'react-redux';
 // import Config from '../../../config';
+
 import {
   getAssignWorks,
   submitWork,
   submitComment,
 } from '../../../controller/UserAssignWorkController';
-
+import Voice from '@react-native-community/voice';
 Entypo.loadFont();
+
 const UserAssignWorks = ({loading}) => {
   // const dispatch = useDispatch();
   const [assignWorksData, setAssignWorksData] = React.useState([]);
@@ -55,6 +59,104 @@ const UserAssignWorks = ({loading}) => {
   const [commentCollapse, setCommentCollapse] = useState(false);
   const [commentStatus, setCommentStatus] = useState(false);
 
+  const [pitch, setPitch] = useState('');
+  const [error, setError] = useState('');
+  const [end, setEnd] = useState(false);
+  // const [end, setEnd] = useState('');
+  const [started, setStarted] = useState(false);
+  // const [started, setStarted] = useState('');
+  const [results, setResults] = useState([]);
+  const [partialResults, setPartialResults] = useState([]);
+
+  useEffect(() => {
+    function onSpeechStart(e) {
+      console.log('onSpeechStart: ');
+      setStarted(true);
+    }
+
+    function onSpeechResults(e) {
+      console.log('onSpeechResults: ', e);
+
+      e.value.map(ele => {
+        setResults(ele);
+      });
+      Voice.removeAllListeners();
+    }
+
+    // function onSpeechPartialResults(e) {
+    //   console.log('onSpeechPartialResults: ', e);
+    //   setPartialResults(e.value);
+    //   Voice.removeAllListeners();
+    // }
+
+    function onSpeechVolumeChanged(e) {
+      // console.log('onSpeechVolumeChanged: ', e);
+      setPitch(e.value);
+    }
+
+    Voice.onSpeechStart = onSpeechStart;
+    // Voice.onSpeechEnd = onSpeechEnd;
+    // Voice.onSpeechError = onSpeechError;
+    Voice.onSpeechResults = onSpeechResults;
+    // Voice.onSpeechPartialResults = onSpeechPartialResults;
+    // Voice.onSpeechVolumeChanged = onSpeechVolumeChanged;
+
+    return () => {
+      Voice.removeAllListeners();
+      // Voice.destroy().then(Voice.removeAllListeners);
+    };
+  }, []);
+
+  const _startRecognizing = async () => {
+    try {
+      // setPitch('');
+      // setError('');
+      setStarted(true);
+      setResults([]);
+      // setPartialResults([]);
+      // setEnd('');
+
+      await Voice.start('en-US');
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const _stopRecognizing = async () => {
+    console.log('STOP--');
+
+    try {
+      setStarted(false);
+      Voice.removeAllListeners();
+      await Voice.stop();
+    } catch (e) {
+      console.error(e);
+    }
+  };
+  const _cancelRecognizing = async () => {
+    //Cancels the speech recognition
+    try {
+      await Voice.cancel();
+    } catch (e) {
+      console.error(e);
+    }
+    error(e);
+  };
+  const _destroyRecognizer = async () => {
+    //Destroys the current SpeechRecognizer instance
+    try {
+      await Voice.destroy();
+    } catch (e) {
+      console.error(e);
+    }
+    setPitch('');
+    setError('');
+    setStarted('');
+    setResults([]);
+    setPartialResults([]);
+    setEnd('');
+  };
+
   const userData = useSelector(state => state.user);
   // console.log(userData._id)
   const onPressIn = () => {
@@ -63,6 +165,7 @@ const UserAssignWorks = ({loading}) => {
       useNativeDriver: true,
     }).start();
   };
+
   const onPressOut = () => {
     setTimeout(() => {
       Animated.spring(animation, {
@@ -91,7 +194,8 @@ const UserAssignWorks = ({loading}) => {
   // submit comment
   const submitComments = async work_id => {
     const submit_data = {
-      comment: textMsg,
+      // comment: textMsg,
+      comment: results,
     };
 
     const data = await submitComment(submit_data, work_id);
@@ -190,6 +294,7 @@ const UserAssignWorks = ({loading}) => {
           paddingHorizontal: 10,
           elevation: 1,
           paddingVertical: 5,
+
           backgroundColor: COLORS.majorelle_blue_800,
         }}>
         {/* <View
@@ -201,6 +306,7 @@ const UserAssignWorks = ({loading}) => {
             marginBottom: 3,
           }}></View> */}
         <ProgressBar progress={`${item.work_percent}%`} />
+
         <View
           style={{
             flexDirection: 'row',
@@ -422,9 +528,11 @@ const UserAssignWorks = ({loading}) => {
                     backgroundColor: COLORS.majorelle_blue_800,
                     paddingVertical: SIZES.base * 0.3,
                     alignContent: 'center',
+
                     // borderColor: COLORS.white,
                     elevation: 10,
                     // borderWidth: 1,
+
                     borderRadius: 2,
                     paddingHorizontal: SIZES.radius * 0.5,
                   }}
@@ -454,34 +562,62 @@ const UserAssignWorks = ({loading}) => {
                     multiline={true}
                     placeholder="Comment section..."
                     placeholderTextColor={COLORS.gray}
-                    onChangeText={text => setTextMsg(text)}
-                    value={textMsg}
-                  />
-                  <TouchableOpacity
-                    style={{
-                      alignItems: 'flex-end',
-                      paddingHorizontal: 4,
-                      // marginTop: SIZES.base,
-                      // backgroundColor: "red",
-                      marginLeft: SIZES.body1 * 4,
-                      padding: 2,
+                    onChangeText={text =>{
+                      setResults(text);
+                      setTextMsg(text);
                     }}
-                    onPress={() => submitComments(item._id)}>
-                    {item.work_status == false ? (
-                      <Text
-                        style={{
-                          color: COLORS.lightGray2,
+                    value={results}
+                  />
+                  <TouchableHighlight
+                    onPress={_startRecognizing}
+                    style={{top: 14, left: 12, width: '30%'}}>
+                    <Image
+                      style={styles1.button}
+                      source={{
+                        uri: 'https://raw.githubusercontent.com/AboutReact/sampleresource/master/microphone.png',
+                      }}
+                    />
+                  </TouchableHighlight>
 
-                          backgroundColor: COLORS.majorelle_blue_800,
-                          paddingHorizontal: 5,
-                          paddingVertical: 3,
-                          elevation: 8,
-                          borderRadius: 3,
-                        }}>
-                        Submit comment
-                      </Text>
-                    ) : null}
-                  </TouchableOpacity>
+                  {started == true ? (
+                    <TouchableHighlight
+                      onPress={_stopRecognizing}
+                      style={{
+                        width: '30%',
+                        alignSelf: 'center',
+                        marginBottom: 2,
+                        alignItems: 'center',
+                        backgroundColor: 'red',
+                      }}>
+                      <Text style={styles.action}>Stop</Text>
+                    </TouchableHighlight>
+                  ) : (
+                    <TouchableOpacity
+                      style={{
+                        alignItems: 'flex-end',
+                        paddingHorizontal: 4,
+                        // marginTop: SIZES.base,
+                        // backgroundColor: "red",
+                        marginLeft: SIZES.body1 * 4,
+                        padding: 2,
+                      }}
+                      onPress={() => submitComments(item._id)}>
+                      {item.work_status == false ? (
+                        <Text
+                          style={{
+                            color: COLORS.lightGray2,
+
+                            backgroundColor: COLORS.majorelle_blue_800,
+                            paddingHorizontal: 5,
+                            paddingVertical: 3,
+                            elevation: 8,
+                            borderRadius: 3,
+                          }}>
+                          Submit comment
+                        </Text>
+                      ) : null}
+                    </TouchableOpacity>
+                  )}
                 </View>
               ) : null
             ) : null}
@@ -519,7 +655,7 @@ const UserAssignWorks = ({loading}) => {
           color: COLORS.darkGray,
           marginBottom: SIZES.base,
         }}>
-        Assigned Works
+        Assigned works
       </Text>
 
       {/* {
@@ -612,6 +748,10 @@ const styles1 = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 4.65,
     elevation: 8,
+  },
+  button: {
+    width: 21,
+    height: 20,
   },
 });
 export default UserAssignWorks;
