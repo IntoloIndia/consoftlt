@@ -73,7 +73,7 @@ const DoneModal = ({doneModal, setdoneModal, loading}) => {
           style={{
             position: 'absolute',
             width: '100%',
-            height: '80%',
+            height: '90%',
             padding: 20,
             backgroundColor: COLORS.white,
             borderTopLeftRadius: 5,
@@ -87,7 +87,7 @@ const DoneModal = ({doneModal, setdoneModal, loading}) => {
               marginBottom: 10,
             }}>
             <Text style={{fontSize: 22, color: COLORS.darkGray}}>
-              Completed Works
+              Completed tasks
             </Text>
             <ImageBackground
               style={{

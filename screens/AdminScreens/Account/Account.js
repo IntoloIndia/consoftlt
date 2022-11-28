@@ -14,10 +14,12 @@ import {
   postCompanyLogout,
   postUserLogout,
 } from '../../../controller/LogoutController';
+import Collapsible from 'react-native-collapsible';
 
 const Account = () => {
   const companyDetail = useSelector(state => state.company);
   const userData = useSelector(state => state.user);
+  const [collapsed, setCollapsed] = React.useState(true);
 
   var companyData;
   if (companyDetail._id) {
@@ -56,6 +58,10 @@ const Account = () => {
       dispatch(userLogout());
       navigation.navigate('Login');
     }
+  };
+
+  const toggleExpanded = () => {
+    setCollapsed(!collapsed);
   };
 
   function renderProfileCard() {
@@ -164,6 +170,51 @@ const Account = () => {
           image={icons.right_arrow}
           onPress={() => navigation.navigate('CompanyTeam')}
         />
+        <LineDivider />
+        <ProfileValue
+          icon={icons.stock_management}
+          value="Stock Management"
+          image={icons.down_arro}
+          onPress={toggleExpanded}
+        />
+        <Collapsible collapsed={collapsed} duration={300}>
+          <View style={{marginLeft: SIZES.padding * 1.5}}>
+            <ProfileValue
+              icon={icons.itemss}
+              value="Items"
+              image={icons.right_arrow}
+              onPress={() => navigation.navigate('items')}
+            />
+            <LineDivider />
+            {/* <ProfileValue
+              icon={icons.units}
+              value="Unit"
+              image={icons.right_arr}
+              onPress={() => navigation.navigate('Unit')}
+            /> */}
+            {/* <LineDivider /> */}
+            <ProfileValue
+              icon={icons.manage_stock}
+              value="Manage Stock"
+              image={icons.right_arrow}
+              onPress={() => navigation.navigate('ManageStock')}
+            />
+            {/* <LineDivider /> */}
+            {/* <ProfileValue
+              icon={icons.units}
+              value="Option Type"
+              image={icons.right_arrow}
+              onPress={() => navigation.navigate('Optiontype')}
+            /> */}
+            {/* <LineDivider />
+            <ProfileValue
+              icon={icons.units}
+              value="Tools & Machinery"
+              image={icons.right_arrow}
+              onPress={() => navigation.navigate('ToolsAndMachinery1')}
+            /> */}
+          </View>
+        </Collapsible>
         <LineDivider />
         <ProfileValue
           icon={icons.logout}

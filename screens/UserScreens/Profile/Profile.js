@@ -97,7 +97,7 @@ const Profile = () => {
           flexDirection: 'row',
           marginTop: SIZES.padding,
           paddingHorizontal: SIZES.padding,
-          paddingVertical: 20,
+          paddingVertical: 15,
           borderRadius: SIZES.radius,
           backgroundColor: COLORS.majorelle_blue_800,
           alignItems: 'center',
@@ -152,13 +152,13 @@ const Profile = () => {
         <View
           style={{
             flex: 1,
-            marginLeft: SIZES.padding,
+            marginLeft: SIZES.radius,
             alignItems: 'flex-start',
           }}>
           <Text
             style={{
               color: COLORS.white,
-              ...FONTS.h2,
+              fontSize: 25,
               textTransform: 'capitalize',
             }}>
             {userDetail.name}

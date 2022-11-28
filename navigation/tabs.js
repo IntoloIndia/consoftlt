@@ -7,8 +7,8 @@ import {
   Home,
   Account,
   Attendance,
-  Requirement,
   ReportsDisplay,
+  Vouchers,
 } from '../screens/AdminScreens';
 
 const Tab = createBottomTabNavigator();
@@ -72,9 +72,9 @@ const Tabs = () => {
           ),
         }}
       />
-      {/* <Tab.Screen
-        name="Requirement"
-        component={Requirement}
+      <Tab.Screen
+        name="Vouchers"
+        component={Vouchers}
         options={{
           tabBarIcon: ({focused}) => (
             <View style={{alignItems: 'center', justifyContent: 'center'}}>
@@ -91,12 +91,12 @@ const Tabs = () => {
                   color: COLORS.black,
                   ...FONTS.body5,
                 }}>
-                Requirement
+                Vouchers
               </Text>
             </View>
           ),
         }}
-      /> */}
+      />
 
       <Tab.Screen
         name="Report"

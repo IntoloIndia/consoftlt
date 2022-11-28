@@ -22,7 +22,9 @@ import VerifyWorks from './VerifyAndRevertWork/RevertWorks';
 import RevertWorks from './VerifyAndRevertWork/RevertWorks';
 import UserRole from './CreateUserRole/UserRole';
 import ReportSettings from './Home/ReportSettings';
-import Requirement from './Requirement/Requirement';
+import Items from './Stock/Items';
+import ManageStock from './Stock/ManageStock';
+import Vouchers from './Vouchers/Vouchers';
 
 export {
   Account,
@@ -48,6 +50,8 @@ export {
   RevertWorks,
   UserRole,
   ReportSettings,
-  Requirement,
   ReportsDisplay,
+  Items,
+  ManageStock,
+  Vouchers,
 };
