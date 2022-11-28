@@ -1,6 +1,6 @@
 import {API_URL} from '@env';
 
-const submitItem = async dataitem => {
+const postItem = async dataitem => {
   try {
     const res = await fetch(API_URL + 'item', {
       method: 'post',
@@ -17,14 +17,14 @@ const submitItem = async dataitem => {
 };
 
 //   unit save api
-const saveUnitname = async unitdata => {
+const postUnit = async formData => {
   try {
     const res = await fetch(API_URL + 'unit', {
       method: 'post',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(unitdata),
+      body: JSON.stringify(formData),
     });
     const data = await res.json();
     return data;
@@ -35,7 +35,7 @@ const saveUnitname = async unitdata => {
 
 const getUnits = async () => {
   try {
-    const res = await fetch(`${API_URL}unit`, {
+    const res = await fetch(API_URL + 'unit', {
       method: 'get',
       headers: {
         'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ const getUnits = async () => {
 
 const getItems = async () => {
   try {
-    const res = await fetch(`${API_URL}item`, {
+    const res = await fetch(API_URL + 'item', {
       method: 'get',
       headers: {
         'Content-Type': 'application/json',
@@ -63,14 +63,14 @@ const getItems = async () => {
   }
 };
 
-const updateItems = async (itemid, updateItemdata) => {
+const updateItems = async (itemId, formData) => {
   try {
-    const res = await fetch(`${API_URL}item/` + itemid, {
+    const res = await fetch(API_URL + 'item/' + itemId, {
       method: 'put',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(updateItemdata),
+      body: JSON.stringify(formData),
     });
     const data = await res.json();
     return data;
@@ -79,8 +79,7 @@ const updateItems = async (itemid, updateItemdata) => {
   }
 };
 
-const deleteitems = async id => {
-  // console.log('object', id);
+const deleteItems = async id => {
   try {
     const res = await fetch(API_URL + 'item/' + id, {
       method: 'delete',
@@ -95,4 +94,4 @@ const deleteitems = async id => {
   }
 };
 
-export {submitItem, getUnits, saveUnitname, getItems, updateItems, deleteitems};
+export {postItem, getUnits, getItems, updateItems, deleteItems, postUnit};

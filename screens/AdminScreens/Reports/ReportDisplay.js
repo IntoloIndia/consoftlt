@@ -27,6 +27,7 @@ import {
   finalVerifyReport,
   finalRevertReport,
 } from '../../../controller/ReportController';
+import {getVerifiedVoucher} from '../../../controller/VoucherController';
 import {getProjectReportPath} from '../../../controller/ReportController';
 import {getUserId} from '../../../services/asyncStorageService';
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
@@ -62,6 +63,7 @@ const ReportDisplay = () => {
   //report
   const [manpower, setManpower] = React.useState([]);
   const [quantity, setQuantity] = React.useState([]);
+  const [stock, setStock] = React.useState([]);
 
   //report path
   const [reportPath, setReportPath] = React.useState([]);
@@ -109,6 +111,23 @@ const ReportDisplay = () => {
     let response = await getQuantity(report_id);
     if (response.status === 200) {
       setQuantity(response.data);
+    }
+  };
+
+  // date section
+  const [date, setDate] = React.useState(new Date());
+  const MyDateString =
+    date.getFullYear() +
+    '%2F' +
+    ('0' + (date.getMonth() + 1)).slice(-2) +
+    '%2F' +
+    ('0' + date.getDate()).slice(-2);
+
+  const fetchStock = async () => {
+    const response = await getVerifiedVoucher(company_id, MyDateString);
+    // console.log(response);
+    if (response.status === 200) {
+      setStock(response.data);
     }
   };
 
@@ -180,6 +199,7 @@ const ReportDisplay = () => {
 
   React.useEffect(() => {
     fetchReport();
+    fetchStock();
   }, []);
 
   const [newDate, setNewDate] = React.useState(new Date());
@@ -216,7 +236,7 @@ const ReportDisplay = () => {
         reportData.time
       }</p>
             </div>
-            <hr>
+            <hr style="margin-top:3px; margin-bottom:3px;">
             <div>
               <h5 style="text-align: center; text-decoration:underline;">Manpower</h5>
               <h6 style="text-decoration:underline;">Contractors</h6>
@@ -240,7 +260,39 @@ const ReportDisplay = () => {
                 })}
               </div>
             </div>
-            <hr>
+            <hr style="margin-bottom:5px;">
+            <div>
+              <h5 style="text-align: center; text-decoration:underline;">Today Stock</h5>
+              <table class="table table-success table-striped">
+                <thead>
+                  <tr>
+                    <th>Sn.</th>
+                    <th>Date</th>
+                    <th>Voucher type</th>
+                    <th>Item name</th>
+                    <th>Quantity</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${stock
+                    .map((ele, index) =>
+                      ele.voucherData
+                        .map(
+                          (ele1, index1) => `<tr>
+                      <td>${index1 + 1}</td>
+                      <td>${ele1.voucher_date}</td>
+                      <td>${ele1.voucher_type}</td>
+                      <td>${ele1.item_name}</td>
+                      <td>${ele1.qty}</td>
+                  </tr>
+                    `,
+                        )
+                        .join(''),
+                    )
+                    .join('')}
+                </tbody>
+              </table> 
+            </div>
             <div style=" display: flex;flex-direction: row;justify-content: space-between;align-items: center; padding-left:30px; padding-right:30px">
               <div>
                 <p style="margin-bottom:0px;">Approved by(Signature) </p>
@@ -267,15 +319,6 @@ const ReportDisplay = () => {
     // );
     alert(file.filePath);
   };
-
-  // date section
-  const [date, setDate] = React.useState(new Date());
-  const MyDateString =
-    date.getFullYear() +
-    '%2F' +
-    ('0' + (date.getMonth() + 1)).slice(-2) +
-    '%2F' +
-    ('0' + date.getDate()).slice(-2);
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
@@ -576,7 +619,8 @@ const ReportDisplay = () => {
     const footerComponent = () => (
       <View>
         {/* {renderQuantity()} */}
-        {/* {renderFooter()} */}
+        {renderStock()}
+        {renderFooter()}
       </View>
     );
 
@@ -590,10 +634,10 @@ const ReportDisplay = () => {
           }}>
           <View
             style={{
-              top: 20,
+              // top: 20,
               backgroundColor: COLORS.white,
               paddingHorizontal: SIZES.base,
-              height: '55%',
+              height: '90%',
               borderTopLeftRadius: 10,
               borderTopRightRadius: 10,
             }}>
@@ -1150,6 +1194,162 @@ const ReportDisplay = () => {
   //   );
   // }
 
+  function renderStock() {
+    return (
+      <View>
+        <View
+          style={{
+            borderBottomWidth: 1,
+            marginTop: 15,
+            marginBottom: 5,
+            borderColor: COLORS.gray2,
+          }}></View>
+        <Text
+          style={{
+            fontSize: 18,
+            color: COLORS.majorelle_blue_900,
+            textAlign: 'center',
+            textDecorationLine: 'underline',
+            marginBottom: 15,
+          }}>
+          Today Stock
+        </Text>
+        <ScrollView horizontal showsHorizontalScrollIndicator={true}>
+          <View>
+            <View
+              style={{
+                flexDirection: 'row',
+                backgroundColor: COLORS.success_300,
+                padding: 5,
+              }}>
+              <Text
+                style={{
+                  ...FONTS.h4,
+                  color: COLORS.black,
+                  width: 20,
+                }}>
+                Sn.
+              </Text>
+              <View style={{marginHorizontal: 5}}></View>
+              <Text
+                style={{
+                  ...FONTS.h4,
+                  color: COLORS.black,
+                  width: 80,
+                }}>
+                Date
+              </Text>
+              <View style={{marginHorizontal: 10}}></View>
+
+              <Text
+                style={{
+                  ...FONTS.h4,
+                  color: COLORS.black,
+                  width: 115,
+                }}>
+                Voucher type
+              </Text>
+              <View style={{marginHorizontal: 10}}></View>
+              <Text
+                style={{
+                  ...FONTS.h4,
+                  color: COLORS.black,
+                  width: 80,
+                }}>
+                Item name
+              </Text>
+              <View style={{marginHorizontal: 10}}></View>
+              <Text
+                style={{
+                  ...FONTS.h4,
+                  color: COLORS.black,
+                  width: 60,
+                }}>
+                Quantity
+              </Text>
+            </View>
+            <View
+              style={{
+                borderBottomWidth: 1,
+                borderColor: COLORS.darkGray,
+                marginBottom: 3,
+              }}></View>
+            <ScrollView nestedScrollEnabled={true}>
+              {stock.map((element, index) =>
+                element.voucherData.map((ele, i) => {
+                  return (
+                    <View key={i}>
+                      {i != 0 ? (
+                        <View
+                          style={{
+                            borderBottomWidth: 1,
+                            borderColor: COLORS.darkGray2,
+                            marginVertical: 5,
+                          }}></View>
+                      ) : null}
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          padding: 5,
+                        }}>
+                        <Text
+                          style={{
+                            ...FONTS.h4,
+                            color: COLORS.black,
+                            width: 20,
+                          }}>
+                          {i + 1}.
+                        </Text>
+                        <View style={{marginHorizontal: 5}}></View>
+                        <Text
+                          style={{
+                            ...FONTS.h4,
+                            color: COLORS.black,
+                            width: 80,
+                            textTransform: 'capitalize',
+                          }}>
+                          {ele.voucher_date}
+                        </Text>
+                        <View style={{marginHorizontal: 10}}></View>
+                        <Text
+                          style={{
+                            ...FONTS.h4,
+                            color: COLORS.black,
+                            width: 115,
+                          }}>
+                          {ele.voucher_type}
+                        </Text>
+                        <View style={{marginHorizontal: 10}}></View>
+                        <Text
+                          style={{
+                            ...FONTS.h4,
+                            color: COLORS.black,
+                            width: 80,
+                          }}>
+                          {ele.item_name}
+                        </Text>
+                        <View style={{marginHorizontal: 10}}></View>
+                        <Text
+                          style={{
+                            ...FONTS.h4,
+                            color: COLORS.black,
+                            width: 60,
+                          }}>
+                          {ele.qty}
+                        </Text>
+                      </View>
+                    </View>
+                  );
+                }),
+              )}
+            </ScrollView>
+          </View>
+        </ScrollView>
+      </View>
+    );
+  }
+
   function renderFooter() {
     return (
       <View>
@@ -1163,7 +1363,7 @@ const ReportDisplay = () => {
         <Text
           style={{
             fontSize: 18,
-            color: COLORS.lightblue_700,
+            color: COLORS.majorelle_blue_900,
             textAlign: 'center',
             textDecorationLine: 'underline',
             marginBottom: 15,

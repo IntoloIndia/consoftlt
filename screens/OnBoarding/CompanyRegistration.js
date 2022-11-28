@@ -7,10 +7,12 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Image,
+  TouchableOpacity,
 } from 'react-native';
+import {COLORS, icons, FONTS, SIZES, images} from '../../constants';
+import {TextInput} from 'react-native-paper';
 import utils from '../../utils';
 import {FormInput, TextButton, HeaderBar, CustomToast} from '../../Components';
-import {COLORS, images, icons, SIZES, FONTS} from '../../constants';
 import {useDispatch} from 'react-redux';
 import {registerCompany} from '../../services/companyAuthApi';
 
@@ -56,185 +58,129 @@ const CompanyRegistration = ({navigation}) => {
     }, 4000);
   };
 
-  return (
-    <View style={{flex: 1}}>
-      <HeaderBar right={true} title="registration" />
+  //--------------------------
+
+  function renderRegister() {
+    return (
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : null}
         style={{flex: 1}}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View
             style={{
-              flex: 1,
               paddingHorizontal: SIZES.padding,
+              paddingBottom: SIZES.padding,
+              flex: 1,
               justifyContent: 'space-around',
             }}>
-            <View style={{marginBottom: 20, alignItems: 'center'}}>
+            <View
+              style={{
+                alignItems: 'center',
+                alignSelf: 'center',
+                marginBottom: 80,
+                marginTop: 20,
+              }}>
               <Image
                 source={images.create_company}
-                resizeMode="contain"
-                style={{
-                  height: 80,
-                  width: 160,
-                }}
+                style={{height: 75, width: 75}}
               />
               <Text
                 style={{
-                  textAlign: 'center',
-                  ...FONTS.h2,
+                  ...FONTS.h3,
                   color: COLORS.darkGray,
+                  textAlign: 'center',
                 }}>
-                Let's Create Company
+                Register to continue
               </Text>
-              <Text
-                style={{
-                  textAlign: 'center',
-                  color: COLORS.darkGray,
-                  marginTop: SIZES.base,
-                  ...FONTS.body3,
-                }}></Text>
             </View>
-            <View>
-              <FormInput
-                label="Company Name"
-                keyboardType="default"
-                autoCompleteType="name"
-                onChange={value => {
-                  utils.validateText(value, setCNameError);
+            <View style={{marginBottom: 65}}>
+              <TextInput
+                mode="outlined"
+                label="Comapny name"
+                left={<TextInput.Icon icon="office-building" />}
+                onChangeText={value => {
                   setCName(value);
                 }}
-                errorMsg={cNameError}
-                appendComponent={
-                  <View style={{justifyContent: 'center'}}>
-                    <Image
-                      source={
-                        cName == '' || (cName != '' && cNameError == '')
-                          ? icons.correct
-                          : icons.cancel
-                      }
-                      style={{
-                        height: 20,
-                        width: 20,
-                        tintColor:
-                          cName == ''
-                            ? COLORS.gray
-                            : cName != '' && cNameError == ''
-                            ? COLORS.green
-                            : COLORS.red,
-                      }}
-                    />
-                  </View>
-                }
               />
-              <FormInput
-                label="Owner Name"
-                keyboardType="default"
-                autoCompleteType="name"
-                onChange={value => {
-                  utils.validateText(value, setCOwnerNameError);
-                  setCOwnername(value);
-                }}
-                errorMsg={cOwnerNameError}
-                appendComponent={
-                  <View style={{justifyContent: 'center'}}>
-                    <Image
-                      source={
-                        cOwnerName == '' ||
-                        (cOwnerName != '' && cOwnerNameError == '')
-                          ? icons.correct
-                          : icons.cancel
-                      }
-                      style={{
-                        height: 20,
-                        width: 20,
-                        tintColor:
-                          cOwnerName == ''
-                            ? COLORS.gray
-                            : cOwnerName != '' && cOwnerNameError == ''
-                            ? COLORS.green
-                            : COLORS.red,
-                      }}
-                    />
-                  </View>
-                }
-              />
-              <FormInput
+              <TextInput
+                style={{marginTop: 5}}
+                mode="outlined"
                 label="Mobile No."
-                keyboardType="phone-pad"
-                onChange={value => {
-                  utils.validateNumber(value, setCMobileNoError);
+                left={<TextInput.Icon icon="dialpad" />}
+                keyboardType="email-address"
+                onChangeText={value => {
                   setCMobileNo(value);
                 }}
-                errorMsg={cMobileNoError}
-                appendComponent={
-                  <View style={{justifyContent: 'center'}}>
-                    <Image
-                      source={
-                        cMobileNo == '' ||
-                        (cMobileNo != '' && cMobileNoError == '')
-                          ? icons.correct
-                          : icons.cancel
-                      }
-                      style={{
-                        height: 20,
-                        width: 20,
-                        tintColor:
-                          cMobileNo == ''
-                            ? COLORS.gray
-                            : cMobileNo != '' && cMobileNoError == ''
-                            ? COLORS.green
-                            : COLORS.red,
-                      }}
-                    />
-                  </View>
-                }
               />
-              <FormInput
+              <TextInput
+                style={{marginTop: 5}}
+                mode="outlined"
                 label="Email"
-                keyboardType="email-address"
-                autoCompleteType="email"
-                onChange={value => {
-                  utils.validateEmail(value, setCEmailError);
+                left={<TextInput.Icon icon="email" />}
+                keyboardType="numeric"
+                onChangeText={value => {
                   setCEmail(value);
                 }}
-                errorMsg={cEmailError}
-                appendComponent={
-                  <View style={{justifyContent: 'center'}}>
-                    <Image
-                      source={
-                        cEmail == '' || (cEmail != '' && cEmailError == '')
-                          ? icons.correct
-                          : icons.cancel
-                      }
-                      style={{
-                        height: 20,
-                        width: 20,
-                        tintColor:
-                          cEmail == ''
-                            ? COLORS.gray
-                            : cEmail != '' && cEmailError == ''
-                            ? COLORS.green
-                            : COLORS.red,
-                      }}
-                    />
-                  </View>
-                }
+              />
+              <TextInput
+                style={{marginTop: 5}}
+                mode="outlined"
+                label="Owner name"
+                left={<TextInput.Icon icon="account-circle-outline" />}
+                keyboardType="numeric"
+                onChangeText={value => {
+                  setCOwnerName(value);
+                }}
               />
               <TextButton
-                label="Save & Continue"
+                label="Submit & Continue"
                 buttonContainerStyle={{
+                  marginTop: 25,
                   height: 45,
                   alignItems: 'center',
-                  marginTop: SIZES.padding,
-                  borderRadius: SIZES.base,
+                  borderRadius: 5,
                 }}
                 onPress={onSubmit}
               />
             </View>
-            <View style={{marginBottom: 120}}></View>
+            <View
+              style={{
+                flex: 1,
+                marginTop: 12,
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <Text style={{...FONTS.h3, color: COLORS.darkGray}}>
+                Already have an account ?
+              </Text>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('Login')}
+                style={{
+                  backgroundColor: COLORS.majorelle_blue_800,
+                  paddingHorizontal: 5,
+                  paddingVertical: 2,
+                  left: 10,
+                }}>
+                <Text
+                  style={{
+                    ...FONTS.h3,
+                    color: COLORS.white,
+                  }}>
+                  Login
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
+    );
+  }
+
+  return (
+    <View style={{flex: 1}}>
+      <HeaderBar title="company register" />
+      {renderRegister()}
       <CustomToast
         isVisible={submitToast}
         onClose={() => setSubmitToast(false)}

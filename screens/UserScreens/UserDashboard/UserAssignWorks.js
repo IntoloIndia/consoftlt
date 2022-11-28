@@ -655,7 +655,7 @@ const UserAssignWorks = ({loading}) => {
           color: COLORS.darkGray,
           marginBottom: SIZES.base,
         }}>
-        Assigned Works
+        Assigned works
       </Text>
 
       {/* {
