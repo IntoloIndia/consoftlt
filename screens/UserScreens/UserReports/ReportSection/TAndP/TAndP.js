@@ -26,6 +26,7 @@ import {Title, Divider} from 'react-native-paper';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useSelector} from 'react-redux';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -167,7 +168,8 @@ const TAndP = ({project_id, Main_drp_pro_value, loading}) => {
 
   const getEquipmentItems = async () => {
     try {
-      const data = await get_equipment_item_name(userData.company_id);
+      // const data = await get_equipment_item_name(userData.company_id);
+      const data = await get_equipment_item_name();
       if (data.length >= 0) {
         setGetEquipItemName(data);
       }
@@ -290,41 +292,90 @@ const TAndP = ({project_id, Main_drp_pro_value, loading}) => {
   const add_tAndP_icon_button = () => {
     return (
       <TouchableOpacity
-        style={{
-          borderRadius: SIZES.radius * 0.21,
-          justifyContent: 'center',
-          flexDirection: 'row',
-          paddingHorizontal: 2,
-        }}
+        style={
+          {
+            borderRadius: SIZES.radius * 0.21,
+            justifyContent: 'center',
+            flexDirection: 'row',
+            paddingHorizontal: 2,
+          }
+        }
         onPress={() => {
+          LayoutAnimation.configureNext({
+            duration: 300,
+            create: {
+              type: LayoutAnimation.Types.easeInEaseOut,
+              property: LayoutAnimation.Properties.opacity,
+            },
+            update: {
+              type: LayoutAnimation.Types.easeInEaseOut,
+            },
+          });
           setRemoveAddOnEdit(false);
           equipmentField.splice(0, equipmentField.length);
           setTandPModal(true);
         }}>
         <View
           style={{
-            alignSelf: 'center',
-            alignItems: 'center',
-            position: 'absolute',
-            justifyContent: 'space-evenly',
-            flexDirection: 'row',
-            backgroundColor: COLORS.lightblue_400,
-            padding: SIZES.base * 0.1,
-            paddingHorizontal: 2,
-            paddingVertical: -2,
+            backgroundColor: COLORS.majorelle_blue_200,
+            padding: 5,
+            paddingHorizontal: 6,
             borderRadius: 5,
-            top: -SIZES.base * 1.2,
+            flexDirection: 'row',
+            alignItems: 'center',
           }}>
-          <View>
-            <Text style={[FONTS.body5, {color: COLORS.white}]}>Add</Text>
-          </View>
-          <View>
-            <MaterialIcons name="add" size={15} color={COLORS.white} />
-          </View>
+          <Ionicons
+            name="person-add"
+            size={16}
+            color={COLORS.majorelle_blue_800}
+          />
+          <Text style={{fontSize: 12, color: COLORS.black, left: 3}}>
+            Add New
+          </Text>
         </View>
       </TouchableOpacity>
     );
   };
+
+  // const add_tAndP_icon_button = () => {
+  // // const add_tAndP_icon_button = () => {
+  //   return (
+  //     <TouchableOpacity
+  //       style={{
+          // borderRadius: SIZES.radius * 0.21,
+          // justifyContent: 'center',
+          // flexDirection: 'row',
+          // paddingHorizontal: 2,
+  //       }}
+  //       onPress={() => {
+          // setRemoveAddOnEdit(false);
+          // equipmentField.splice(0, equipmentField.length);
+          // setTandPModal(true);
+  //       }}>
+  //       <View
+  //         style={{
+            // alignSelf: 'center',
+            // alignItems: 'center',
+            // position: 'absolute',
+            // justifyContent: 'space-evenly',
+            // flexDirection: 'row',
+            // backgroundColor: COLORS.lightblue_400,
+            // padding: SIZES.base * 0.1,
+            // paddingHorizontal: 2,
+            // paddingVertical: -2,
+            // borderRadius: 5,
+            // top: -SIZES.base * 1.2,
+  //         }}>
+  //         <View>
+  //           <Text style={[FONTS.body5, {color: COLORS.white}]}>Add</Text>
+  //         </View>
+  //         <View>
+  //           <MaterialIcons name="add" size={15} color={COLORS.white} />
+  //         </View>
+  //       </View>
+  //     </TouchableOpacity>
+  //   );
+  // };
 
   const add_new_equipment_modal = () => {
     return (
@@ -729,87 +780,53 @@ const TAndP = ({project_id, Main_drp_pro_value, loading}) => {
   };
 
   return (
-    <>
-      <Animated.View style={{transform: [{scale}]}}>
+    <View style={{}}>
+      <Animated.View
+        style={{
+          transform: [{scale}],
+          flexDirection: 'row',
+          // justifyContent: 'space-between',
+        }}>
         <Pressable
           onPressIn={onPressIn}
           onPressOut={onPressOut}
-          onPress={() => {
-            LayoutAnimation.configureNext({
-              duration: 300,
-              create: {
-                type: LayoutAnimation.Types.easeInEaseOut,
-                property: LayoutAnimation.Properties.opacity,
-              },
-              update: {
-                type: LayoutAnimation.Types.easeInEaseOut,
-              },
-            });
-            setTAndP(!tAndP);
-          }}
+          onPress={() =>  setTAndP(!tAndP)}
           style={{
             flexDirection: 'row',
-            paddingHorizontal: SIZES.base,
-            paddingVertical: 3,
-            width: SIZES.width * 0.53,
-            alignItems: 'center',
             justifyContent: 'space-between',
-            top: SIZES.base * 2,
-            borderColor: COLORS.lightblue_200,
-            backgroundColor: COLORS.lightblue_600,
-            borderWidth: 1,
-            borderRadius: 4,
-            elevation: 2,
-            shadowColor: '#000',
-            shadowOffset: {
-              width: 0,
-              height: 4,
-            },
-            shadowOpacity: 0.3,
-            shadowRadius: 4.65,
+            paddingVertical: 3,
+            paddingHorizontal: SIZES.radius,
+            width: '60%',
+            backgroundColor: COLORS.majorelle_blue_700,
           }}>
-          <View style={{alignItems: 'center', alignSelf: 'center'}}>
+          <View>
             <Text
               onPressIn={onPressIn}
               onPressOut={onPressOut}
-              onPress={() => {
-                LayoutAnimation.configureNext({
-                  duration: 300,
-                  create: {
-                    type: LayoutAnimation.Types.easeInEaseOut,
-                    property: LayoutAnimation.Properties.opacity,
-                  },
-                  update: {
-                    type: LayoutAnimation.Types.easeInEaseOut,
-                  },
-                });
-                setTAndP(!tAndP);
-              }}
-              style={[FONTS.h3, {color: COLORS.white2}]}>
-              T & P
+              onPress={() =>  setTAndP(!tAndP)}
+              style={{...FONTS.h4, color: COLORS.white}}>
+                 T & P
             </Text>
           </View>
-          <View style={{alignItems: 'center', alignSelf: 'center'}}>
+          <View
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginLeft: SIZES.base * 0.5,
+            }}>
             <TouchableOpacity
               onPressIn={onPressIn}
               onPressOut={onPressOut}
               onPress={() => {
-                LayoutAnimation.configureNext({
-                  duration: 300,
-                  create: {
-                    type: LayoutAnimation.Types.easeInEaseOut,
-                    property: LayoutAnimation.Properties.opacity,
-                  },
-                  update: {
-                    type: LayoutAnimation.Types.easeInEaseOut,
-                  },
-                });
-                setTAndP(!tAndP);
+                setTAndP(!tAndP)
               }}>
-              <AntDesign name="caretdown" size={12} color={COLORS.white2} />
+              <AntDesign name="caretdown" size={12} color={COLORS.white3} />
             </TouchableOpacity>
           </View>
         </Pressable>
+        <View style={{left: 15}}>
+          { tAndP?  add_tAndP_icon_button() : null}
+        </View>
       </Animated.View>
       <View
         style={{
@@ -823,26 +840,18 @@ const TAndP = ({project_id, Main_drp_pro_value, loading}) => {
               flex: 1,
               flexDirection: 'column',
               justifyContent: 'center',
-            }}>
-            <View style={{backgroundColor: 'blue', paddingLeft: 140}}>
-              {add_tAndP_icon_button()}
-            </View>
+            }}>   
             <View
               style={{
                 borderWidth: 1,
                 borderColor: 'skyblue',
-
                 width: SIZES.width * 0.92,
                 alignSelf: 'flex-start',
                 position: 'relative',
-                top: 20,
+                top: 5,
                 marginLeft: 17,
-                // height: 200,
                 maxHeight: 200,
                 paddingBottom: 6,
-                // flex:2,
-                // marginBottom: -20,
-                // padding: 5,
                 elevation: 1,
               }}>
               <ScrollView
@@ -853,7 +862,7 @@ const TAndP = ({project_id, Main_drp_pro_value, loading}) => {
                   maxHeight: 500,
                   borderWidth: 2,
                 }}>
-                <View style={{}}>
+                <View>
                   <View
                     style={{
                       flexDirection: 'row',
@@ -867,10 +876,8 @@ const TAndP = ({project_id, Main_drp_pro_value, loading}) => {
                         paddingHorizontal: 5,
                         marginRight: 2,
                         marginLeft: 16,
-                        // borderRightWidth: 2,
                         justifyContent: 'center',
                         width: 45,
-                        //  borderColor: COLORS.lightblue_200
                       }}>
                       <Text
                         style={[
@@ -883,10 +890,8 @@ const TAndP = ({project_id, Main_drp_pro_value, loading}) => {
                     <View
                       style={{
                         marginLeft: 8,
-                        //  borderRightWidth: 2,
                         justifyContent: 'center',
                         width: 145,
-                        //  borderColor: COLORS.lightblue_200,
                       }}>
                       <Text
                         style={[
@@ -1177,7 +1182,7 @@ const TAndP = ({project_id, Main_drp_pro_value, loading}) => {
         title="Delete"
         message="Deleted Successfully..."
       />
-    </>
+    </View>
   );
 };
 

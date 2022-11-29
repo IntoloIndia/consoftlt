@@ -121,6 +121,7 @@ const Items = () => {
       setItemName('');
       setUpdateToast(true);
       fetchItems();
+      setItemId('')
     } else {
       alert(res.message);
     }
@@ -493,7 +494,7 @@ const Items = () => {
       <FlatList
         contentContainerStyle={{
           marginHorizontal: SIZES.padding,
-          paddingBottom: 50,
+          paddingBottom: 180,
         }}
         data={Items}
         keyExtractor={item => `${item._id}`}
@@ -585,6 +586,7 @@ const Items = () => {
           borderRadius: SIZES.radius,
         }}
         onPress={() => {
+          setItemId('')
           setItemName('');
           setUnitValue('');
           setItemModal(true);

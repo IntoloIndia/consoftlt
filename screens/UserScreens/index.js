@@ -11,7 +11,7 @@ import Manpower from './UserReports/ReportSection/Manpower/Manpower.js';
 import Quality from './UserReports/ReportSection/Quality/Quality.js';
 import Quantity from './UserReports/ReportSection/Quantity/Quantity.js';
 import ReportDateTimeHeader from './UserReports/ReportSection/OtherReusableComp/ReportDateTimeHeader.js';
-import Stock from './UserReports/ReportSection/Stocks/Stock.js';
+import Stock from './UserReports/ReportSection/Voucher/Stock';
 import TAndP from './UserReports/ReportSection/TAndP/TAndP.js';
 import ManPowerProjectTeam from './UserReports/ReportSection/Manpower/UserProjectTeam/ManPowerProjectTeam.js';
 import ManpowerUserContractors from './UserReports/ReportSection/Manpower/UserContractors/ManpowerUserContractors.js';
