@@ -4,7 +4,6 @@ import {
   Text,
   FlatList,
   StyleSheet,
-  Image,
   ScrollView,
   Modal,
   Animated,
@@ -16,6 +15,7 @@ import {
   UIManager,
   TouchableOpacity,
   Button,
+  Image,
   Keyboard,
 } from 'react-native';
 import styles from '../../ReportStyle.js';
@@ -24,7 +24,8 @@ import {Dropdown} from 'react-native-element-dropdown';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import moment from 'moment';
 import {
   get_stock_item_name,
   insert_stock_data,
@@ -89,6 +90,9 @@ const Stock = ({project_id, Main_drp_pro_value, loading}) => {
     inputRange: [0, 1],
     outputRange: [1, 0.9],
   });
+  const current_dat = moment().format('YYYY%2FMM%2FDD');
+
+  let MyDateString = current_dat;
 
   //Insertion modal
   const [stockReportModal, setStockReportModal] = useState(false);
@@ -131,7 +135,6 @@ const Stock = ({project_id, Main_drp_pro_value, loading}) => {
   const getStockDataItems = async () => {
     try {
       const temp = await get_stock_item_name();
-      console.log('data--', temp.data.length);
       if (temp.data.length >= 0) {
         setStockItemData(temp.data);
       }
@@ -146,14 +149,16 @@ const Stock = ({project_id, Main_drp_pro_value, loading}) => {
 
   const GetStockData = async () => {
     try {
-      const data = await get_stock_data();
+      const data = await get_stock_data(
+        userCompanyData.company_id,
+        MyDateString,
+      );
       const res = await data.json();
       if (res.status == 200) {
-        const temp_data = res.data.map(ele => {
-          return ele.stockEntryData;
-        });
-        setGetStockData(temp_data);
-        // console.log("🚀 ~ file: Stock.js ~ line 103 ~ GetStockData ~ temp_data", temp_data)
+        // res.data.map(ele => {
+        setGetStockData(res.data);
+        console.log(res.data);
+        // });
       }
     } catch (error) {
       console.log(error);
@@ -590,12 +595,134 @@ const Stock = ({project_id, Main_drp_pro_value, loading}) => {
     );
   };
 
+  const ListHeader = () => {
+    return (
+      <View style={[styles1.headerFooterStyle, styles1.shadow]}>
+        <View style={{flexDirection: 'row'}}>
+          <View style={{width: 150, backgroundColor: 'white'}}>
+            <Text
+              style={{
+                ...FONTS.body3,
+                fontWeight: '600',
+                color: COLORS.darkGray,
+                textAlign: 'center',
+              }}>
+              Voucher Type
+            </Text>
+          </View>
+          <View style={{width: 80, backgroundColor: 'white'}}>
+            <Text
+              style={{
+                ...FONTS.body3,
+                fontWeight: '600',
+                color: COLORS.darkGray,
+                textAlign: 'center',
+              }}>
+              Item Name
+            </Text>
+          </View>
+          <View style={{width: 60, backgroundColor: 'white'}}>
+            <Text
+              style={{
+                ...FONTS.body3,
+                fontWeight: '600',
+                color: COLORS.darkGray,
+                textAlign: 'center',
+              }}>
+              Qty
+            </Text>
+          </View>
+          <View style={{width: 200, backgroundColor: 'white'}}>
+            <Text
+              style={{
+                ...FONTS.body3,
+                fontWeight: '600',
+                color: COLORS.darkGray,
+                textAlign: 'center',
+              }}>
+              Remark
+            </Text>
+          </View>                     
+        </View>
+      </View>
+    );
+  };
+  const renderStock = ({item}) => (
+    <View>
+      {item.voucherData.map((ele, i) => {
+        return (
+          <View
+            key={i}
+            style={{
+              flexDirection: 'row',
+              margin: 1,
+              borderWidth: 0.05,
+              marginVertical: SIZES.base * 0.5,
+            }}>
+            <View style={{width: 150}}>
+              <Text style={{fontSize: 16, textAlign: 'left'}}>
+                {ele.voucher_type}
+              </Text>
+            </View>
+            <Divider
+              style={{
+                backgroundColor: COLORS.lightGray1,
+                padding: 0.4,
+                height: SIZES.height * 0.04,
+              }}
+            />
+            <View style={{width: 80}}>
+              <Text style={{fontSize: 16, textAlign: 'center'}}>
+                {ele.item_name}
+              </Text>
+            </View>
+            <Divider
+              style={{
+                backgroundColor: COLORS.lightGray1,
+                padding: 0.4,
+                height: SIZES.height * 0.04,
+              }}
+            />
+            <View style={{width: 60}}>
+              <Text style={{fontSize: 16, textAlign: 'center'}}>{ele.qty}</Text>
+            </View>
+            <Divider
+              style={{
+                backgroundColor: COLORS.lightGray1,
+                padding: 0.4,
+                height: SIZES.height * 0.04,
+              }}
+            />
+            <View style={{width: 200}}>
+              <Text style={{fontSize: 16, textAlign: 'left'}}>
+                {ele.remark}
+              </Text>
+            </View>
+            <Divider
+              style={{
+                backgroundColor: COLORS.lightGray1,
+                padding: 0.4,
+                height: SIZES.height * 0.04,
+              }}
+            />
+            <Divider
+              style={{
+                backgroundColor: COLORS.lightGray1,
+                padding: 0.4,
+                height: SIZES.height * 0.04,
+              }}
+            />  
+          </View>
+        );
+      })}
+    </View>
+  );
   return (
-    <View style={{paddingTop:5}}> 
-      <Animated.View style={{transform: [{scale}],      flexDirection: 'row',}}>
+    <View style={{paddingTop: 5}}>
+      <Animated.View style={{transform: [{scale}], flexDirection: 'row'}}>
         <Pressable
           onPress={() => {
-            GetStockData();          
+            GetStockData();
             setStockCollapse(!stockCollapse);
           }}
           onPressIn={onPressIn}
@@ -635,9 +762,9 @@ const Stock = ({project_id, Main_drp_pro_value, loading}) => {
             <Text
               onPressIn={onPressIn}
               onPressOut={onPressOut}
-              onPress={() =>  setStockCollapse(!stockCollapse)}
+              onPress={() => setStockCollapse(!stockCollapse)}
               style={{...FONTS.h4, color: COLORS.white}}>
-                 Stock
+              Stock
             </Text>
           </View>
           <View
@@ -674,7 +801,6 @@ const Stock = ({project_id, Main_drp_pro_value, loading}) => {
         style={{
           alignSelf: 'center',
           flexDirection: 'row',
-          right: SIZES.base * 4,
         }}>
         {stockCollapse ? (
           <View
@@ -683,430 +809,24 @@ const Stock = ({project_id, Main_drp_pro_value, loading}) => {
               flexDirection: 'column',
               justifyContent: 'center',
             }}>
-    
-            <View
-              style={{
-                borderWidth: 1,
-                borderColor: 'skyblue',
-                width: SIZES.width * 0.92,
-                alignSelf: 'flex-start',
-                position: 'relative',
-                top: 5,
-
-                marginLeft: 32,
-                maxHeight: 200,
-                marginBottom:5,
-                // paddingBottom: 16,
-                elevation: 1,
-              }}>
-              <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{
-                  flexGrow: 1,
-                  maxHeight: 500,
-                  borderWidth: 2,
-                }}>
-                <View>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                      top: 5,
-                      left: -12,
-                      position: 'relative',
-                    }}>
-                    <View
-                      style={{
-                        paddingHorizontal: 5,
-                        marginRight: 2,
-                        marginLeft: 16,
-                        // borderRightWidth: 2,
-                        justifyContent: 'center',
-                        width: 45,
-                        //  borderColor: COLORS.lightblue_200
-                      }}>
-                      <Text
-                        style={[
-                          FONTS.h4,
-                          {color: COLORS.black, textAlign: 'center'},
-                        ]}>
-                        S.no
-                      </Text>
-                    </View>
-                    <View
-                      style={{
-                        marginLeft: 8,
-                        //  borderRightWidth: 2,
-                        justifyContent: 'center',
-                        width: 145,
-                        //  borderColor: COLORS.lightblue_200,
-                      }}>
-                      <Text
-                        style={[
-                          FONTS.h4,
-                          {color: COLORS.black, textAlign: 'center'},
-                        ]}>
-                        Item Name
-                      </Text>
-                    </View>
-                    <View
-                      style={{
-                        marginLeft: 24,
-                        justifyContent: 'center',
-                        width: 70,
-                        // borderColor: COLORS.lightblue_200,
-                      }}>
-                      <Text
-                        style={[
-                          FONTS.h4,
-                          {color: COLORS.black, textAlign: 'center'},
-                        ]}>
-                        Unit Name
-                      </Text>
-                    </View>
-                    <View
-                      style={{
-                        marginLeft: 18,
-                        // borderLeftWidth: 2,
-                        paddingLeft: 8,
-                        justifyContent: 'center',
-                        width: 80,
-                        // borderColor: COLORS.lightblue_200,
-                      }}>
-                      <Text
-                        style={[
-                          FONTS.h4,
-                          {color: COLORS.black, textAlign: 'center'},
-                        ]}>
-                        Quantity
-                      </Text>
-                    </View>
-                    <View
-                      style={{
-                        marginLeft: 15,
-                        // borderLeftWidth: 2,
-                        paddingLeft: 15,
-                        justifyContent: 'center',
-                        width: 100,
-                        // borderColor: COLORS.lightblue_200,
-                      }}>
-                      <Text
-                        style={[
-                          FONTS.h4,
-                          {color: COLORS.black, textAlign: 'center'},
-                        ]}>
-                        Vehicle No.
-                      </Text>
-                    </View>
-                    <View
-                      style={{
-                        marginLeft: 18,
-                        //  borderLeftWidth: 2,
-                        justifyContent: 'center',
-                        width: 125,
-                        // borderColor: COLORS.lightblue_200,
-                      }}>
-                      <Text
-                        style={[
-                          FONTS.h4,
-                          {color: COLORS.black, textAlign: 'center'},
-                        ]}>
-                        Location
-                      </Text>
-                    </View>
-                  </View>
-                  {/* getStockData */}
-                  {/* vertical scrool view */}
-                  <ScrollView
-                    nestedScrollEnabled={true}
-                    contentContainerStyle={{
-                      top: 10,
-                      paddingBottom: 15,
-                    }}>
-                    <>
-                      {getStockData.length > 0 ? (
-                        getStockData.map((list, index) => (
-                          <View
-                            style={{
-                              flexDirection: 'column',
-                              alignContent: 'space-between',
-                              paddingVertical: 20,
-                              top: -20,
-                            }}
-                            key={index}>
-                            <View
-                              style={{
-                                flexDirection: 'row',
-                                justifyContent: 'space-evenly',
-                                top: 10,
-                                paddingVertical: 3,
-                                left: -26,
-                              }}>
-                              <View
-                                style={{
-                                  alignContent: 'center',
-                                  alignSelf: 'center',
-                                  width: 45,
-                                  position: 'absolute',
-
-                                  left: 29,
-                                  // right: 10,
-                                  //  left:0,
-                                  top: 3,
-                                  //  bottom:0
-                                }}>
-                                <View>
-                                  <Text
-                                    style={[
-                                      FONTS.h4,
-                                      {
-                                        color: COLORS.darkGray,
-                                        textAlign: 'center',
-                                      },
-                                    ]}>
-                                    {index + 1}
-                                  </Text>
-                                </View>
-                                <View
-                                  style={{
-                                    position: 'absolute',
-                                    width: 1,
-                                    left: 42,
-                                    top: -10,
-                                  }}>
-                                  <Divider
-                                    style={{
-                                      backgroundColor: COLORS.lightGray1,
-                                      height: SIZES.height,
-                                      top: 5,
-                                    }}
-                                  />
-                                </View>
-                              </View>
-                              <View
-                                style={{
-                                  alignContent: 'center',
-                                  alignSelf: 'center',
-                                  width: 145,
-                                  position: 'absolute',
-                                  left: 155,
-                                  top: 3,
-
-                                  // right: 10,
-                                }}>
-                                <View>
-                                  <Text
-                                    style={[
-                                      FONTS.h4,
-                                      {color: COLORS.darkGray},
-                                    ]}>
-                                    {list.item_name}
-                                  </Text>
-                                </View>
-                                <View
-                                  style={{
-                                    position: 'absolute',
-                                    width: 1,
-                                    left: 85,
-                                    top: -10,
-                                  }}>
-                                  <Divider
-                                    style={{
-                                      backgroundColor: COLORS.lightGray1,
-                                      height: SIZES.height,
-                                      top: 5,
-                                    }}
-                                  />
-                                </View>
-                              </View>
-                              <View
-                                style={{
-                                  alignContent: 'center',
-                                  alignSelf: 'center',
-                                  width: 70,
-                                  position: 'absolute',
-                                  left: 250,
-                                  top: 3,
-                                  // borderWidth: 1,
-                                  // borderColor: COLORS.lightblue_200,
-                                  // right: 10,
-                                }}>
-                                <Text
-                                  style={[
-                                    FONTS.h4,
-                                    {
-                                      color: COLORS.darkGray,
-                                      textAlign: 'center',
-                                    },
-                                  ]}>
-                                  {list.unit_name}
-                                </Text>
-                                <View
-                                  style={{
-                                    position: 'absolute',
-                                    width: 1,
-                                    left: 85,
-                                    top: -10,
-                                  }}>
-                                  <Divider
-                                    style={{
-                                      backgroundColor: COLORS.lightGray1,
-                                      height: SIZES.height,
-                                      top: 5,
-                                    }}
-                                  />
-                                </View>
-                              </View>
-                              <View
-                                style={{
-                                  alignContent: 'center',
-                                  alignSelf: 'center',
-                                  width: 80,
-                                  position: 'absolute',
-                                  left: 350,
-                                  top: 3,
-                                  // borderWidth: 1,
-                                  // borderColor: COLORS.lightblue_200,
-                                  // right: 10,
-                                }}>
-                                <Text
-                                  style={[
-                                    FONTS.h4,
-                                    {
-                                      color: COLORS.darkGray,
-                                      textAlign: 'center',
-                                    },
-                                  ]}>
-                                  {list.qty}
-                                </Text>
-                                <View
-                                  style={{
-                                    position: 'absolute',
-                                    width: 1,
-                                    left: 85,
-                                    top: -10,
-                                  }}>
-                                  <Divider
-                                    style={{
-                                      backgroundColor: COLORS.lightGray1,
-                                      height: SIZES.height,
-                                      top: 5,
-                                    }}
-                                  />
-                                </View>
-                              </View>
-                              <View
-                                style={{
-                                  alignContent: 'center',
-                                  alignSelf: 'center',
-                                  width: 100,
-                                  position: 'absolute',
-                                  left: 450,
-                                  top: 3,
-                                  // borderWidth: 1,
-                                  // borderColor: COLORS.lightblue_200,
-                                  // right: 10,
-                                }}>
-                                <Text
-                                  style={[
-                                    FONTS.h4,
-                                    {
-                                      color: COLORS.darkGray,
-                                      textAlign: 'center',
-                                    },
-                                  ]}>
-                                  {list.vehicle_no}
-                                </Text>
-                                <View
-                                  style={{
-                                    position: 'absolute',
-                                    width: 1,
-                                    left: 100,
-                                    top: -10,
-                                  }}>
-                                  <Divider
-                                    style={{
-                                      backgroundColor: COLORS.lightGray1,
-                                      height: SIZES.height,
-                                      top: 5,
-                                    }}
-                                  />
-                                </View>
-                              </View>
-                              <View
-                                style={{
-                                  alignContent: 'center',
-                                  alignSelf: 'center',
-                                  width: 125,
-                                  position: 'absolute',
-                                  left: 560,
-                                  top: 3,
-                                  // borderWidth: 1,
-                                  // borderColor: COLORS.lightblue_200,
-                                  // right: 10,
-                                }}>
-                                <Text
-                                  style={[
-                                    FONTS.h4,
-                                    {
-                                      color: COLORS.darkGray,
-                                      textAlign: 'center',
-                                    },
-                                  ]}>
-                                  {list.location}
-                                </Text>
-                                {/* <View style={{ position: "absolute", width: 3, left: 100, top: -10 }}>
-                                                                    <Divider style={{ backgroundColor: COLORS.lightGray1, height: SIZES.height, top: 5 }} />
-                                                                </View> */}
-                              </View>
-                              {/* <View
-                                                                style={{
-                                                                    // alignContent: "center",
-                                                                    // alignSelf: "center",
-                                                                    width: 60,
-                                                                    position: "absolute",
-                                                                    left: 905,
-                                                                    top: 3,
-                                                                    // borderWidth: 1,
-                                                                    // borderColor: COLORS.lightblue_200,
-                                                                    // right: 10,
-                                                                }}
-                                                            >
-                                                                <View style={{ justifyContent: "center", alignSelf: "center" }}>
-                                                                    <Edit_delete_button edit_size={18} del_size={22} __id={list.quantityWorkItems._id} />
-                                                                </View>
-                                                            </View> */}
-                            </View>
-                            {/* sub items  */}
-                            <View style={{position: 'absolute', top: 23}}>
-                              <Divider
-                                style={{
-                                  backgroundColor: COLORS.lightGray1,
-                                  width: SIZES.width * 3,
-                                  marginHorizontal: 2,
-                                  top: 5,
-                                }}
-                              />
-                            </View>
-                          </View>
-                        ))
-                      ) : (
-                        <View>
-                          <Text
-                            style={[
-                              FONTS.h4,
-                              {color: COLORS.gray, textAlign: 'center'},
-                            ]}>
-                            Currently, no report to show!
-                          </Text>
-                        </View>
-                      )}
-                    </>
-                  </ScrollView>
-                </View>
-              </ScrollView>
-            </View>
+            <ScrollView showsVerticalScrollIndicator={false}>
+              <View style={{marginTop:5}}>
+                <FlatList
+                  data={getStockData}
+                  horizontal
+                  contentContainerStyle={{
+                    flexDirection: 'column',
+                    padding: 2,
+                    
+                    marginHorizontal: 2,
+                  }}
+                  showsHorizontalScrollIndicator={false}
+                  renderItem={renderStock}
+                  ListHeaderComponent={ListHeader}
+                  keyExtractor={item => item._id.toString()}
+                />
+              </View>
+            </ScrollView>
           </View>
         ) : null}
         {add_new_material_modal()}
@@ -1139,3 +859,16 @@ const Stock = ({project_id, Main_drp_pro_value, loading}) => {
 };
 
 export default Stock;
+
+const styles1=StyleSheet.create({
+  headerFooterStyle: {
+    width: '100%',
+    borderWidth: 0.1,
+  },
+  textStyle: {
+    textAlign: 'center',
+    color: '#fff',
+    fontSize: 18,
+    padding: 7,
+  },
+});

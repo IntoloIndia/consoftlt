@@ -66,6 +66,8 @@ const UserEndVoucher = () => {
   const [itemList, setItemList] = useState([]);
   const [itemId, setItemId] = useState('');
 
+  const [unitId, setUnitId] = useState('')
+
   const current_dat = moment().format('YYYY%2FMM%2FDD');
 
   let MyDateString = current_dat;
@@ -90,6 +92,7 @@ const UserEndVoucher = () => {
   const [voucherId, setVoucherId] = useState('');
 
   const [voucherListModal, setVoucherListModal] = useState(false);
+  const [allUnits, setAllUnits] = useState([]);
 
   // CUSTOM TOAST OF CRUD OPERATIONS
   const [submitToast, setSubmitToast] = React.useState(false);
@@ -132,6 +135,12 @@ const UserEndVoucher = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+  const fetchData = async () => {
+    const resp = await fetch(`${process.env.API_URL}unit`);
+    const data = await resp.json();
+    setAllUnits(data)
+    // setdata(data);
   };
 
   function RadioButton({data, onSelect}) {
@@ -190,6 +199,7 @@ const UserEndVoucher = () => {
     voucher_type,
     qty,
     item_id,
+    unit_id,
     remark,
     location,
     vehicle_no,
@@ -203,6 +213,7 @@ const UserEndVoucher = () => {
       setRemark(remark);
       setItemId(item_id);
       setQty(qty);
+      setUnitId(unit_id);
       setProjectId(project_id);
       setLocation(location);
       setVehicleNo(vehicle_no);
@@ -230,16 +241,17 @@ const UserEndVoucher = () => {
       const data = {
         item_id: itemId,
         qty: qty,
+        unit_id:unitId,
         voucher_type: voucherType,
         vehicle_no: vehicleNo,
         location: location,
-        remark: remark
+        remark: remark,
       };
       setToggleSubmitUpdate(false);
       const temp = await update_voucher_detail(voucherId, data);
       if (temp.status == 200) {
         setUpdateToast(true);
-    
+
         getFilteredVoucher();
       }
       setTimeout(() => {
@@ -248,6 +260,7 @@ const UserEndVoucher = () => {
         setVehicleNo('');
         setQty('');
         setRemark('');
+        setUnitId('');
         setLocation('');
         setItemId('');
         setUpdateToast(false);
@@ -267,19 +280,20 @@ const UserEndVoucher = () => {
       company_id: userCompanyData.company_id,
       project_id: projectId,
       item_id: itemId,
+      unit_id:unitId,
       qty: qty,
       remark: remark,
       location: location,
       vehicle_no: vehicleNo,
     };
-    console.log("🚀 ~ file: UserEndVoucher.js ~ line 274 ~ saveVoucherDetails ~ data", data)
+
 
     const res = await insert_voucher_details(data);
-    console.log("🚀 ~ file: UserEndVoucher.js ~ line 277 ~ saveVoucherDetails ~ res", res)
+
 
     if (res.status == '200') {
       setSubmitToast(true);
-   
+
       getFilteredVoucher();
       setTimeout(() => {
         setVoucherModal(false);
@@ -300,8 +314,8 @@ const UserEndVoucher = () => {
         <View style={{flex: 1, backgroundColor: COLORS.transparentBlack1}}>
           <View style={{flex: 1, backgroundColor: '#000000aa'}}>
             <KeyboardAwareScrollView
-                  contentContainerStyle={{flexGrow: 1}}
-                  keyboardShouldPersistTaps="handled"
+              contentContainerStyle={{flexGrow: 1}}
+              keyboardShouldPersistTaps="handled"
               style={{flex: 1}}>
               <View
                 style={{
@@ -431,7 +445,43 @@ const UserEndVoucher = () => {
                     // onBlur={() => setProListIsFocus(false)}
                     onChange={item => {
                       setItemId(item._id);
-                      setVoucherModal(true);
+                      // setVoucherModal(true);
+                    }}
+                  />
+                  <Dropdown
+                    style={[
+                      cont_Project_list_drop,
+                      {
+                        width: SIZES.width * 0.88,
+                        // marginTop: 0,
+                      },
+                      proListIsFocus && {
+                        borderColor: COLORS.gray2,
+                      },
+                    ]}
+                    placeholderStyle={{fontSize: 16, color: COLORS.darkGray}}
+                    selectedTextStyle={{color: COLORS.gray}}
+                    containerStyle={{
+                      width: SIZES.width * 0.88,
+                      borderRadius: SIZES.base,
+                      paddingTop: SIZES.base * 0.5,
+                      // marginTop: SIZES.base,
+                    }}
+                    iconStyle={{
+                      height: 28,
+                    }}
+                    data={allUnits}
+                    maxHeight={200}
+                    labelField="unit_name"
+                    valueField="_id"
+                    value={itemId.toString()}
+                    placeholder={'Select Unit'}
+                    // onFocus={() => setProListIsFocus(true)}
+                    // onBlur={() => setProListIsFocus(false)}
+                    onChange={item => {
+                      // setItemId(item._id);
+                      setUnitId(item._id);;
+                      // setVoucherModal(true);
                     }}
                   />
                   <FormInput
@@ -710,6 +760,7 @@ const UserEndVoucher = () => {
                       ele.voucher_type,
                       ele.qty,
                       ele.item_id,
+                      ele.unit_id,
                       ele.remark,
                       ele.location,
                       ele.vehicle_no,
@@ -963,29 +1014,80 @@ const UserEndVoucher = () => {
         <View style={{flexDirection: 'row'}}>
           <View style={{width: 150, backgroundColor: 'white'}}>
             <Text
-              style={{...FONTS.body3, fontWeight: '600',color:COLORS.darkGray, textAlign: 'center'}}>
+              style={{
+                ...FONTS.body3,
+                fontWeight: '600',
+                color: COLORS.darkGray,
+                textAlign: 'center',
+              }}>
               Voucher Type
             </Text>
           </View>
           <View style={{width: 80, backgroundColor: 'white'}}>
-            <Text style={{...FONTS.body3, fontWeight: '600',color:COLORS.darkGray, textAlign: 'center'}}>Item Name</Text>
+            <Text
+              style={{
+                ...FONTS.body3,
+                fontWeight: '600',
+                color: COLORS.darkGray,
+                textAlign: 'center',
+              }}>
+              Item Name
+            </Text>
           </View>
           <View style={{width: 60, backgroundColor: 'white'}}>
-            <Text style={{...FONTS.body3, fontWeight: '600',color:COLORS.darkGray, textAlign: 'center'}}>Qty</Text>
+            <Text
+              style={{
+                ...FONTS.body3,
+                fontWeight: '600',
+                color: COLORS.darkGray,
+                textAlign: 'center',
+              }}>
+              Qty
+            </Text>
           </View>
           <View style={{width: 200, backgroundColor: 'white'}}>
-            <Text style={{...FONTS.body3, fontWeight: '600',color:COLORS.darkGray, textAlign: 'center'}}>Remark</Text>
+            <Text
+              style={{
+                ...FONTS.body3,
+                fontWeight: '600',
+                color: COLORS.darkGray,
+                textAlign: 'center',
+              }}>
+              Remark
+            </Text>
           </View>
           <View style={{width: 100, backgroundColor: 'white'}}>
-            <Text style={{...FONTS.body3, fontWeight: '600',color:COLORS.darkGray, textAlign: 'center'}}>Status</Text>
+            <Text
+              style={{
+                ...FONTS.body3,
+                fontWeight: '600',
+                color: COLORS.darkGray,
+                textAlign: 'center',
+              }}>
+              Status
+            </Text>
           </View>
           <View style={{width: 120, backgroundColor: 'white'}}>
-            <Text style={{...FONTS.body3, fontWeight: '600',color:COLORS.darkGray, textAlign: 'center'}}>
+            <Text
+              style={{
+                ...FONTS.body3,
+                fontWeight: '600',
+                color: COLORS.darkGray,
+                textAlign: 'center',
+              }}>
               Voucher Date
             </Text>
           </View>
           <View style={{width: 130, backgroundColor: 'white'}}>
-            <Text style={{...FONTS.body3, fontWeight: '600',color:COLORS.darkGray, textAlign: 'center'}}>Action</Text>
+            <Text
+              style={{
+                ...FONTS.body3,
+                fontWeight: '600',
+                color: COLORS.darkGray,
+                textAlign: 'center',
+              }}>
+              Action
+            </Text>
           </View>
         </View>
       </View>
@@ -1107,6 +1209,7 @@ const UserEndVoucher = () => {
           getStockDataItems();
           setToggleSubmitUpdate(false);
           setVoucherModal(true);
+          fetchData();
         }}
         style={{
           flexDirection: 'row',
@@ -1154,7 +1257,8 @@ const UserEndVoucher = () => {
                 marginBottom: 2,
               },
             ]}>
-            <Text style={[FONTS.body3, {fontWeight:'900',color: COLORS.gray}]}>
+            <Text
+              style={[FONTS.body3, {fontWeight: '900', color: COLORS.gray}]}>
               {constants.CHECK_VOUCHER_TYPE.PURCHASED_VOUCHER == userOption
                 ? 'Pending Voucher'
                 : constants.CHECK_VOUCHER_TYPE.RECEIVED_VOUCHER == userOption
@@ -1171,10 +1275,10 @@ const UserEndVoucher = () => {
               onPress={() => {
                 setVoucherListModal(!voucherListModal);
               }}>
-              <Ionicons
-                name="md-filter"
+              <MaterialCommunityIcons
+                name="filter-menu"
                 size={25}
-                color={COLORS.blue}></Ionicons>
+                color={COLORS.blue}></MaterialCommunityIcons>
             </TouchableOpacity>
           </View>
           <ScrollView showsVerticalScrollIndicator={false}>
