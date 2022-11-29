@@ -254,7 +254,7 @@ const UserReports = ({route}) => {
             refreshing={loading}
             onRefresh={loadMore}
           />
-        }
+        }        
         enableOnAndroid={true}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{flexGrow: 1}}

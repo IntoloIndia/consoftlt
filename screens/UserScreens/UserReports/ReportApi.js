@@ -127,12 +127,27 @@ const insert_new_category = new_categ_post => {
   }
 };
 
+
+
 const insert_new_sub_category = new_subCateg_post => {
   try {
     const res = fetch(`${process.env.API_URL}manpower-sub-category/`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(new_subCateg_post),
+    });
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const insert_voucher_details = post_data => {
+  try {
+    const res = fetch(`${process.env.API_URL}voucher/`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(post_data),
     });
     return res;
   } catch (error) {
@@ -375,6 +390,23 @@ const update_TAndP_report_data = async (id, equipmentField) => {
   }
 };
 
+const update_voucher_detail = async (id, inputs) => {
+  try {
+    const res = await fetch(`${process.env.API_URL}voucher/${id}`, {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(inputs),
+    });
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const get_stock_item_name = async () => {
   try {
     const res = await fetch(`${process.env.API_URL}item`);
@@ -449,5 +481,7 @@ export {
   get_completed_task,
   delete_Qty_Record,
   get_latest_steel_id,
-  get_filter_voucher
+  get_filter_voucher,
+  update_voucher_detail,
+  insert_voucher_details
 };
