@@ -11,6 +11,7 @@ import {
   MyProfile,
   UserReports,
   ViewReport,
+  Stock
 } from '../screens/UserScreens';
 
 const Tab = createBottomTabNavigator();
@@ -120,6 +121,33 @@ const UserTabs = ({navigation, route}) => {
           headerShown: true,
         }}
       />
+        <Tab.Screen
+        name="Voucher"
+        component={UserEndVoucher}
+        options={{
+          tabBarIcon: ({focused}) => (
+            <View style={{alignItems: 'center', justifyContent: 'center'}}>
+              <Image
+                source={icons.stock}
+                style={{
+                  height: 18,
+                  width: 18,
+                  tintColor: focused
+                    ? COLORS.majorelle_blue_1000
+                    : COLORS.black,
+                }}
+              />
+              <Text
+                style={{
+                  color: focused ? COLORS.majorelle_blue_1000 : COLORS.black,
+                  ...FONTS.body5,
+                }}>
+                Voucher
+              </Text>
+            </View>
+          ),
+        }}
+      />
       <Tab.Screen
         name="Report"
         component={UserReports}
@@ -147,6 +175,7 @@ const UserTabs = ({navigation, route}) => {
           ),
         }}
       />
+    
       {/* <Tab.Screen
         name="Report"
         component={UserReports}

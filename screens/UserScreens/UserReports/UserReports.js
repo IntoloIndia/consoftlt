@@ -254,7 +254,7 @@ const UserReports = ({route}) => {
             refreshing={loading}
             onRefresh={loadMore}
           />
-        }
+        }        
         enableOnAndroid={true}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{flexGrow: 1}}
@@ -289,18 +289,18 @@ const UserReports = ({route}) => {
                   loading={loading}
                 />
               </View>
-              {/* <View style={{ marginVertical: 5 }}>
+              <View style={{ marginVertical: 5 }}>
               <Stock project_id={value} Main_drp_pro_value={value} loading={loading} />
-            </View> */}
+            </View>
               {/* <View style={{ marginVertical: 5 }} Main_drp_pro_value={value}>
               <Quantity project_id={value} Main_drp_pro_value={value} loading={loading} />
             </View> */}
               {/* <View style={{ marginVertical: 5 }}>
               <Quality />
             </View> */}
-              {/* <View style={{ marginVertical: 5 }}>
+              <View style={{ }}>
               <TAndP Main_drp_pro_value={value} loading={loading} />
-            </View> */}
+            </View>
 
               {/* <TouchableOpacity
                 style={{
