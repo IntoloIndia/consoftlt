@@ -66,7 +66,7 @@ const UserEndVoucher = () => {
   const [itemList, setItemList] = useState([]);
   const [itemId, setItemId] = useState('');
 
-  const [unitId, setUnitId] = useState('')
+  const [unitId, setUnitId] = useState('');
 
   const current_dat = moment().format('YYYY%2FMM%2FDD');
 
@@ -139,7 +139,7 @@ const UserEndVoucher = () => {
   const fetchData = async () => {
     const resp = await fetch(`${process.env.API_URL}unit`);
     const data = await resp.json();
-    setAllUnits(data)
+    setAllUnits(data);
     // setdata(data);
   };
 
@@ -205,6 +205,7 @@ const UserEndVoucher = () => {
     vehicle_no,
   ) => {
     try {
+      fetchData();
       setVoucherId(id);
       setToggleSubmitUpdate(true);
       getStockDataItems();
@@ -241,7 +242,7 @@ const UserEndVoucher = () => {
       const data = {
         item_id: itemId,
         qty: qty,
-        unit_id:unitId,
+        unit_id: unitId,
         voucher_type: voucherType,
         vehicle_no: vehicleNo,
         location: location,
@@ -280,16 +281,14 @@ const UserEndVoucher = () => {
       company_id: userCompanyData.company_id,
       project_id: projectId,
       item_id: itemId,
-      unit_id:unitId,
+      unit_id: unitId,
       qty: qty,
       remark: remark,
       location: location,
       vehicle_no: vehicleNo,
     };
 
-
     const res = await insert_voucher_details(data);
-
 
     if (res.status == '200') {
       setSubmitToast(true);
@@ -474,13 +473,14 @@ const UserEndVoucher = () => {
                     maxHeight={200}
                     labelField="unit_name"
                     valueField="_id"
-                    value={itemId.toString()}
+                    value={unitId}
                     placeholder={'Select Unit'}
                     // onFocus={() => setProListIsFocus(true)}
                     // onBlur={() => setProListIsFocus(false)}
                     onChange={item => {
+                      console.log("🚀 ~ file: UserEndVoucher.js ~ line 480 ~ addVoucherModal ~ item", item)
                       // setItemId(item._id);
-                      setUnitId(item._id);;
+                      setUnitId(item._id);
                       // setVoucherModal(true);
                     }}
                   />
@@ -490,7 +490,7 @@ const UserEndVoucher = () => {
                       utils.validateText(value, setQtyError);
                       setQty(value);
                     }}
-                    value={qty.toString()}
+                    value={qty}
                     keyboardType="numeric"
                     errorMsg={qtyError}
                     appendComponent={
