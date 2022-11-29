@@ -98,7 +98,7 @@ const UserEndVoucher = () => {
   const [toggleSubmitUpdate, setToggleSubmitUpdate] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = React.useState(false);
 
-  const [userOption, setUserOption] = useState(null);
+  const [userOption, setUserOption] = useState('Purchase Request');
   const voucherArr = [
     {value: 'Purchase Request'},
     {value: 'Received'},
@@ -963,51 +963,34 @@ const UserEndVoucher = () => {
         <View style={{flexDirection: 'row'}}>
           <View style={{width: 150, backgroundColor: 'white'}}>
             <Text
-              style={{fontSize: 16, fontWeight: 'bold', textAlign: 'center'}}>
+              style={{...FONTS.body3, fontWeight: '600',color:COLORS.darkGray, textAlign: 'center'}}>
               Voucher Type
             </Text>
           </View>
           <View style={{width: 80, backgroundColor: 'white'}}>
-            <Text
-              style={{fontSize: 16, fontWeight: 'bold', textAlign: 'center'}}>
-              Item Name
-            </Text>
+            <Text style={{...FONTS.body3, fontWeight: '600',color:COLORS.darkGray, textAlign: 'center'}}>Item Name</Text>
           </View>
           <View style={{width: 60, backgroundColor: 'white'}}>
-            <Text
-              style={{fontSize: 16, fontWeight: 'bold', textAlign: 'center'}}>
-              Qty
-            </Text>
+            <Text style={{...FONTS.body3, fontWeight: '600',color:COLORS.darkGray, textAlign: 'center'}}>Qty</Text>
           </View>
           <View style={{width: 200, backgroundColor: 'white'}}>
-            <Text
-              style={{fontSize: 16, fontWeight: 'bold', textAlign: 'center'}}>
-              Remark
-            </Text>
+            <Text style={{...FONTS.body3, fontWeight: '600',color:COLORS.darkGray, textAlign: 'center'}}>Remark</Text>
           </View>
           <View style={{width: 100, backgroundColor: 'white'}}>
-            <Text
-              style={{fontSize: 16, fontWeight: 'bold', textAlign: 'center'}}>
-              Status
-            </Text>
+            <Text style={{...FONTS.body3, fontWeight: '600',color:COLORS.darkGray, textAlign: 'center'}}>Status</Text>
           </View>
           <View style={{width: 120, backgroundColor: 'white'}}>
-            <Text
-              style={{fontSize: 16, fontWeight: 'bold', textAlign: 'center'}}>
+            <Text style={{...FONTS.body3, fontWeight: '600',color:COLORS.darkGray, textAlign: 'center'}}>
               Voucher Date
             </Text>
           </View>
           <View style={{width: 130, backgroundColor: 'white'}}>
-            <Text
-              style={{fontSize: 16, fontWeight: 'bold', textAlign: 'center'}}>
-              Action
-            </Text>
+            <Text style={{...FONTS.body3, fontWeight: '600',color:COLORS.darkGray, textAlign: 'center'}}>Action</Text>
           </View>
         </View>
       </View>
     );
   };
-
   const voucherSelectionModal = () => {
     return (
       <Modal
@@ -1171,7 +1154,7 @@ const UserEndVoucher = () => {
                 marginBottom: 2,
               },
             ]}>
-            <Text style={[FONTS.body3, {color: COLORS.gray}]}>
+            <Text style={[FONTS.body3, {fontWeight:'900',color: COLORS.gray}]}>
               {constants.CHECK_VOUCHER_TYPE.PURCHASED_VOUCHER == userOption
                 ? 'Pending Voucher'
                 : constants.CHECK_VOUCHER_TYPE.RECEIVED_VOUCHER == userOption
