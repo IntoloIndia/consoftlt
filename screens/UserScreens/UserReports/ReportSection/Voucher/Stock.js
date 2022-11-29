@@ -621,7 +621,7 @@ const Stock = ({project_id, Main_drp_pro_value, loading}) => {
               Item Name
             </Text>
           </View>
-          <View style={{width: 60, backgroundColor: 'white'}}>
+          <View style={{width: 80, backgroundColor: 'white'}}>
             <Text
               style={{
                 ...FONTS.body3,
@@ -630,6 +630,17 @@ const Stock = ({project_id, Main_drp_pro_value, loading}) => {
                 textAlign: 'center',
               }}>
               Qty
+            </Text>
+          </View>
+          <View style={{width: 120, backgroundColor: 'white'}}>
+            <Text
+              style={{
+                ...FONTS.body3,
+                fontWeight: '600',
+                color: COLORS.darkGray,
+                textAlign: 'center',
+              }}>
+              Unit Name
             </Text>
           </View>
           <View style={{width: 200, backgroundColor: 'white'}}>
@@ -642,7 +653,7 @@ const Stock = ({project_id, Main_drp_pro_value, loading}) => {
               }}>
               Remark
             </Text>
-          </View>                     
+          </View>
         </View>
       </View>
     );
@@ -693,6 +704,18 @@ const Stock = ({project_id, Main_drp_pro_value, loading}) => {
                 height: SIZES.height * 0.04,
               }}
             />
+            <View style={{width: 120}}>
+              <Text style={{fontSize: 16, textAlign: 'center'}}>
+                {ele.unit_name}
+              </Text>
+            </View>
+            <Divider
+              style={{
+                backgroundColor: COLORS.lightGray1,
+                padding: 0.4,
+                height: SIZES.height * 0.04,
+              }}
+            />
             <View style={{width: 200}}>
               <Text style={{fontSize: 16, textAlign: 'left'}}>
                 {ele.remark}
@@ -711,7 +734,7 @@ const Stock = ({project_id, Main_drp_pro_value, loading}) => {
                 padding: 0.4,
                 height: SIZES.height * 0.04,
               }}
-            />  
+            />
           </View>
         );
       })}
@@ -810,21 +833,33 @@ const Stock = ({project_id, Main_drp_pro_value, loading}) => {
               justifyContent: 'center',
             }}>
             <ScrollView showsVerticalScrollIndicator={false}>
-              <View style={{marginTop:5}}>
-                <FlatList
-                  data={getStockData}
-                  horizontal
-                  contentContainerStyle={{
-                    flexDirection: 'column',
-                    padding: 2,
-                    
-                    marginHorizontal: 2,
-                  }}
-                  showsHorizontalScrollIndicator={false}
-                  renderItem={renderStock}
-                  ListHeaderComponent={ListHeader}
-                  keyExtractor={item => item._id.toString()}
-                />
+              <View style={{marginTop: 5}}>
+                {getStockData.length > 0 ? (
+                  <FlatList
+                    data={getStockData}
+                    horizontal
+                    contentContainerStyle={{
+                      flexDirection: 'column',
+                      padding: 2,
+
+                      marginHorizontal: 2,
+                    }}
+                    showsHorizontalScrollIndicator={false}
+                    renderItem={renderStock}
+                    ListHeaderComponent={ListHeader}
+                    keyExtractor={item => item._id.toString()}
+                  />
+                ) : (
+                  <View>
+                    <Text
+                      style={[
+                        FONTS.h4,
+                        {color: COLORS.gray, textAlign: 'center'},
+                      ]}>
+                      Currently, no report to show!
+                    </Text>
+                  </View>
+                )}
               </View>
             </ScrollView>
           </View>
@@ -860,7 +895,7 @@ const Stock = ({project_id, Main_drp_pro_value, loading}) => {
 
 export default Stock;
 
-const styles1=StyleSheet.create({
+const styles1 = StyleSheet.create({
   headerFooterStyle: {
     width: '100%',
     borderWidth: 0.1,

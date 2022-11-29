@@ -697,6 +697,18 @@ const UserEndVoucher = () => {
                 height: SIZES.height * 0.04,
               }}
             />
+            <View style={{width: 120}}>
+              <Text style={{fontSize: 16, textAlign: 'center'}}>
+                {ele.unit_name}
+              </Text>
+            </View>
+            <Divider
+              style={{
+                backgroundColor: COLORS.lightGray1,
+                padding: 0.4,
+                height: SIZES.height * 0.04,
+              }}
+            />
             <View style={{width: 200}}>
               <Text style={{fontSize: 16, textAlign: 'left'}}>
                 {ele.remark}
@@ -1043,6 +1055,17 @@ const UserEndVoucher = () => {
                 textAlign: 'center',
               }}>
               Qty
+            </Text>
+          </View>
+          <View style={{width: 120, backgroundColor: 'white'}}>
+            <Text
+              style={{
+                ...FONTS.body3,
+                fontWeight: '600',
+                color: COLORS.darkGray,
+                textAlign: 'center',
+              }}>
+              Unit Name
             </Text>
           </View>
           <View style={{width: 200, backgroundColor: 'white'}}>
