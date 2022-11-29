@@ -60,8 +60,13 @@ const Vouchers = () => {
     setVerifiedVoucher(res.data);
   };
 
+  const PURCHASED_VOUCHER = 'Purchase Request';
   const fetchPendingVouchers = async () => {
-    const res = await getPendingVoucher(company_id, MyDateString);
+    const res = await getPendingVoucher(
+      company_id,
+      MyDateString,
+      PURCHASED_VOUCHER,
+    );
     setPendingVoucher(res.data);
   };
 
@@ -590,7 +595,7 @@ const Vouchers = () => {
           style={{
             fontSize: 16,
             fontWeight: '500',
-            color: COLORS.lightblue_700,
+            color: COLORS.majorelle_blue_800,
             textTransform: 'capitalize',
             marginBottom: 5,
           }}>
@@ -601,7 +606,7 @@ const Vouchers = () => {
             style={{
               flexDirection: 'row',
               alignItems: 'center',
-              backgroundColor: COLORS.yellow_400,
+              backgroundColor: COLORS.success_400,
               marginBottom: 5,
               padding: 5,
               borderRadius: 2,
@@ -687,7 +692,7 @@ const Vouchers = () => {
             color: COLORS.darkGray,
             textDecorationLine: 'underline',
           }}>
-          Pending Vouchers
+          Pending
         </Text>
         <FlatList
           contentContainerStyle={{marginTop: 10}}
@@ -781,7 +786,7 @@ const Vouchers = () => {
           style={{
             fontSize: 16,
             fontWeight: '500',
-            color: COLORS.lightblue_700,
+            color: COLORS.majorelle_blue_800,
             textTransform: 'capitalize',
             marginBottom: 5,
           }}>
@@ -880,7 +885,7 @@ const Vouchers = () => {
             color: COLORS.darkGray,
             textDecorationLine: 'underline',
           }}>
-          Revert Vouchers
+          Reverted
         </Text>
         <FlatList
           contentContainerStyle={{marginTop: 10}}
@@ -974,7 +979,7 @@ const Vouchers = () => {
           style={{
             fontSize: 16,
             fontWeight: '500',
-            color: COLORS.lightblue_700,
+            color: COLORS.majorelle_blue_800,
             textTransform: 'capitalize',
             marginBottom: 5,
           }}>
@@ -1073,7 +1078,7 @@ const Vouchers = () => {
             color: COLORS.darkGray,
             textDecorationLine: 'underline',
           }}>
-          All Vouchers
+          Verified
         </Text>
         <FlatList
           contentContainerStyle={{marginTop: 10}}

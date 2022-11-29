@@ -265,7 +265,6 @@ const Items = () => {
                 textStyle={{
                   fontSize: 15,
                   color: COLORS.black,
-                  textTransform: 'capitalize',
                 }}
                 listParentLabelStyle={{color: COLORS.white, fontSize: 15}}
                 placeholder="Select unit"
