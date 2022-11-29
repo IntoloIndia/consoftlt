@@ -189,9 +189,9 @@ const get_new_sub_category = Id => {
   }
 };
 
-const get_stock_data = async () => {
+const get_stock_data = async (company_id,curr_date) => {
   try {
-    const res = fetch(`${process.env.API_URL}stock-entry/`);
+    const res = fetch(`${process.env.API_URL}all-voucher/${company_id}/${curr_date}`);
     return res;
   } catch (error) {
     console.log(error);
