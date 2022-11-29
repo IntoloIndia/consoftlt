@@ -183,6 +183,16 @@ const get_stock_data = async () => {
   }
 };
 
+const get_filter_voucher = async (company_id, curr_date,voucher_type) => {
+  try {
+    const res = await fetch(
+      `${process.env.API_URL}filter-voucher/${company_id}/${curr_date}/${voucher_type}`,
+    );
+    const data = await res.json();
+    return data;
+  } catch (error) {}
+};
+
 const get_manpower_report = async (project_id, user_id, curr_date) => {
   try {
     const res = await fetch(
@@ -372,10 +382,10 @@ const get_stock_item_name = async () => {
     return data;
   } catch (error) {}
 };
-const get_equipment_item_name = async company_id => {
+const get_equipment_item_name = async () => {
   try {
     const res = await fetch(
-      `${process.env.API_URL}tools-machinery/${company_id}`,
+      `${process.env.API_URL}tools-machinery`,
     );
     const data = await res.json();
     return data;
@@ -439,4 +449,5 @@ export {
   get_completed_task,
   delete_Qty_Record,
   get_latest_steel_id,
+  get_filter_voucher
 };

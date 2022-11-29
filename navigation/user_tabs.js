@@ -122,8 +122,8 @@ const UserTabs = ({navigation, route}) => {
         }}
       />
         <Tab.Screen
-        name="Stock"
-        component={Stock}
+        name="Voucher"
+        component={UserEndVoucher}
         options={{
           tabBarIcon: ({focused}) => (
             <View style={{alignItems: 'center', justifyContent: 'center'}}>

@@ -168,7 +168,8 @@ const TAndP = ({project_id, Main_drp_pro_value, loading}) => {
 
   const getEquipmentItems = async () => {
     try {
-      const data = await get_equipment_item_name(userData.company_id);
+      // const data = await get_equipment_item_name(userData.company_id);
+      const data = await get_equipment_item_name();
       if (data.length >= 0) {
         setGetEquipItemName(data);
       }
@@ -779,7 +780,7 @@ const TAndP = ({project_id, Main_drp_pro_value, loading}) => {
   };
 
   return (
-    <View style={{marginTop: 5}}>
+    <View style={{}}>
       <Animated.View
         style={{
           transform: [{scale}],

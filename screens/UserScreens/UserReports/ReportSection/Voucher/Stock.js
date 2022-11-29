@@ -21,6 +21,7 @@ import {
 import styles from '../../ReportStyle.js';
 import {Title, Divider} from 'react-native-paper';
 import {Dropdown} from 'react-native-element-dropdown';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
@@ -130,7 +131,7 @@ const Stock = ({project_id, Main_drp_pro_value, loading}) => {
   const getStockDataItems = async () => {
     try {
       const temp = await get_stock_item_name();
-      console.log('data--',temp.data.length)
+      console.log('data--', temp.data.length);
       if (temp.data.length >= 0) {
         setStockItemData(temp.data);
       }
@@ -294,7 +295,7 @@ const Stock = ({project_id, Main_drp_pro_value, loading}) => {
                         searchPlaceholder="Search..."
                         value={input.item_id}
                         onChange={item => {
-                            console.log('item--',item)
+                          console.log('item--', item);
                           setSelectKey(input.key);
                           inputSelectItem(item, key);
                         }}
@@ -568,29 +569,21 @@ const Stock = ({project_id, Main_drp_pro_value, loading}) => {
           }}>
           <View
             style={{
-              alignSelf: 'center',
-              alignItems: 'center',
-              position: 'absolute',
-              justifyContent: 'space-evenly',
-              flexDirection: 'row',
-              backgroundColor: COLORS.lightblue_400,
-              padding: SIZES.base * 0.1,
-              paddingHorizontal: 2,
-              paddingVertical: -2,
+              backgroundColor: COLORS.majorelle_blue_200,
+              padding: 5,
+              paddingHorizontal: 6,
               borderRadius: 5,
-              top: -SIZES.base * 1.2,
+              flexDirection: 'row',
+              alignItems: 'center',
             }}>
-            <View>
-              <Text
-                onPressIn={onPressIn}
-                onPressOut={onPressOut}
-                style={[FONTS.body5, {color: COLORS.white}]}>
-                Add
-              </Text>
-            </View>
-            <View>
-              <MaterialIcons name="add" size={15} color={COLORS.white} />
-            </View>
+            <Ionicons
+              name="person-add"
+              size={16}
+              color={COLORS.majorelle_blue_800}
+            />
+            <Text style={{fontSize: 12, color: COLORS.black, left: 3}}>
+              Add New
+            </Text>
           </View>
         </TouchableOpacity>
       </Animated.View>
@@ -598,48 +591,25 @@ const Stock = ({project_id, Main_drp_pro_value, loading}) => {
   };
 
   return (
-    <View>
-      {/* Stock */}
-      <Animated.View style={{transform: [{scale}]}}>
+    <View style={{paddingTop:5}}> 
+      <Animated.View style={{transform: [{scale}],      flexDirection: 'row',}}>
         <Pressable
           onPress={() => {
-            GetStockData();
-            LayoutAnimation.configureNext({
-              duration: 300,
-              create: {
-                type: LayoutAnimation.Types.easeInEaseOut,
-                property: LayoutAnimation.Properties.opacity,
-              },
-              update: {
-                type: LayoutAnimation.Types.easeInEaseOut,
-              },
-            });
+            GetStockData();          
             setStockCollapse(!stockCollapse);
           }}
           onPressIn={onPressIn}
           onPressOut={onPressOut}
           style={{
             flexDirection: 'row',
-            paddingHorizontal: SIZES.base,
-            paddingVertical: 3,
-            width: SIZES.width * 0.53,
-            alignItems: 'center',
             justifyContent: 'space-between',
-            top: SIZES.base,
-            borderColor: COLORS.lightblue_200,
-            backgroundColor: COLORS.lightblue_600,
-            borderWidth: 1,
-            borderRadius: 4,
-            elevation: 2,
-            shadowColor: '#000',
-            shadowOffset: {
-              width: 0,
-              height: 4,
-            },
-            shadowOpacity: 0.3,
-            shadowRadius: 4.65,
+            paddingVertical: 3,
+            // top: SIZES.base*0.5,
+            paddingHorizontal: SIZES.radius,
+            width: '60%',
+            backgroundColor: COLORS.majorelle_blue_700,
           }}>
-          <View style={{alignItems: 'center', alignSelf: 'center'}}>
+          {/* <View>
             <Text
               onPressIn={onPressIn}
               onPressOut={onPressOut}
@@ -658,10 +628,24 @@ const Stock = ({project_id, Main_drp_pro_value, loading}) => {
                 });
               }}
               style={[FONTS.h3, {color: COLORS.white2}]}>
-              Stock
+            
+            </Text>
+          </View> */}
+          <View>
+            <Text
+              onPressIn={onPressIn}
+              onPressOut={onPressOut}
+              onPress={() =>  setStockCollapse(!stockCollapse)}
+              style={{...FONTS.h4, color: COLORS.white}}>
+                 Stock
             </Text>
           </View>
-          <View style={{alignItems: 'center', alignSelf: 'center'}}>
+          <View
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginLeft: SIZES.base * 0.5,
+            }}>
             <TouchableOpacity
               onPressIn={onPressIn}
               onPressOut={onPressOut}
@@ -682,12 +666,15 @@ const Stock = ({project_id, Main_drp_pro_value, loading}) => {
             </TouchableOpacity>
           </View>
         </Pressable>
+        <View style={{left: 15}}>
+          {stockCollapse ? add_stock_icon_button() : null}
+        </View>
       </Animated.View>
       <View
         style={{
           alignSelf: 'center',
           flexDirection: 'row',
-          right: SIZES.base * 2,
+          right: SIZES.base * 4,
         }}>
         {stockCollapse ? (
           <View
@@ -696,9 +683,7 @@ const Stock = ({project_id, Main_drp_pro_value, loading}) => {
               flexDirection: 'column',
               justifyContent: 'center',
             }}>
-            <View style={{backgroundColor: 'blue', paddingLeft: 160}}>
-              {add_stock_icon_button()}
-            </View>
+    
             <View
               style={{
                 borderWidth: 1,
@@ -706,10 +691,12 @@ const Stock = ({project_id, Main_drp_pro_value, loading}) => {
                 width: SIZES.width * 0.92,
                 alignSelf: 'flex-start',
                 position: 'relative',
-                top: 20,
-                marginLeft: 17,
+                top: 5,
+
+                marginLeft: 32,
                 maxHeight: 200,
-                paddingBottom: 6,
+                marginBottom:5,
+                // paddingBottom: 16,
                 elevation: 1,
               }}>
               <ScrollView
@@ -720,7 +707,7 @@ const Stock = ({project_id, Main_drp_pro_value, loading}) => {
                   maxHeight: 500,
                   borderWidth: 2,
                 }}>
-                <View style={{}}>
+                <View>
                   <View
                     style={{
                       flexDirection: 'row',

@@ -289,16 +289,16 @@ const UserReports = ({route}) => {
                   loading={loading}
                 />
               </View>
-              {/* <View style={{ marginVertical: 5 }}>
+              <View style={{ marginVertical: 5 }}>
               <Stock project_id={value} Main_drp_pro_value={value} loading={loading} />
-            </View> */}
+            </View>
               {/* <View style={{ marginVertical: 5 }} Main_drp_pro_value={value}>
               <Quantity project_id={value} Main_drp_pro_value={value} loading={loading} />
             </View> */}
               {/* <View style={{ marginVertical: 5 }}>
               <Quality />
             </View> */}
-              <View style={{ marginVertical: 5 }}>
+              <View style={{ }}>
               <TAndP Main_drp_pro_value={value} loading={loading} />
             </View>
 
