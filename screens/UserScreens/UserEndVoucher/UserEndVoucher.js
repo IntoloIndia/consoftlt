@@ -187,6 +187,7 @@ const UserEndVoucher = () => {
         MyDateString,
         userOption,
       );
+
       setPendingVoucher(data.data);
     } catch (error) {
       console.log(error);
@@ -197,13 +198,14 @@ const UserEndVoucher = () => {
     id,
     project_id,
     voucher_type,
-    qty,
+    _qty,
     item_id,
     unit_id,
     remark,
     location,
     vehicle_no,
   ) => {
+    
     try {
       fetchData();
       setVoucherId(id);
@@ -213,7 +215,7 @@ const UserEndVoucher = () => {
       setVoucherType(voucher_type);
       setRemark(remark);
       setItemId(item_id);
-      setQty(qty);
+      setQty(_qty);
       setUnitId(unit_id);
       setProjectId(project_id);
       setLocation(location);
@@ -478,7 +480,6 @@ const UserEndVoucher = () => {
                     // onFocus={() => setProListIsFocus(true)}
                     // onBlur={() => setProListIsFocus(false)}
                     onChange={item => {
-                      console.log("🚀 ~ file: UserEndVoucher.js ~ line 480 ~ addVoucherModal ~ item", item)
                       // setItemId(item._id);
                       setUnitId(item._id);
                       // setVoucherModal(true);
@@ -490,7 +491,7 @@ const UserEndVoucher = () => {
                       utils.validateText(value, setQtyError);
                       setQty(value);
                     }}
-                    value={qty}
+                    value={qty.toString()}
                     keyboardType="numeric"
                     errorMsg={qtyError}
                     appendComponent={

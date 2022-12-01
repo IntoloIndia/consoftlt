@@ -63,7 +63,6 @@ const UserDashboard = () => {
       user_id: userData._id,
     };
     const response = await postUserAttendance(formData);
-    // console.log(response);
     if (response.status === 200) {
       setAttendanceModal(false);
       alert(response.message);
@@ -75,11 +74,9 @@ const UserDashboard = () => {
       userData.company_id,
       userData._id,
     );
-    console.log('res', response);
     if (response.status == 200) {
       setAttendanceModal(true);
     }
-    // console.log(response);
   };
 
   React.useEffect(() => {
