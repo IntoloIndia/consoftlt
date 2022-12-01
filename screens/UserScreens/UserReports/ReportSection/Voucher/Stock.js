@@ -157,7 +157,6 @@ const Stock = ({project_id, Main_drp_pro_value, loading}) => {
       if (res.status == 200) {
         // res.data.map(ele => {
         setGetStockData(res.data);
-        console.log(res.data);
         // });
       }
     } catch (error) {
@@ -300,7 +299,6 @@ const Stock = ({project_id, Main_drp_pro_value, loading}) => {
                         searchPlaceholder="Search..."
                         value={input.item_id}
                         onChange={item => {
-                          console.log('item--', item);
                           setSelectKey(input.key);
                           inputSelectItem(item, key);
                         }}

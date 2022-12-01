@@ -197,6 +197,22 @@ const get_stock_data = async (company_id,curr_date) => {
     console.log(error);
   }
 };
+const get_projectBy_userId = async (company_id) => {
+  try {
+    const res = fetch(`${process.env.API_URL}user-by-projects/${company_id}`);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+const get_all_unit = async () => {
+  try {
+    const res = fetch(`${process.env.API_URL}unit`);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 const get_filter_voucher = async (company_id, curr_date,voucher_type) => {
   try {
@@ -483,5 +499,7 @@ export {
   get_latest_steel_id,
   get_filter_voucher,
   update_voucher_detail,
-  insert_voucher_details
+  insert_voucher_details,
+  get_projectBy_userId,
+  get_all_unit
 };

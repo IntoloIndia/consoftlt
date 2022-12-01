@@ -37,6 +37,8 @@ import {
   edit_voucher_detail,
   update_voucher_detail,
   get_filter_voucher,
+  get_projectBy_userId,
+  get_all_unit,
 } from '../UserReports/ReportApi.js';
 import {
   COLORS,
@@ -111,18 +113,14 @@ const UserEndVoucher = () => {
 
   const userCompanyData = useSelector(state => state.user);
 
-  useMemo(() => {
-    if (userCompanyData._id) {
-      const getProjectsByUserId = async () => {
-        let data = await fetch(
-          `${process.env.API_URL}user-by-projects/${userCompanyData._id}`,
-        );
-        let resp = await data.json();
+  const getAllProjects = async () => {
+      const resp =await get_projectBy_userId(userCompanyData._id);
+      const temp=await resp.json();
+      setProjectLists(temp);
+  };
 
-        setProjectLists(resp);
-      };
-      getProjectsByUserId();
-    }
+  useMemo(() => {
+    getAllProjects();
   }, []);
 
   const getStockDataItems = async () => {
@@ -137,7 +135,7 @@ const UserEndVoucher = () => {
     }
   };
   const fetchData = async () => {
-    const resp = await fetch(`${process.env.API_URL}unit`);
+    const resp = await get_all_unit();
     const data = await resp.json();
     setAllUnits(data);
     // setdata(data);
@@ -187,6 +185,7 @@ const UserEndVoucher = () => {
         MyDateString,
         userOption,
       );
+
       setPendingVoucher(data.data);
     } catch (error) {
       console.log(error);
@@ -197,7 +196,7 @@ const UserEndVoucher = () => {
     id,
     project_id,
     voucher_type,
-    qty,
+    _qty,
     item_id,
     unit_id,
     remark,
@@ -206,6 +205,7 @@ const UserEndVoucher = () => {
   ) => {
     try {
       fetchData();
+      getAllProjects();
       setVoucherId(id);
       setToggleSubmitUpdate(true);
       getStockDataItems();
@@ -213,7 +213,7 @@ const UserEndVoucher = () => {
       setVoucherType(voucher_type);
       setRemark(remark);
       setItemId(item_id);
-      setQty(qty);
+      setQty(_qty);
       setUnitId(unit_id);
       setProjectId(project_id);
       setLocation(location);
@@ -252,7 +252,6 @@ const UserEndVoucher = () => {
       const temp = await update_voucher_detail(voucherId, data);
       if (temp.status == 200) {
         setUpdateToast(true);
-
         getFilteredVoucher();
       }
       setTimeout(() => {
@@ -292,7 +291,6 @@ const UserEndVoucher = () => {
 
     if (res.status == '200') {
       setSubmitToast(true);
-
       getFilteredVoucher();
       setTimeout(() => {
         setVoucherModal(false);
@@ -381,7 +379,6 @@ const UserEndVoucher = () => {
                       cont_Project_list_drop,
                       {
                         width: SIZES.width * 0.88,
-                        // marginTop: 0,
                       },
                       proListIsFocus && {
                         borderColor: COLORS.gray2,
@@ -417,7 +414,6 @@ const UserEndVoucher = () => {
                       cont_Project_list_drop,
                       {
                         width: SIZES.width * 0.88,
-                        // marginTop: 0,
                       },
                       proListIsFocus && {
                         borderColor: COLORS.gray2,
@@ -478,7 +474,6 @@ const UserEndVoucher = () => {
                     // onFocus={() => setProListIsFocus(true)}
                     // onBlur={() => setProListIsFocus(false)}
                     onChange={item => {
-                      console.log("🚀 ~ file: UserEndVoucher.js ~ line 480 ~ addVoucherModal ~ item", item)
                       // setItemId(item._id);
                       setUnitId(item._id);
                       // setVoucherModal(true);
@@ -490,7 +485,7 @@ const UserEndVoucher = () => {
                       utils.validateText(value, setQtyError);
                       setQty(value);
                     }}
-                    value={qty}
+                    value={qty.toString()}
                     keyboardType="numeric"
                     errorMsg={qtyError}
                     appendComponent={
@@ -1230,6 +1225,7 @@ const UserEndVoucher = () => {
       <Pressable
         onPress={() => {
           getStockDataItems();
+          getAllProjects();
           setToggleSubmitUpdate(false);
           setVoucherModal(true);
           fetchData();
