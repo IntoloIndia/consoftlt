@@ -37,6 +37,8 @@ import {
   edit_voucher_detail,
   update_voucher_detail,
   get_filter_voucher,
+  get_projectBy_userId,
+  get_all_unit,
 } from '../UserReports/ReportApi.js';
 import {
   COLORS,
@@ -111,18 +113,14 @@ const UserEndVoucher = () => {
 
   const userCompanyData = useSelector(state => state.user);
 
-  useMemo(() => {
-    if (userCompanyData._id) {
-      const getProjectsByUserId = async () => {
-        let data = await fetch(
-          `${process.env.API_URL}user-by-projects/${userCompanyData._id}`,
-        );
-        let resp = await data.json();
+  const getAllProjects = async () => {
+      const resp =await get_projectBy_userId(userCompanyData._id);
+      const temp=await resp.json();
+      setProjectLists(temp);
+  };
 
-        setProjectLists(resp);
-      };
-      getProjectsByUserId();
-    }
+  useMemo(() => {
+    getAllProjects();
   }, []);
 
   const getStockDataItems = async () => {
@@ -137,7 +135,7 @@ const UserEndVoucher = () => {
     }
   };
   const fetchData = async () => {
-    const resp = await fetch(`${process.env.API_URL}unit`);
+    const resp = await get_all_unit();
     const data = await resp.json();
     setAllUnits(data);
     // setdata(data);
@@ -205,9 +203,9 @@ const UserEndVoucher = () => {
     location,
     vehicle_no,
   ) => {
-    
     try {
       fetchData();
+      getAllProjects();
       setVoucherId(id);
       setToggleSubmitUpdate(true);
       getStockDataItems();
@@ -254,7 +252,6 @@ const UserEndVoucher = () => {
       const temp = await update_voucher_detail(voucherId, data);
       if (temp.status == 200) {
         setUpdateToast(true);
-
         getFilteredVoucher();
       }
       setTimeout(() => {
@@ -294,7 +291,6 @@ const UserEndVoucher = () => {
 
     if (res.status == '200') {
       setSubmitToast(true);
-
       getFilteredVoucher();
       setTimeout(() => {
         setVoucherModal(false);
@@ -383,7 +379,6 @@ const UserEndVoucher = () => {
                       cont_Project_list_drop,
                       {
                         width: SIZES.width * 0.88,
-                        // marginTop: 0,
                       },
                       proListIsFocus && {
                         borderColor: COLORS.gray2,
@@ -419,7 +414,6 @@ const UserEndVoucher = () => {
                       cont_Project_list_drop,
                       {
                         width: SIZES.width * 0.88,
-                        // marginTop: 0,
                       },
                       proListIsFocus && {
                         borderColor: COLORS.gray2,
@@ -1231,6 +1225,7 @@ const UserEndVoucher = () => {
       <Pressable
         onPress={() => {
           getStockDataItems();
+          getAllProjects();
           setToggleSubmitUpdate(false);
           setVoucherModal(true);
           fetchData();
