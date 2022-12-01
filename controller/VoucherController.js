@@ -1,13 +1,16 @@
 import {API_URL} from '@env';
 
-const getPendingVoucher = async (company_id, date) => {
+const getPendingVoucher = async (company_id, date, voucher_type) => {
   try {
-    const res = await fetch(API_URL + 'voucher/' + company_id + '/' + date, {
-      method: 'get',
-      headers: {
-        'Content-Type': 'application/json',
+    const res = await fetch(
+      API_URL + 'voucher/' + company_id + '/' + date + '/' + voucher_type,
+      {
+        method: 'get',
+        headers: {
+          'Content-Type': 'application/json',
+        },
       },
-    });
+    );
     const data = await res.json();
     return data;
   } catch (error) {
