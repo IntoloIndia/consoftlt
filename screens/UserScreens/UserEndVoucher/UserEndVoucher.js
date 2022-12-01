@@ -65,6 +65,8 @@ const UserEndVoucher = () => {
   const [itemList, setItemList] = useState([]);
   const [itemId, setItemId] = useState('');
 
+  const [unitId, setUnitId] = useState('');
+
   const current_dat = moment().format('YYYY%2FMM%2FDD');
 
   let MyDateString = current_dat;
@@ -89,6 +91,7 @@ const UserEndVoucher = () => {
   const [voucherId, setVoucherId] = useState('');
 
   const [voucherListModal, setVoucherListModal] = useState(false);
+  const [allUnits, setAllUnits] = useState([]);
 
   // CUSTOM TOAST OF CRUD OPERATIONS
   const [submitToast, setSubmitToast] = React.useState(false);
@@ -132,10 +135,16 @@ const UserEndVoucher = () => {
       console.log(error);
     }
   };
+  const fetchData = async () => {
+    const resp = await fetch(`${process.env.API_URL}unit`);
+    const data = await resp.json();
+    setAllUnits(data);
+    // setdata(data);
+  };
 
   function RadioButton({data, onSelect}) {
     return (
-      <View>
+      <View style={{flex: 0.7, justifyContent: 'space-evenly'}}>
         {voucherArr.map((item, i) => {
           return (
             <Pressable
@@ -152,18 +161,16 @@ const UserEndVoucher = () => {
                 style={{
                   borderWidth: 1,
                   borderRadius: 2,
-                  padding: 7,
+                  padding: 6,
                   width: 5,
-                  borderColor: COLORS.darkGray,
+                  borderColor: COLORS.gray,
                   backgroundColor:
                     item.value == userOption
-                      ? COLORS.majorelle_blue_800
+                      ? COLORS.lightblue_500
                       : COLORS.white,
                 }}></View>
               <View style={{left: 10}}>
-                <Text style={{...FONTS.h3, color: COLORS.darkGray}}>
-                  {item.value}
-                </Text>
+                <Text style={{textAlign: 'center'}}> {item.value}</Text>
               </View>
             </Pressable>
           );
@@ -191,11 +198,13 @@ const UserEndVoucher = () => {
     voucher_type,
     qty,
     item_id,
+    unit_id,
     remark,
     location,
     vehicle_no,
   ) => {
     try {
+      fetchData();
       setVoucherId(id);
       setToggleSubmitUpdate(true);
       getStockDataItems();
@@ -204,6 +213,7 @@ const UserEndVoucher = () => {
       setRemark(remark);
       setItemId(item_id);
       setQty(qty);
+      setUnitId(unit_id);
       setProjectId(project_id);
       setLocation(location);
       setVehicleNo(vehicle_no);
@@ -231,6 +241,7 @@ const UserEndVoucher = () => {
       const data = {
         item_id: itemId,
         qty: qty,
+        unit_id: unitId,
         voucher_type: voucherType,
         vehicle_no: vehicleNo,
         location: location,
@@ -249,6 +260,7 @@ const UserEndVoucher = () => {
         setVehicleNo('');
         setQty('');
         setRemark('');
+        setUnitId('');
         setLocation('');
         setItemId('');
         setUpdateToast(false);
@@ -268,21 +280,14 @@ const UserEndVoucher = () => {
       company_id: userCompanyData.company_id,
       project_id: projectId,
       item_id: itemId,
+      unit_id: unitId,
       qty: qty,
       remark: remark,
       location: location,
       vehicle_no: vehicleNo,
     };
-    console.log(
-      '🚀 ~ file: UserEndVoucher.js ~ line 274 ~ saveVoucherDetails ~ data',
-      data,
-    );
 
     const res = await insert_voucher_details(data);
-    console.log(
-      '🚀 ~ file: UserEndVoucher.js ~ line 277 ~ saveVoucherDetails ~ res',
-      res,
-    );
 
     if (res.status == '200') {
       setSubmitToast(true);
@@ -438,7 +443,44 @@ const UserEndVoucher = () => {
                     // onBlur={() => setProListIsFocus(false)}
                     onChange={item => {
                       setItemId(item._id);
-                      setVoucherModal(true);
+                      // setVoucherModal(true);
+                    }}
+                  />
+                  <Dropdown
+                    style={[
+                      cont_Project_list_drop,
+                      {
+                        width: SIZES.width * 0.88,
+                        // marginTop: 0,
+                      },
+                      proListIsFocus && {
+                        borderColor: COLORS.gray2,
+                      },
+                    ]}
+                    placeholderStyle={{fontSize: 16, color: COLORS.darkGray}}
+                    selectedTextStyle={{color: COLORS.gray}}
+                    containerStyle={{
+                      width: SIZES.width * 0.88,
+                      borderRadius: SIZES.base,
+                      paddingTop: SIZES.base * 0.5,
+                      // marginTop: SIZES.base,
+                    }}
+                    iconStyle={{
+                      height: 28,
+                    }}
+                    data={allUnits}
+                    maxHeight={200}
+                    labelField="unit_name"
+                    valueField="_id"
+                    value={unitId}
+                    placeholder={'Select Unit'}
+                    // onFocus={() => setProListIsFocus(true)}
+                    // onBlur={() => setProListIsFocus(false)}
+                    onChange={item => {
+                      console.log("🚀 ~ file: UserEndVoucher.js ~ line 480 ~ addVoucherModal ~ item", item)
+                      // setItemId(item._id);
+                      setUnitId(item._id);
+                      // setVoucherModal(true);
                     }}
                   />
                   <FormInput
@@ -447,7 +489,7 @@ const UserEndVoucher = () => {
                       utils.validateText(value, setQtyError);
                       setQty(value);
                     }}
-                    value={qty.toString()}
+                    value={qty}
                     keyboardType="numeric"
                     errorMsg={qtyError}
                     appendComponent={
@@ -607,6 +649,152 @@ const UserEndVoucher = () => {
       </Modal>
     );
   };
+
+  const renderPendingItem = ({item}) => (
+    <View>
+      {item.voucherData.map((ele, i) => {
+        return (
+          <View
+            key={i}
+            style={{
+              flexDirection: 'row',
+              margin: 1,
+              borderWidth: 0.05,
+              marginVertical: SIZES.base * 0.5,
+            }}>
+            <View style={{width: 150}}>
+              <Text style={{fontSize: 16, textAlign: 'left'}}>
+                {ele.voucher_type}
+              </Text>
+            </View>
+            <Divider
+              style={{
+                backgroundColor: COLORS.lightGray1,
+                padding: 0.4,
+                height: SIZES.height * 0.04,
+              }}
+            />
+            <View style={{width: 80}}>
+              <Text style={{fontSize: 16, textAlign: 'center'}}>
+                {ele.item_name}
+              </Text>
+            </View>
+            <Divider
+              style={{
+                backgroundColor: COLORS.lightGray1,
+                padding: 0.4,
+                height: SIZES.height * 0.04,
+              }}
+            />
+            <View style={{width: 60}}>
+              <Text style={{fontSize: 16, textAlign: 'center'}}>{ele.qty}</Text>
+            </View>
+            <Divider
+              style={{
+                backgroundColor: COLORS.lightGray1,
+                padding: 0.4,
+                height: SIZES.height * 0.04,
+              }}
+            />
+            <View style={{width: 120}}>
+              <Text style={{fontSize: 16, textAlign: 'center'}}>
+                {ele.unit_name}
+              </Text>
+            </View>
+            <Divider
+              style={{
+                backgroundColor: COLORS.lightGray1,
+                padding: 0.4,
+                height: SIZES.height * 0.04,
+              }}
+            />
+            <View style={{width: 200}}>
+              <Text style={{fontSize: 16, textAlign: 'left'}}>
+                {ele.remark}
+              </Text>
+            </View>
+            <Divider
+              style={{
+                backgroundColor: COLORS.lightGray1,
+                padding: 0.4,
+                height: SIZES.height * 0.04,
+              }}
+            />
+            <Divider
+              style={{
+                backgroundColor: COLORS.lightGray1,
+                padding: 0.4,
+                height: SIZES.height * 0.04,
+              }}
+            />
+            <View style={{width: 100}}>
+              <Text style={{fontSize: 16, textAlign: 'center'}}>
+                {ele.verify_status == true
+                  ? 'Verified'
+                  : ele.revert_status == true
+                  ? 'Reverted'
+                  : 'Pending'}
+              </Text>
+            </View>
+            <Divider
+              style={{
+                backgroundColor: COLORS.lightGray1,
+                padding: 0.4,
+                height: SIZES.height * 0.04,
+              }}
+            />
+            <View style={{width: 100}}>
+              <Text style={{fontSize: 16, textAlign: 'center'}}>
+                {ele.voucher_date}
+              </Text>
+            </View>
+            <Divider
+              style={{
+                backgroundColor: COLORS.lightGray1,
+                padding: 0.4,
+                height: SIZES.height * 0.04,
+              }}
+            />
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-evenly',
+                paddingHorizontal: 20,
+                width: 140,
+              }}>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <TouchableOpacity
+                  onPress={() => {
+                    editVoucher(
+                      ele._id,
+                      ele.project_id,
+                      ele.voucher_type,
+                      ele.qty,
+                      ele.item_id,
+                      ele.unit_id,
+                      ele.remark,
+                      ele.location,
+                      ele.vehicle_no,
+                    );
+                  }}>
+                  <FontAwesome name="edit" color={COLORS.blue} size={16} />
+                </TouchableOpacity>
+              </View>
+              <View style={{justifyContent: 'center'}}>
+                <TouchableOpacity>
+                  <MaterialCommunityIcons
+                    name="delete"
+                    color={COLORS.red}
+                    size={20}
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        );
+      })}
+    </View>
+  );
 
   // const renderRevertedItem = ({item}) => (
   //   <View>
@@ -832,6 +1020,103 @@ const UserEndVoucher = () => {
   //   </View>
   // );
 
+  const ListHeader = () => {
+    return (
+      <View style={[styles1.headerFooterStyle, styles1.shadow]}>
+        <View style={{flexDirection: 'row'}}>
+          <View style={{width: 150, backgroundColor: 'white'}}>
+            <Text
+              style={{
+                ...FONTS.body3,
+                fontWeight: '600',
+                color: COLORS.darkGray,
+                textAlign: 'center',
+              }}>
+              Voucher Type
+            </Text>
+          </View>
+          <View style={{width: 80, backgroundColor: 'white'}}>
+            <Text
+              style={{
+                ...FONTS.body3,
+                fontWeight: '600',
+                color: COLORS.darkGray,
+                textAlign: 'center',
+              }}>
+              Item Name
+            </Text>
+          </View>
+          <View style={{width: 60, backgroundColor: 'white'}}>
+            <Text
+              style={{
+                ...FONTS.body3,
+                fontWeight: '600',
+                color: COLORS.darkGray,
+                textAlign: 'center',
+              }}>
+              Qty
+            </Text>
+          </View>
+          <View style={{width: 120, backgroundColor: 'white'}}>
+            <Text
+              style={{
+                ...FONTS.body3,
+                fontWeight: '600',
+                color: COLORS.darkGray,
+                textAlign: 'center',
+              }}>
+              Unit Name
+            </Text>
+          </View>
+          <View style={{width: 200, backgroundColor: 'white'}}>
+            <Text
+              style={{
+                ...FONTS.body3,
+                fontWeight: '600',
+                color: COLORS.darkGray,
+                textAlign: 'center',
+              }}>
+              Remark
+            </Text>
+          </View>
+          <View style={{width: 100, backgroundColor: 'white'}}>
+            <Text
+              style={{
+                ...FONTS.body3,
+                fontWeight: '600',
+                color: COLORS.darkGray,
+                textAlign: 'center',
+              }}>
+              Status
+            </Text>
+          </View>
+          <View style={{width: 120, backgroundColor: 'white'}}>
+            <Text
+              style={{
+                ...FONTS.body3,
+                fontWeight: '600',
+                color: COLORS.darkGray,
+                textAlign: 'center',
+              }}>
+              Voucher Date
+            </Text>
+          </View>
+          <View style={{width: 130, backgroundColor: 'white'}}>
+            <Text
+              style={{
+                ...FONTS.body3,
+                fontWeight: '600',
+                color: COLORS.darkGray,
+                textAlign: 'center',
+              }}>
+              Action
+            </Text>
+          </View>
+        </View>
+      </View>
+    );
+  };
+  
   const voucherSelectionModal = () => {
     return (
       <Modal
@@ -851,17 +1136,14 @@ const UserEndVoucher = () => {
           <View
             style={{
               position: 'absolute',
-              width: '80%',
+              width: '65%',
               padding: SIZES.padding,
-              // paddingVertical: SIZES.radius,
               borderRadius: 5,
               backgroundColor: COLORS.white,
             }}>
             <View
               style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-              <Text style={{fontSize: 20, color: COLORS.darkGray}}>
-                Select Voucher
-              </Text>
+              <Text style={{}}>Select Voucher</Text>
               <ImageBackground
                 style={{
                   backgroundColor: COLORS.white,
@@ -880,23 +1162,23 @@ const UserEndVoucher = () => {
                 </TouchableOpacity>
               </ImageBackground>
             </View>
-            <View style={{marginVertical: 20}}>
+            <View style={{marginTop: 15}}>
               <RadioButton onSelect={value => setUserOption(value)} />
             </View>
+
             <Pressable
               style={{
-                marginTop: 10,
-                borderRadius: 3,
-                padding: 6,
+                marginTop: 30,
+                borderRadius: 6,
+                padding: 5,
                 elevation: 2,
-                backgroundColor: COLORS.majorelle_blue_800,
-                alignItems: 'center',
+                backgroundColor: '#2196F3',
               }}
               onPress={() => {
                 getFilteredVoucher();
                 setVoucherListModal(!voucherListModal);
               }}>
-              <Text style={{...FONTS.h3, color: COLORS.white}}>Submit</Text>
+              <Text style={styles1.textStyle}>SUBMIT</Text>
             </Pressable>
           </View>
         </View>
@@ -944,321 +1226,103 @@ const UserEndVoucher = () => {
     );
   };
 
-  function renderVouchers() {
-    const renderPendingItem = ({item}) => (
-      <View>
-        {item.voucherData.map((ele, i) => {
-          return (
-            <View
-              key={i}
-              style={{
-                flexDirection: 'row',
-                margin: 1,
-                borderWidth: 0.05,
-                marginVertical: SIZES.base * 0.5,
-              }}>
-              <View style={{width: 150}}>
-                <Text style={{fontSize: 16, textAlign: 'left'}}>
-                  {ele.voucher_type}
-                </Text>
-              </View>
-              <Divider
-                style={{
-                  backgroundColor: COLORS.lightGray1,
-                  padding: 0.4,
-                  height: SIZES.height * 0.04,
-                }}
-              />
-              <View style={{width: 120}}>
-                <Text style={{fontSize: 16, textAlign: 'center'}}>
-                  {ele.item_name}
-                </Text>
-              </View>
-              <Divider
-                style={{
-                  backgroundColor: COLORS.lightGray1,
-                  padding: 0.4,
-                  height: SIZES.height * 0.04,
-                }}
-              />
-              <View style={{width: 100}}>
-                <Text style={{fontSize: 16, textAlign: 'center'}}>
-                  {ele.qty}
-                </Text>
-              </View>
-              <Divider
-                style={{
-                  backgroundColor: COLORS.lightGray1,
-                  padding: 0.4,
-                  height: SIZES.height * 0.04,
-                }}
-              />
-              <View style={{width: 150}}>
-                <Text style={{fontSize: 16, textAlign: 'left'}}>
-                  {ele.remark}
-                </Text>
-              </View>
-              <Divider
-                style={{
-                  backgroundColor: COLORS.lightGray1,
-                  padding: 0.4,
-                  height: SIZES.height * 0.04,
-                }}
-              />
-              <Divider
-                style={{
-                  backgroundColor: COLORS.lightGray1,
-                  padding: 0.4,
-                  height: SIZES.height * 0.04,
-                }}
-              />
-              <View style={{width: 120}}>
-                <Text style={{fontSize: 16, textAlign: 'center'}}>
-                  {ele.verify_status == true
-                    ? 'Verified'
-                    : ele.revert_status == true
-                    ? 'Reverted'
-                    : 'Pending'}
-                </Text>
-              </View>
-              <Divider
-                style={{
-                  backgroundColor: COLORS.lightGray1,
-                  padding: 0.4,
-                  height: SIZES.height * 0.04,
-                }}
-              />
-              <View style={{width: 120}}>
-                <Text style={{fontSize: 16, textAlign: 'center'}}>
-                  {ele.voucher_date}
-                </Text>
-              </View>
-              <Divider
-                style={{
-                  backgroundColor: COLORS.lightGray1,
-                  padding: 0.4,
-                  height: SIZES.height * 0.04,
-                }}
-              />
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-evenly',
-                  paddingHorizontal: 20,
-                  width: 150,
-                }}>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                  <TouchableOpacity
-                    onPress={() => {
-                      editVoucher(
-                        ele._id,
-                        ele.project_id,
-                        ele.voucher_type,
-                        ele.qty,
-                        ele.item_id,
-                        ele.remark,
-                        ele.location,
-                        ele.vehicle_no,
-                      );
-                    }}>
-                    <FontAwesome name="edit" color={COLORS.blue} size={16} />
-                  </TouchableOpacity>
-                </View>
-                <View style={{justifyContent: 'center'}}>
-                  <TouchableOpacity>
-                    <MaterialCommunityIcons
-                      name="delete"
-                      color={COLORS.red}
-                      size={20}
-                    />
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </View>
-          );
-        })}
-      </View>
-    );
-
-    return (
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <FlatList
-          data={pendingVoucher}
-          horizontal
-          contentContainerStyle={{
-            marginTop: 10,
-          }}
-          showsHorizontalScrollIndicator={false}
-          renderItem={renderPendingItem}
-          keyExtractor={item => item._id.toString()}
-          ListHeaderComponent={
-            <View>
-              <View style={{flexDirection: 'row'}}>
-                <View style={{width: 150}}>
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      fontWeight: '500',
-                      color: COLORS.darkGray,
-                      textAlign: 'left',
-                    }}>
-                    V. type
-                  </Text>
-                </View>
-                <View style={{width: 120, backgroundColor: 'white'}}>
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      fontWeight: '500',
-                      color: COLORS.darkGray,
-                      textAlign: 'left',
-                    }}>
-                    Item name
-                  </Text>
-                </View>
-                <View style={{width: 100, backgroundColor: 'white'}}>
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      fontWeight: '500',
-                      color: COLORS.darkGray,
-                      textAlign: 'left',
-                    }}>
-                    Qty
-                  </Text>
-                </View>
-                <View style={{width: 150, backgroundColor: 'white'}}>
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      fontWeight: '500',
-                      color: COLORS.darkGray,
-                      textAlign: 'left',
-                    }}>
-                    Remark
-                  </Text>
-                </View>
-                <View style={{width: 120, backgroundColor: 'white'}}>
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      fontWeight: '500',
-                      color: COLORS.darkGray,
-                      textAlign: 'left',
-                    }}>
-                    Status
-                  </Text>
-                </View>
-                <View style={{width: 120, backgroundColor: 'white'}}>
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      fontWeight: '500',
-                      color: COLORS.darkGray,
-                      textAlign: 'left',
-                    }}>
-                    V. date
-                  </Text>
-                </View>
-                <View style={{width: 150, backgroundColor: 'white'}}>
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      fontWeight: '500',
-                      color: COLORS.darkGray,
-                      textAlign: 'left',
-                    }}>
-                    Action
-                  </Text>
-                </View>
-              </View>
-              <View
-                style={{
-                  borderBottomWidth: 1,
-                  marginVertical: 5,
-                  borderColor: COLORS.darkGray,
-                }}></View>
-            </View>
-          }
-        />
-      </ScrollView>
-    );
-  }
-
   return (
-    <View style={{flex: 1, margin: SIZES.base}}>
-      <View
+    <View style={{flex: 1, borderWidth: 1, alignContent: 'space-around'}}>
+      <Pressable
+        onPress={() => {
+          getStockDataItems();
+          setToggleSubmitUpdate(false);
+          setVoucherModal(true);
+          fetchData();
+        }}
         style={{
           flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
+          // justifyContent: 'space-between',
+
+          paddingVertical: SIZES.base * 0.5,
+          paddingHorizontal: SIZES.base * 1.5,
+          borderWidth: 1,
+          marginTop: SIZES.base,
+          // width: SIZES.width * 0.95,
+          backgroundColor: COLORS.lightblue_500,
+          alignSelf: 'center',
+          borderRadius: SIZES.base * 0.5,
+          borderColor: COLORS.lightblue_300,
         }}>
-        <Pressable
-          style={{
-            backgroundColor: COLORS.majorelle_blue_800,
-            paddingHorizontal: 10,
-            paddingVertical: 3,
-            borderRadius: 3,
-          }}
-          onPress={() => {
-            getStockDataItems();
-            setToggleSubmitUpdate(false);
-            setVoucherModal(true);
-          }}>
-          <Text style={{...FONTS.h3, color: COLORS.white}}>New Voucher</Text>
-        </Pressable>
-        <TouchableOpacity
-          style={{
-            backgroundColor: COLORS.white,
-            padding: 5,
-            elevation: 4,
-            borderRadius: 3,
-          }}
-          onPress={() => {
-            setVoucherListModal(!voucherListModal);
-          }}>
-          <Image
-            source={icons.filter}
-            style={{height: 20, width: 20, tintColor: COLORS.darkGray}}
-          />
-        </TouchableOpacity>
-      </View>
+        <Text
+          style={[FONTS.body3, {color: COLORS.white2, textAlign: 'center'}]}>
+          Voucher Entry
+        </Text>
+      </Pressable>
 
       <View
         style={{
-          marginTop: 20,
-          backgroundColor: COLORS.white,
-          paddingHorizontal: 10,
-          paddingVertical: 5,
-          borderRadius: 5,
-          height: '92%',
           flex: 1,
+          justifyContent: 'center',
+          ...styles1.shadow,
+          alignItems: 'center',
+          padding: 5,
+          borderWidth: 0.2,
+          backgroundColor: COLORS.white3,
+          marginHorizontal: 2,
+          marginTop: '10%',
         }}>
-        <Text
+        <View
           style={{
-            color: COLORS.majorelle_blue_800,
-            fontSize: 20,
-            // textAlign: 'center',
-            textDecorationLine: 'underline',
+            flex: 1,
+            justifyContent: 'center',
           }}>
-          {constants.CHECK_VOUCHER_TYPE.PURCHASED_VOUCHER == userOption
-            ? 'Pending'
-            : constants.CHECK_VOUCHER_TYPE.RECEIVED_VOUCHER == userOption
-            ? 'Received'
-            : constants.CHECK_VOUCHER_TYPE.PURCHASED_RETURN_VOUCHER ==
-              userOption
-            ? 'Purchased Return'
-            : constants.CHECK_VOUCHER_TYPE.RECEIVED_RETURN_VOUCHER == userOption
-            ? 'Received Return'
-            : 'Voucher List'}
-        </Text>
-        {/* <View
-          style={{
-            borderBottomWidth: 0.2,
-            marginVertical: 6,
-            borderColor: COLORS.darkGray2,
-          }}></View> */}
-        {renderVouchers()}
+          <View
+            style={[
+              {
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                padding: SIZES.base * 0.5,
+                marginBottom: 2,
+              },
+            ]}>
+            <Text
+              style={[FONTS.body3, {fontWeight: '900', color: COLORS.gray}]}>
+              {constants.CHECK_VOUCHER_TYPE.PURCHASED_VOUCHER == userOption
+                ? 'Pending Voucher'
+                : constants.CHECK_VOUCHER_TYPE.RECEIVED_VOUCHER == userOption
+                ? 'Received Voucher'
+                : constants.CHECK_VOUCHER_TYPE.PURCHASED_RETURN_VOUCHER ==
+                  userOption
+                ? 'Purchased Return Voucher'
+                : constants.CHECK_VOUCHER_TYPE.RECEIVED_RETURN_VOUCHER ==
+                  userOption
+                ? 'Received Return Voucher'
+                : 'Voucher List'}
+            </Text>
+            <TouchableOpacity
+              onPress={() => {
+                setVoucherListModal(!voucherListModal);
+              }}>
+              <MaterialCommunityIcons
+                name="filter-menu"
+                size={25}
+                color={COLORS.blue}></MaterialCommunityIcons>
+            </TouchableOpacity>
+          </View>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <View>
+              <FlatList
+                data={pendingVoucher}
+                horizontal
+                contentContainerStyle={{
+                  flexDirection: 'column',
+                  padding: 2,
+                  marginHorizontal: 2,
+                }}
+                showsHorizontalScrollIndicator={false}
+                renderItem={renderPendingItem}
+                ListHeaderComponent={ListHeader}
+                keyExtractor={item => item._id.toString()}
+              />
+            </View>
+          </ScrollView>
+        </View>
       </View>
 
       {/* <View
@@ -1411,7 +1475,6 @@ const styles1 = StyleSheet.create({
     shadowRadius: 4.65,
     elevation: 1,
   },
-
   headerFooterStyle: {
     width: '100%',
     borderWidth: 0.1,

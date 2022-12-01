@@ -189,9 +189,9 @@ const get_new_sub_category = Id => {
   }
 };
 
-const get_stock_data = async () => {
+const get_stock_data = async (company_id,curr_date) => {
   try {
-    const res = fetch(`${process.env.API_URL}stock-entry/`);
+    const res = fetch(`${process.env.API_URL}all-voucher/${company_id}/${curr_date}`);
     return res;
   } catch (error) {
     console.log(error);
@@ -201,7 +201,7 @@ const get_stock_data = async () => {
 const get_filter_voucher = async (company_id, curr_date,voucher_type) => {
   try {
     const res = await fetch(
-      `${process.env.API_URL}filter-voucher/${company_id}/${curr_date}/${voucher_type}`,
+      `http://192.168.0.99:8000/api/filter-voucher/${company_id}/${curr_date}/${voucher_type}`,
     );
     const data = await res.json();
     return data;
