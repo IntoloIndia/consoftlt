@@ -232,9 +232,7 @@ const ManpowerUserContractors = ({ProList, Main_drp_pro_value, loading}) => {
         }
       });
   }
-  // console.log("company...................", companydata.company_id)
-  // console.log("project...................", Main_drp_pro_value)
-  // console.log("contra...................", contractorId)
+
 
   const deleteContReportButton = async id => {
     // const res = await delete_manpower_data(id);
@@ -248,7 +246,6 @@ const ManpowerUserContractors = ({ProList, Main_drp_pro_value, loading}) => {
     // }
   };
 
-  // console.log("🚀 ~ file: ManpowerUserContractors.js ~ line 165 ~ getContractorName ~ Main_drp_pro_value", Main_drp_pro_value)
   function getContractorName() {
     if (Main_drp_pro_value || postContData || deleteConStatus) {
       const data = Get_Contractor_Data(Main_drp_pro_value);
@@ -376,9 +373,7 @@ const ManpowerUserContractors = ({ProList, Main_drp_pro_value, loading}) => {
   }
 
   const updateManpowerReport = async () => {
-    // console.log("🚀 ~ file: ManpowerUserContractors.js ~ line 286 ~ updateManpowerReport ~ update_id", filterNewCategory)
     let temp_data = postUpdateData();
-    // console.log("🚀 ~ file: ManpowerUserContractors.js ~ line 319 ~ updateManpowerReport ~ temp_data", temp_data)
 
     let data = {
       manpowerCategories: temp_data,
@@ -423,7 +418,6 @@ const ManpowerUserContractors = ({ProList, Main_drp_pro_value, loading}) => {
   ]);
 
   const filterCategoryByContId = async cont_id => {
-    // console.log("🚀 ~ file: ManpowerUserContractors.js ~ line 396 ~ cont_id", cont_id)
 
     if (cont_id) {
       const get_data = await filter_new_category_by_cont_Id(

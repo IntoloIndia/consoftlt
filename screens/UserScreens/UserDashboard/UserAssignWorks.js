@@ -70,12 +70,10 @@ const UserAssignWorks = ({loading}) => {
 
   useEffect(() => {
     function onSpeechStart(e) {
-      console.log('onSpeechStart: ');
       setStarted(true);
     }
 
     function onSpeechResults(e) {
-      console.log('onSpeechResults: ', e);
 
       e.value.map(ele => {
         setResults(ele);
@@ -123,7 +121,6 @@ const UserAssignWorks = ({loading}) => {
   };
 
   const _stopRecognizing = async () => {
-    console.log('STOP--');
 
     try {
       setStarted(false);
@@ -158,7 +155,6 @@ const UserAssignWorks = ({loading}) => {
   };
 
   const userData = useSelector(state => state.user);
-  // console.log(userData._id)
   const onPressIn = () => {
     Animated.spring(animation, {
       toValue: 0.5,
@@ -216,7 +212,6 @@ const UserAssignWorks = ({loading}) => {
       work_percent: item.work_percent,
     };
 
-    // console.log("🚀 ~ file: UserAssignWorks.js ~ line 79 ~ submitWorkPercent ~ item.work_percent", item.work_percent)
     // const _inputs = [...getTaskInProgress];
     // _inputs[index].work_percent
     // setIsExpandId(_inputs[index].work_percent);
@@ -246,7 +241,6 @@ const UserAssignWorks = ({loading}) => {
   // const __handle_counter = (text, index1) => {
 
   //   const _inputs = [...getTaskInProgress];
-  //   // console.log("🚀 ~ file: UserAssignWorks.js ~ line 104 ~ UserAssignWorks ~ _inputs", assignWork)
 
   //   // if (_inputs[index1].work_percent < 100) {
   //   // _inputs[index1].work_percent = item.work_percent + 5;
