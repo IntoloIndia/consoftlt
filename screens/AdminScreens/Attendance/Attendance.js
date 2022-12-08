@@ -124,14 +124,14 @@ const Attendance = () => {
               key={i}
               style={{
                 marginTop: 5,
-                flexBasis: '20%',
+                flexBasis: '25%',
               }}>
               <View
                 style={{
                   backgroundColor: COLORS.success_700,
                   padding: 5,
                   alignItems: 'center',
-                  borderLeftWidth: i != 0 && i % 5 ? 5 : null,
+                  borderLeftWidth: i != 0 && i % 4 ? 5 : null,
                   borderColor: 'white',
                 }}>
                 <Text style={{fontSize: 9, color: COLORS.white}}>

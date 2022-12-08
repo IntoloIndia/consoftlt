@@ -254,7 +254,7 @@ const get_all_unit = async () => {
 const get_filter_voucher = async (company_id, curr_date,voucher_type) => {
   try {
     const res = await fetch(
-      `${process.env.API_URL}filter-voucher/${company_id}/${curr_date}/${voucher_type}`,
+      `http://192.168.0.99:8000/api/filter-voucher/${company_id}/${curr_date}/${voucher_type}`,
     );
     const data = await res.json();
     return data;
