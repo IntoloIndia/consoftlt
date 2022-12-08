@@ -61,15 +61,19 @@ const ForgetPassword = ({navigation}) => {
     const temp = await send_otp_verification(body);
 
     const resp = await temp.json();
-    setRespUserId(resp.data.res.user_id);
-
+    
     if (resp.success) {
+      setRespUserId(resp.data.res.user_id);
       setSubmitToast(true);
       setverifyStatus(true);
       setEmail('');
       setTimeout(() => {
         setSubmitToast(false);
       }, 2000);
+    }else if(resp.message.status=="401"){
+      alert('Email does not exist');
+    }else{
+      console.log('Network error')
     }
   };
 
