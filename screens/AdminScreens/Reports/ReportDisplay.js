@@ -222,12 +222,17 @@ const ReportDisplay = () => {
         </head>
         <body>
           <div class="text-center">
-            <h4 style="margin-bottom:1px;">${companyDetail.company_name}</h4>
+            <h4 style="margin-bottom:1px; 
+            text-transform: capitalize;
+            ">${reportData.company_name}</h4>
             <div class="d-flex justify-content-center">
-              <p>Mobile No - 7879299436 , Mail - Intenics@gmail.com</br>BargiHills, IT-Park, Jabalpur, Madhya Pradesh</p>
+              <p>${reportData.company_mobile}, ${
+        reportData.company_email
+      }</br>Address - ${reportData.company_address}</p>
             </div>
+           <hr style="margin-top:2px; margin-bottom:4px;">
           </div>
-          <div style="padding:15px;border: solid 1px #525C67; border-radius: 5px; margin-top: 0px;">
+          <div style="padding:0px;">
             <div style="display: flex;flex-direction: row;  justify-content: space-between;align-items: center; margin:0px;">
               <h5 style="margin:0px;">Project name - ${
                 reportData.project_name
@@ -240,30 +245,36 @@ const ReportDisplay = () => {
             <div>
               <h5 style="text-align: center; text-decoration:underline;">Manpower</h5>
               <h6 style="text-decoration:underline;">Contractors</h6>
-              <div style="display: flex;flex-direction: row;">
-                ${manpower.map((ele, index) => {
-                  return `<div class="card" style="width: 12rem; margin-left:${
-                    index != 0 ? '12px' : null
-                  }">
-                      <div class="card-header" style="padding:5px;">
-                        ${ele.contractor_name}
-                      </div>
-                      <div class="card-body" style="padding:8px;">
-                        ${ele.manpowerCategories.map(
+                <div class="row row-cols-3">
+                ${manpower
+                  .map((ele, index) => {
+                    return `
+                  <div class="col mt-2">
+                  <div class="card">
+                    <div class="card-header" style="padding:3px; text-transform: capitalize;">
+                      ${ele.contractor_name}
+                    </div>
+                    <div class="card-body" style="padding:6px;">
+                      ${ele.manpowerCategories
+                        .map(
                           (ele1, i) => `${i + 1}. 
-                            ${ele1.manpower_category_name} - ${
+                          ${ele1.manpower_category_name} - ${
                             ele1.manpower_member
                           }<br/>`,
-                        )}
-                      </div>
-                    </div>`;
-                })}
-              </div>
-            </div>
+                        )
+                        .join('')}
+                    </div>
+                    </div>
+                  </div>
+                  `;
+                  })
+                  .join('')}
+                </div>
+            </div> 
             <hr style="margin-bottom:5px;">
             <div>
               <h5 style="text-align: center; text-decoration:underline;">Today Stock</h5>
-              <table class="table table-success table-striped">
+              <table class="table table-primary table-striped">
                 <thead>
                   <tr>
                     <th>Sn.</th>
@@ -304,6 +315,7 @@ const ReportDisplay = () => {
               </div>
               <p>Date - ${MynewDateString}</p>
             </div>
+
           </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
   </body>
@@ -451,6 +463,10 @@ const ReportDisplay = () => {
             final_verify_status: item.final_verify_status,
             final_verify_revert_msg: item.final_verify_revert_msg,
             final_verify_revert: item.final_verify_revert,
+            company_address: item.company_address,
+            company_email: item.company_email,
+            company_mobile: item.company_mobile,
+            company_name: item.company_name,
           });
           fetchManpower(item._id);
           fetchQuantity(item._id);
