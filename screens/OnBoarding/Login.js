@@ -208,6 +208,13 @@ const Login = ({navigation}) => {
               }}
               onPress={userOnSubmit}
             />
+            <View style={{justifyContent: 'center', alignItems: 'center'}}>
+              <TouchableOpacity
+                style={{color: COLORS.lightblue_100}}
+                onPress={() => navigation.navigate('ForgetPassword')}>
+                <Text>Forget Password ?</Text>
+              </TouchableOpacity>
+            </View>
             {/* <Button
               style={{marginTop: 20}}
               icon="camera"

@@ -31,6 +31,7 @@ const product_key = require('../assets/images/product_key.png');
 const Graph_paper = require('../assets/images/projects/Graph_paper.png');
 const home_banner = require('../assets/images/banner.png');
 const consoft_new = require('../assets/images/consoft_new.png');
+const mail_image=require('../assets/images/mailImage.png');
 const change_pass=require('../assets/images/change_pass.png')
 const change_pass1=require('../assets/images/change_pass1.png')
 const change_pass2=require('../assets/images/change_pass2.png')
@@ -71,6 +72,7 @@ export default {
   home_banner,
   consoft_new,
   consoft_lt_logo,
+  mail_image,
   change_pass,
   change_pass1,
   change_pass2
