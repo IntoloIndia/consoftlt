@@ -41,6 +41,7 @@ import {
   Demo1,
   MyProfile,
   ViewReport,
+  ForgetPassword
 } from './screens/UserScreens';
 
 import {LogBox} from 'react-native';
@@ -103,6 +104,7 @@ const App = () => {
           <Stack.Screen name="UserDashboard" component={user_tabs} />
           <Stack.Screen name="Profile" component={Profile} />
           <Stack.Screen name="UserEndVoucher" component={UserEndVoucher} />
+          <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
           <Stack.Screen name="ViewReport" component={ViewReport} />
           <Stack.Screen name="Demo1" component={Demo1} />
           <Stack.Screen name="MyProfile" component={MyProfile} />
